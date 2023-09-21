@@ -1,0 +1,425 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Similarity Transformations; Exercise Problems}
+
+\subtitle{Lecture 12}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.12.14] % (optional)
+{2021.12.14}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{A Brief Review of Last Lecture}
+\begin{frame}{Last Lecture, We Discuss\dots}
+Two parts in last lecture:
+    \begin{enumerate}
+        \item Matrix Diagonaliztion\\
+        simplified criteria; algebraic multiplicity and geometric multiplicity; determine a matrix is diagonalizable or not
+        \item Complex Matrix\\
+        introduction; Hermitian; dot products; Hermitian matrix; unitary matrix; orthogonal diagonalization for real symmetric matrix; unitary diagonaliztion for Hermitian matrix; Gram-Schmidt
+    \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Simplified Criteria for Matrix Diagonalization}
+If a $n\times n$ matrix has $n$ distinct eigenvalues, then it must be diagonalizable.
+
+\vspace{3pt}
+Why? I will not give you the proof, but I want you to understand. I will show from 2 sides:
+
+\begin{enumerate}
+    \item For each eigenvalue, there must be at least 1 eigenvector (authentic to say: 1-dimensional).
+    \item For the same eigenvector (all vectors that in the 1-dimensional line), it cannot correspond to 2 eigenvalues.\\
+    (Hint: Recall the knowledge in linear transformation, can a single input results in multiple outputs?)\\
+    Geometric: One direction cannot have 2 stretching coefficient!
+\end{enumerate}
+
+Notice that it is not necessary for a diagonalization matrix to have $n$ distinct eigenvalues.
+
+\vspace{3pt}
+More challenging: Eigenvectors that correspond to distinct eigenvalues are linearly independent. (Hint: Can a k-dimensional space has $k+1$ stretching coefficients?)
+
+\end{frame}
+
+\begin{frame}{Algebraic Multiplicity and Geometric Multiplicity}
+A theorem that I don't want to prove:
+\begin{center}
+    Geometric Multiplicity $\leq $ Algebraic Multiplicity
+\end{center}
+
+\textbf{A Summary - Liar's Game:}
+\begin{enumerate}
+    \item All the eigenvalues are smart, they will only claim they have higher or equal multiplicity (algebraic multiplicity) than it actually has.
+    \item Your mission is to catch the liar. You investigate the possible liars (repeated eigenvalues) by calculating the nullspace dimension of $\det (A-\lambda I)$. If you find that the eigenvalues don't have the same number of independent eigenvectors as it claimed, it is a liar. Once you catch 1 liar, the matrix is not diagonalizable any more.
+\end{enumerate}
+
+Well, that is only an analogy... That's quite similar, right?
+\end{frame}
+
+\begin{frame}{Hermitian Matrix}
+For real matrix, a matrix is symmetric if $A^T=A$, so for the complex matrix, a matrix is Hermitian if $A^H=A$.
+
+\vspace{3pt}
+The following matrix is a Hermitian matrix:
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        2&		3-i\\
+        3+i&		5\\
+    \end{matrix} \right]
+\end{equation*}
+
+Recall that for real symmetric matrix, the eigenvectors corresponding to different eigenvalues are orthogonal. This property remains true for the Hermitian matrix.
+
+\vspace{3pt}
+Another property: Every eigenvalue of a Hermitian matrix is real. This property is definitely true for real symmetric matrix because it is a special case of Hermitian!
+\end{frame}
+
+\begin{frame}{Unitary Matrix}
+For real matrix, a matrix is orthogonal if $A^TA=AA^T=I$, so for the complex matrix, a matrix is unitary if $A^HA=AA^H=I$. Unitary has orthonormal column vectors.
+
+\vspace{5pt}
+\textbf{Properties:}
+\begin{itemize}
+    \item Inner products and lengths are preserved by $U$.
+    \begin{equation*}
+        \left( Ux \right) ^H\left( Uy \right) =x^Hy, \left\| Ux \right\| =\left\| x \right\|
+    \end{equation*}
+    \item Every eigenvector of $U$ has absolute value $|\lambda| = 1$.
+    \item Eigenvectors corresponding to different eigenvalues are orthogonal.
+\end{itemize}
+
+\vspace{3pt}
+For example, consider $2\times 2$ rotation matrix, it will have orthogonal eigenvectors. Also true for permutation matrix, which is a orthogonal matrix and of course unitary.
+
+\end{frame}
+
+\section{Similarity Transformation}
+\begin{frame}{Similar Matrices}
+\begin{definition}
+    Two matrices $A$ and $B$ are said to be similar if there is an invertible matrix $M$ such that
+    \begin{equation*}
+        B=M^{-1}AM
+    \end{equation*}
+    It is denoted by $A\backsim B$.
+\end{definition}
+
+For similar matrices $A$ and $B$, they must share the same eigenvalues. They have the same number of independent eigenvectors.
+
+\begin{equation*}
+    B-\lambda I=M^{-1}\left( A-\lambda I \right) M
+\end{equation*}
+\begin{equation*}
+    \det \left( B-\lambda I \right) =\det \left( M^{-1} \right) \det \left( A-\lambda I \right) \det \left( M \right) =\det \left( A-\lambda I \right)
+\end{equation*}
+\begin{equation*}
+    Ax=\lambda x\Rightarrow MBM^{-1}x=\lambda x\Rightarrow B\left( M^{-1}x \right) =\lambda \left( M^{-1}x \right)
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Properties for Similar Matrices}
+    Similar matrices $A$ and $B$ have the following properties:
+    \begin{itemize}
+        \item $A$ has the same eigenvalues as $B$.
+        \item $A$ has the same number of independent eigenvectors as $B$. (Difference: $M^{-1}$)
+        \item $\det A = \det B$, $trace (A) = trace (B)$.
+        \item $rank (A) = rank (B)$. (who can give me a translation?)
+        \item $A$ and $B$ have the same characteristic polynomial.
+    \end{itemize}
+
+    \vspace{3pt}
+    If $A$ and $B$ have the same characteristic polynomial (same eigenvalues), they are not always similar.
+
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            5&		3\\
+            0&		5\\
+        \end{matrix} \right] , B=\left[ \begin{matrix}
+            5&		0\\
+            0&		5\\
+        \end{matrix} \right]
+    \end{equation*}
+
+
+    Those properties are necessary, not sufficient (Even if you find 2 matrices that can satisfy all of them, we can not say they are similar). We will discuss later on.
+\end{frame}
+
+
+
+\begin{frame}{Similarity Transformation: Change of Basis}
+Recall: matrix diagonalization $A=P \varLambda P^{-1}$, we can say $A\backsim \varLambda$.
+    \begin{equation*}
+        \left[ \begin{matrix}
+            2&		1\\
+            1&		2\\
+        \end{matrix} \right] =\left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		0\\
+            0&		3\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] ^{-1}
+    \end{equation*}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{PNP-1.jpg}
+\end{figure}
+
+Essence: change basis and simplify the linear transformation matrix.
+\end{frame}
+
+
+\begin{frame}{Similarity Transformation: Change of Basis}
+    \begin{definition}
+        Two matrices $A$ and $B$ are said to be similar if there is an invertible matrix $M$ such that
+        \begin{equation*}
+            B=M^{-1}AM
+        \end{equation*}
+        It is denoted by $A\backsim B$.
+    \end{definition}
+
+Actually, $A$ and $B$ represent the same linear transformation under different bases. $M$ is the "change of basis" matrix.
+
+\begin{itemize}
+    \item $A$ has the same eigenvalues as $B$. (The strenching coefficients are the same)
+    \item $A$ has the same number of independent eigenvectors as $B$. (Difference: $M^{-1}$) (The same eigenvectors! we only change the basis through $M^{-1}$)
+    \item $rank (A) = rank (B)$. (the dimension of output space are the same)
+\end{itemize}
+
+Video: \url{https://www.bilibili.com/video/BV1ys411472E?p=13}
+
+\end{frame}
+
+\begin{frame}{Similarity Transformation: Additional}
+For 2 diagonal matrices $\varLambda_1$ and $\varLambda_2$, if they have the same eigenvalues, they are similar.
+
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        2020&		&		&		\\
+        &		2021&		&		\\
+        &		&		2021&		\\
+        &		&		&		2022\\
+    \end{matrix} \right] , B=\left[ \begin{matrix}
+        2021&		&		&		\\
+        &		2022&		&		\\
+        &		&		2020&		\\
+        &		&		&		2021\\
+    \end{matrix} \right]
+\end{equation*}
+
+Recall that every time you do matrix diagonalization, the result is not unique. You can change the columns in $P$ to change the order of eigenvalues on the diagonal. They must be similar because they are all similar to original $A$.
+
+\vspace{3pt}
+If matrices $A$ and $B$ are diagonalizable, and they have the same eigenvalues, they are similar.
+
+\end{frame}
+
+\begin{frame}{Schur's Lemma}
+\begin{theorem}
+    For a matrix of degree $n$, there exists a unitary matrix $U$ of degree $n$ such that $U^{-1}AU=T$ is triangular. The eigenvalues of $A$ appear along the diagonal of the similar matrix $T$.
+\end{theorem}
+
+That is a theorem for all matrices. So every degree $n$ matrices can be similar to a triangular matrix.
+
+\begin{itemize}
+    \item For $A=LU$, we simplify a matrix to upper triangular without changing its nullspace.
+    \item For $U^{-1}AU=T$, we simplify a matrix to triangular without changing eigenvalues and number of independent eigenvectors.
+\end{itemize}
+
+We are not required to calculate this by our own (99\%). All you need to do is to understand this theorem.
+\end{frame}
+
+\begin{frame}{Normal Matrices}
+\begin{theorem}
+    For a matrix of degree $n$, there exists a unitary matrix $U$ of degree $n$ such that $U^{-1}AU=T$ is triangular. The eigenvalues of $A$ appear along the diagonal of the similar matrix $T$.
+\end{theorem}
+
+For some matrics, $T=\varLambda$. For that case, the matrices are called normal.
+
+\vspace{3pt}
+Normal matrices contain:
+\begin{itemize}
+    \item Real symmetric; Hermitian. They have all real eigenvalues.
+    \item Real skew-symmetric; skew-Hermitian. They have all imaginary eigenvalues (or zero!).
+    \item Orthogonal; unitary. They have eigenvalues $|\lambda|=1$.
+\end{itemize}
+
+For normal matrices, $NN^H=N^HN$. All the 3 kinds satisfy this condition.
+
+\end{frame}
+
+\begin{frame}{The Jordan Form (For Advanced Students)}
+    Although not all the matrices are diagonalizable, we can simplify all the matrix to Jordan form (that is the nearest matrix to diagonal), which has Jordan blocks on the diagonal.
+
+    \vspace{3pt}
+    Jordan block:
+    \begin{equation*}
+        J=\left[ \begin{matrix}
+            \lambda&		1&		&		\\
+            &		\lambda&		\ddots&		\\
+            &		&		\ddots&		1\\
+            &		&		&		\lambda\\
+        \end{matrix} \right]
+    \end{equation*}
+
+    While if a matrix has eigenvalues $\lambda$ with algebraic multiplicity of $n$ but geometric multiplicity of 1, its simplest similar matrix $J$ will have a Jordan block like this.
+
+    \vspace{3pt}
+    Our shear matrix:
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            1&		1\\
+            0&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+    is a Jordan block. It only has 1 independent eigenvectors.
+\end{frame}
+
+\begin{frame}{The Jordan Form (For Advanced Students)}
+    While if a matrix has eigenvalues $\lambda$ with algebraic multiplicity of $n$ but geometric multiplicity of 2. It will has 2 Jordan blocks for this eigenvlue in the Jordan block!
+
+    \vspace{3pt}
+    For example:
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            2&		1&		2\\
+            0&		2&		0\\
+            0&		0&		2\\
+        \end{matrix} \right]
+    \end{equation*}
+    It has 2 independent eigenvectors, so it has 2 Jordan blocks in Jordan form.
+    \begin{equation*}
+        J=\left[ \begin{matrix}
+            2&		1&		0\\
+            0&		2&		0\\
+            0&		0&		2\\
+        \end{matrix} \right]
+    \end{equation*}
+
+\end{frame}
+
+\begin{frame}{The Jordan Form (For Advanced Students)}
+For non-diagonalizable matrices $A$ and $B$, how to determine whether they are similar? Remind that the 5 properties for similar matrices are not sufficient.
+
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        2&		1&		0&		0\\
+        0&		2&		1&		0\\
+        0&		0&		2&		0\\
+        0&		0&		0&		2\\
+    \end{matrix} \right] , B=\left[ \begin{matrix}
+        2&		1&		0&		0\\
+        0&		2&		0&		0\\
+        0&		0&		2&		1\\
+        0&		0&		0&		2\\
+    \end{matrix} \right]
+\end{equation*}
+
+For the example above, those matrices have the same eigenvalues ($\lambda =2$ with algebraic multiplicity 4), the same number of independent eigenvectors (2 in this example). But they are not similar.
+
+\vspace{3pt}
+Equivalent Property for Similarity:
+\begin{center}
+    $A$ and $B$ share the same Jordan blocks.
+\end{center}
+
+If you want to know how to find the Jordan form for non-diagonalizable matrices, choose \emph{MA109: Linear Algebra II} (but be careful!).
+\end{frame}
+
+\section{Topic: Exercise Problems for Chapter 5}
+\begin{frame}{Problem 1 (from 5.1, 5.2)}
+\begin{example}
+    (2020 Fall, Final, 12 marks)Let $a, b \in \mathbb{R}$ and let
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            2&		-1&		2\\
+            5&		a&		3\\
+            -1&		b&		-2\\
+        \end{matrix} \right]
+    \end{equation*}
+    Suppose that $p=(1,1,-1)^T$ is an eigenvector of $A$.
+
+    (a) Find the values of $a,b$ and find the eigenvalue $\lambda$ corresponding to eigenvector $p$.
+
+    (b) Is $A$ diagonalizable? Please explain your answer.
+\end{example}
+\end{frame}
+
+\begin{frame}{Problem 2 (from 5.1, 5.2)}
+\begin{example}
+
+    (a) (2018 Fall, Final, 3 marks)Suppose a $3\times 3$ matrix has eigenvalues $0, 1, 2$, find the eigenvalues of $A(A-I)(A-2I)$.
+
+    (b) Is $A$ diagonalizable? Please explain your answer.
+\end{example}
+\end{frame}
+
+
+\end{document}

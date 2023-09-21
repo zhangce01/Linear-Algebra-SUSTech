@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{A Brief Review of Last Lecture}{3}{0}{1}
+\beamer@sectionintoc {2}{Diagonalization of Matrix}{15}{0}{2}
+\beamer@sectionintoc {3}{Complex Matrix}{22}{0}{3}
+\beamer@sectionintoc {4}{Similarity Transformation}{39}{0}{4}

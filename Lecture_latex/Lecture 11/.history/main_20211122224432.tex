@@ -1,0 +1,911 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Computations and Applications of Determinants}
+
+\subtitle{Lecture 9}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.11.23] % (optional)
+{2021.11.23}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{A Brief Review of Last Lecture}
+\begin{frame}{Last Lecture, We Discuss\dots}
+Four parts in last lecture:
+    \begin{enumerate}
+        \item Overview to Next Half Semester\\
+        deteminant; eigenvalues and eigenvectors; positive definiteness
+        \item Orthonormal Vectors and Orthogonal Matrices\\
+        orthonormal vectors, orthogonal matrices, convenience of orthogonal matrices
+        \item Gram-Schmidt and QR Decomposition\\
+        analysis of 2-D case, 3-D case, and deduction of QR decomposition
+        \item Introduction and Properties of Determinant\\
+        geometrical view and part of the properties and computation of determinant
+    \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Gram-Schmidt}
+\textbf{Algorithm Summary:}
+
+\vspace{3pt}
+Gram's Part:
+\begin{itemize}
+    \item Accept $\mathbf{a}$ to the orthogonal vector set.
+    \begin{equation*}
+        \mathbf{A}=\mathbf{a}
+    \end{equation*}
+    \item Subtract $\mathbf{A}$ component from $\mathbf{b}$ and add to the orthogonal vector set.
+    \begin{equation*}
+        \mathbf{B}=\mathbf{b}-\frac{\mathbf{b}^T\mathbf{A}}{\mathbf{A}^T\mathbf{A}}\mathbf{A}
+    \end{equation*}
+\end{itemize}
+
+Schmidt's Part:
+\begin{itemize}
+    \item Normalize the vectors in orthogonal vector set.
+    \begin{equation*}
+        \mathbf{A}=\frac{\mathbf{A}}{||\mathbf{A}||}, \mathbf{B}=\frac{\mathbf{B}}{||\mathbf{B}||}
+    \end{equation*}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{QR Decomposition}
+Experts in Linear Algebra will not stop here, they will go ahead to find the connection between $Q$ and $A$. That is the same with $LU$ decomposition, we find the matrix $L$ after we know how to find $U$. Now, we are going to find the connection $R$.
+
+\begin{equation*}
+    A=QR=\left( QQ^T \right) A\Rightarrow R=Q^TA
+\end{equation*}
+\begin{equation*}
+    \left[ \begin{matrix}
+        |&		|&		|\\
+        a&		b&		c\\
+        |&		|&		|\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        |&		|&		|\\
+        q_1&		q_2&		q_3\\
+        |&		|&		|\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        {q_1}^Ta&		{q_1}^Tb&		{q_1}^Tc\\
+        {q_2}^Ta&		{q_2}^Tb&		{q_2}^Tc\\
+        {q_3}^Ta&		{q_3}^Tb&		{q_3}^Tc\\
+    \end{matrix} \right]
+\end{equation*}
+
+In the Gram-Schmidt process, we can guarantee that ${q_2}^Ta=0$, why?
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        |&		|&		|\\
+        a&		b&		c\\
+        |&		|&		|\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        |&		|&		|\\
+        q_1&		q_2&		q_3\\
+        |&		|&		|\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        {q_1}^Ta&		{q_1}^Tb&		{q_1}^Tc\\
+        0&		{q_2}^Tb&		{q_2}^Tc\\
+        0&		0&		{q_3}^Tc\\
+    \end{matrix} \right]
+\end{equation*}
+
+$R$ is upper triangular! QR decomposition complete. A little bit complex...
+\end{frame}
+
+\begin{frame}{Properties of Determinant}
+Now, let's consider the following properties for determinants geometrically.
+\begin{itemize}
+    \item $\left| \begin{matrix}
+        1&		0\\
+        0&		1\\
+    \end{matrix} \right|=1, \left| \begin{matrix}
+        0&		1\\
+        1&		0\\
+    \end{matrix} \right|=-1$
+    \item $\left| \begin{matrix}
+        ta&		b\\
+        tc&		d\\
+    \end{matrix} \right|=t\left| \begin{matrix}
+        a&		b\\
+        c&		d\\
+    \end{matrix} \right|$
+    \item Linearly dependent columns make the determinant 0
+    \item $\det U=\left| \begin{matrix}
+        d_1&		\ast&		\ast&		\cdots&		\ast\\
+        0&		d_2&		\ast&		\cdots&		\ast\\
+        0&		0&		d_3&		\cdots&		\ast\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\ast\\
+        0&		0&		0&		0&		d_n\\
+    \end{matrix} \right|=d_1d_2d_3\cdots d_n$
+    \item $\det AB=\left( \det A \right) \left( \det B \right)$
+\end{itemize}
+
+We know all of them without any kinds of computations!
+\end{frame}
+
+\section{Properties of Determinants}
+\begin{frame}{Properties of Determinants}
+The order of these properties come from MIT 18.06 (Gilbert).
+\begin{enumerate}
+    \item $\left| \begin{matrix}
+        1&		0\\
+        0&		1\\
+    \end{matrix} \right|=1$
+    \item $\left| \begin{matrix}
+        0&		1\\
+        1&		0\\
+    \end{matrix} \right|=-1$, exchange 2 rows reverse the sign
+    \item $\left| \begin{matrix}
+        ta&		tb\\
+        c&		d\\
+    \end{matrix} \right|=t\left| \begin{matrix}
+        a&		b\\
+        c&		d\\
+    \end{matrix} \right|$, $\left| \begin{matrix}
+        a+a'&		b+b'\\
+        c&		d\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        a&		b\\
+        c&		d\\
+    \end{matrix} \right|+\left| \begin{matrix}
+        a'&		b'\\
+        c&		d\\
+    \end{matrix} \right|$
+    \item 2 equal rows $\rightarrow$ 0 determinant, easily proved by property 2
+    \item Subtract k times row m from row n will not change the determinant
+    \item Zero row $\rightarrow$ 0 determinant
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Properties of Determinants}
+The order of these properties come from MIT 18.06 (Gilbert).
+\begin{enumerate}
+    \setcounter{enumi}{6}
+    \item $\det U=\left| \begin{matrix}
+        d_1&		\ast&		\ast&		\cdots&		\ast\\
+        0&		d_2&		\ast&		\cdots&		\ast\\
+        0&		0&		d_3&		\cdots&		\ast\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\ast\\
+        0&		0&		0&		0&		d_n\\
+    \end{matrix} \right|=d_1d_2d_3\cdots d_n$
+    \item Zero det means singular, nonzero det means invertible
+    \item $\det AB=\left( \det A \right) \left( \det B \right)$
+    \item $\det A^T = \det A$
+\end{enumerate}
+
+Permutations can be classified to odd and even! That is the same as multiplying a permutation matrix, and permutation matrices have -1 or 1 determinant. Odd row exchanges reverse the sign, while even row exchanges do not change the sign.
+\end{frame}
+
+\section{Computations of Determinants}
+\begin{frame}{Big Formula}
+Up to now, we haven't introduce any of the computing formula for determinant. Can we find a general formula for all the determinants?
+
+\vspace{3pt}
+Again, start from $2\times 2$ matrix. You all know that the formula for $2\times 2$ determinant is like the following, but why?
+\begin{equation*}
+    \left| \begin{matrix}
+        a&		b\\
+        c&		d\\
+    \end{matrix} \right|=ad-bc
+\end{equation*}
+
+Using linearity by row:
+\begin{equation*}
+    \left| \begin{matrix}
+        a&		b\\
+        c&		d\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        a&		0\\
+        c&		d\\
+    \end{matrix} \right|+\left| \begin{matrix}
+        0&		b\\
+        c&		d\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        a&		0\\
+        c&		0\\
+    \end{matrix} \right|+\left| \begin{matrix}
+        0&		b\\
+        c&		0\\
+    \end{matrix} \right|+\left| \begin{matrix}
+        a&		0\\
+        0&		d\\
+    \end{matrix} \right|+\left| \begin{matrix}
+        0&		b\\
+        0&		d\\
+    \end{matrix} \right|
+\end{equation*}
+
+What we have done: take an entry in each row, and only the determinants without the zero column are nonzero.
+
+\vspace{3pt}
+\textbf{Inspiration:} Choose entries from each row and column, only consider the sun of those determinants, the others are all zero if we take 2 entries from a single row or column.
+\end{frame}
+
+\begin{frame}{Big Formula}
+Consider $3\times 3$ case:
+\begin{equation*}
+    \left| \begin{matrix}
+        a&		b&		c\\
+        d&		e&		f\\
+        g&		h&		i\\
+    \end{matrix} \right|
+\end{equation*}
+\begin{itemize}
+    \item Taking $a$, then we can take $e, i$ or $f, h$.
+    \item Taking $b$, then we can take $d, i$ or $f, g$.
+    \item Taking $c$, then we can take $d, h$ or $e, g$.
+\end{itemize}
+
+$2\times 2$ determinants have 2 terms, $3\times 3$ determinants have 6 terms, what about $n\times n$ determinants?
+
+\vspace{3pt}
+Taking an entry from each row: for the first row, you have $n$ choices, for the second row, you have $n-1$ choices (because you can't take the entry from the same column),...
+
+\vspace{3pt}
+So, $n\times n$ determinants have $n!$ terms.
+\end{frame}
+
+\begin{frame}{Big Formula}
+\textbf{BIG FORMULA:}
+\begin{equation*}
+    \det A=\sum_{all\,\,combinations}{\left( \det P \right)}\,a_{1\alpha}a_{2\beta}\cdots a_{n\omega}
+\end{equation*}
+while $P$ is the permutation matrix that have determinant 1 or -1 (determined by the order of chosen entries).
+
+\vspace{3pt}
+Another simplified expression: $P=\left( \alpha ,\beta ,\cdots ,\omega \right)$.
+
+\vspace{3pt}
+Example: Using Big Formula to show that
+\begin{equation*}
+    \det U=\left| \begin{matrix}
+        d_1&		\ast&		\ast&		\cdots&		\ast\\
+        0&		d_2&		\ast&		\cdots&		\ast\\
+        0&		0&		d_3&		\cdots&		\ast\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\ast\\
+        0&		0&		0&		0&		d_n\\
+    \end{matrix} \right|=d_1d_2d_3\cdots d_n
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Cofactor Formula}
+Consider $3\times 3$ case:
+\begin{equation*}
+    \left| \begin{matrix}
+        a_{11}&		a_{12}&		a_{13}\\
+        a_{21}&		a_{22}&		a_{23}\\
+        a_{31}&		a_{32}&		a_{33}\\
+    \end{matrix} \right|=a_{11}\left| \begin{matrix}
+        a_{22}&		a_{23}\\
+        a_{32}&		a_{33}\\
+    \end{matrix} \right|-a_{12}\left| \begin{matrix}
+        a_{21}&		a_{23}\\
+        a_{31}&		a_{33}\\
+    \end{matrix} \right|+a_{13}\left| \begin{matrix}
+        a_{21}&		a_{22}\\
+        a_{31}&		a_{32}\\
+    \end{matrix} \right|
+\end{equation*}
+
+\textbf{COFACTOR FORMULA:}
+\begin{equation*}
+    \det A=a_{11}C_{11}+a_{12}C_{12}+\cdots +a_{1n}C_{1n}
+\end{equation*}
+
+Cofactors are the determinants that eliminates a row and a column, multiplying a coefficient of 1 or -1, determined by the sum of $i, j$.
+\end{frame}
+
+\section{Applications of Determinants}
+\begin{frame}{Computation of Inverses}
+Cofactor matrix:
+\begin{equation*}
+    C=\left[ \begin{matrix}
+        C_{11}&		C_{12}&		\cdots&		C_{1n}\\
+        C_{21}&		C_{22}&		\cdots&		C_{2n}\\
+        \vdots&		\vdots&		\ddots&		\vdots\\
+        C_{n1}&		C_{n2}&		\cdots&		C_{nn}\\
+    \end{matrix} \right]
+\end{equation*}
+
+
+A formula for all square matrices (no matter singular or not):
+\begin{equation*}
+    AC^T=\det A \cdot I
+\end{equation*}
+
+Noteworthy that $A^*$ is the same as $C^T$, called the adjoint matrix.
+
+\vspace{3pt}
+You'd better know how it comes... Refering to MIT 18.06 please!
+\url{https://www.bilibili.com/video/BV1zx411g7gq?p=20} 07:41
+
+\vspace{3pt}
+If matrix $A$ is invertible, the inverse:
+\begin{equation*}
+    A^{-1}=\frac{1}{\det A}A^*
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Cramer's Rule}
+Consider a system of linear equations $Ax=b$:
+\begin{equation*}
+    \left[ \begin{matrix}
+        a_{11}&		a_{12}&		\cdots&		a_{1n}\\
+        a_{21}&		a_{22}&		\cdots&		a_{2n}\\
+        \vdots&		\vdots&		\ddots&		\vdots\\
+        a_{n1}&		a_{n2}&		\cdots&		a_{nn}\\
+    \end{matrix} \right] \left[ \begin{array}{c}
+        x_1\\
+        x_2\\
+        \vdots\\
+        x_n\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        b_1\\
+        b_2\\
+        \vdots\\
+        b_n\\
+    \end{array} \right]
+\end{equation*}
+
+Cramer gives
+\begin{equation*}
+    x_j=\frac{\det B_j}{\det A}
+\end{equation*}
+
+where
+\begin{equation*}
+    B_j=\left[ \begin{matrix}
+        a_{11}&		a_{12}&		\cdots&		{\color[RGB]{240, 0, 0} b_1}&		\cdots&		a_{1n}\\
+        a_{21}&		a_{22}&		\cdots&		{\color[RGB]{240, 0, 0} b_2}&		\cdots&		a_{2n}\\
+        \vdots&		\vdots&		&		{\color[RGB]{240, 0, 0} \vdots }&		&		\vdots\\
+        a_{n1}&		a_{n2}&		\cdots&		{\color[RGB]{240, 0, 0} b_n}&		\cdots&		a_{nn}\\
+    \end{matrix} \right]
+\end{equation*}
+
+For $10\times 10$ matrix, you need to find eleven $10\times 10$ determinants to find the solution. Please use Gaussian Elimination to solve linear equations.
+\end{frame}
+
+\section{Topic: Techniques for Computing Determinants}
+\begin{frame}{Type 1: Tri-diagonal Matrix}
+(2019 Fall Final, 12 marks) For each natural number $n\geqslant 3$, find the determinant:
+\begin{equation*}
+    D_n=\left| \begin{matrix}
+        2&		-1&		&		&		\\
+        -1&		2&		-1&		&		\\
+        &		-1&		2&		\ddots&		\\
+        &		&		\ddots&		\ddots&		-1\\
+        &		&		&		-1&		2\\
+    \end{matrix} \right|_{n\times n}
+\end{equation*}
+
+\textbf{Solution:} cofactor expansion and find the recursion formula.
+
+\vspace{3pt}
+For this example, $D_n=2D_{n-1}-D_{n-2}$.
+
+\vspace{3pt}
+The first few terms: $D_1=2, D_2=3, D_3=4$.
+
+\vspace{3pt}
+So, the answer is: $D_n=n-1$.
+\end{frame}
+
+\begin{frame}{Type 1: Tri-diagonal Matrix}
+Find the determinant:
+\begin{equation*}
+    D_6=\left| \begin{matrix}
+        1&		1&		&		&		\\
+        -1&		1&		1&		&		\\
+        &		-1&		1&		\ddots&		\\
+        &		&		\ddots&		\ddots&		1\\
+        &		&		&		-1&		1\\
+    \end{matrix} \right|_{6\times 6}
+\end{equation*}
+
+\vspace{3pt}
+For this example, $D_n=D_{n-1}+D_{n-2}$.
+
+\vspace{3pt}
+The first few terms: $D_1=1, D_2=2$.
+
+\vspace{3pt}
+Fibonacci series, $1,2,3,5,8,13$, so the answer is $D_6=13$.
+\end{frame}
+
+\begin{frame}{Type 2: Arrow Form Matrix}
+Find the determinant:
+\begin{equation*}
+    \left| \begin{matrix}
+        1&		1&		1&		1		\\
+        1&		2&		0&		0		\\
+        1&		0&		3&		0		\\
+        1&		0&		0&		4		\\
+    \end{matrix} \right|
+\end{equation*}
+
+\textbf{Solution:} eliminate the first row by the diagonal entries, simplify to triangular matrix.
+
+\begin{equation*}
+    \left| \begin{matrix}
+        1&		1&		1&		1\\
+        1&		2&		0&		0\\
+        1&		0&		3&		0\\
+        1&		0&		0&		4\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        1-\frac{1}{2}-\frac{1}{3}-\frac{1}{4}&		0&		0&		0\\
+        1&		2&		0&		0\\
+        1&		0&		3&		0\\
+        1&		0&		0&		4\\
+    \end{matrix} \right|=-2
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Type 2: Arrow Form Matrix}
+Find the determinant:
+\begin{equation*}
+D_n=\left| \begin{matrix}
+	a_1&		a_2&		a_3&		\cdots&		a_n\\
+	b_2&		1&		0&		\cdots&		0\\
+	b_3&		0&		1&		\cdots&		0\\
+	\vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+	b_n&		0&		0&		\cdots&		1\\
+\end{matrix} \right|
+\end{equation*}
+
+\begin{equation*}
+    D_n\left| \begin{matrix}
+        a_1&		a_2&		a_3&		\cdots&		a_n\\
+        b_2&		1&		0&		\cdots&		0\\
+        b_3&		0&		1&		\cdots&		0\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+        b_n&		0&		0&		\cdots&		1\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        a_1-a_2b_2-a_3b_3-\cdots&		0&		0&		\cdots&		0\\
+        b_2&		1&		0&		\cdots&		0\\
+        b_3&		0&		1&		\cdots&		0\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+        b_n&		0&		0&		\cdots&		1\\
+    \end{matrix} \right|
+\end{equation*}
+So, the answer is $D_n=a_1-\sum_{i=2}^n{a_nb_n}$.
+\end{frame}
+
+\begin{frame}{Type 3: Vandermonde Determinant and Variations}
+\textbf{Vandermonde Determinant:}
+\begin{equation*}
+    \left| \begin{matrix}
+        1&		1&		1&		\cdots&		1\\
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        {x_1}^2&		{x_2}^2&		{x_3}^2&		\cdots&		{x_n}^2\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+        {x_1}^{n-1}&		{x_2}^{n-1}&		{x_3}^{n-1}&		\cdots&		{x_n}^{n-1}\\
+    \end{matrix} \right|=\prod_{2\leqslant j<i\leqslant n}{\left( x_i-x_j \right)}
+\end{equation*}
+
+Proof omitted. Please refer to baidu or other search engines.
+
+\vspace{3pt}
+An example:
+\begin{equation*}
+    \left| \begin{matrix}
+        1&		1&		1&		1\\
+        1&		2&		3&		4\\
+        1&		4&		9&		16\\
+        1&		8&		27&		64\\
+    \end{matrix} \right|=\left( 2-1 \right) \left( 3-2 \right) \left( 3-1 \right) \left( 4-3 \right) \left( 4-2 \right) \left( 4-1 \right) =12
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Type 3: Vandermonde Determinant and Variations}
+Variation 1: First row lost.
+\begin{equation*}
+    \left| \begin{matrix}
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        {x_1}^2&		{x_2}^2&		{x_3}^2&		\cdots&		{x_n}^2\\
+        {x_1}^3&		{x_2}^3&		{x_3}^3&		\cdots&		{x_n}^3\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+        {x_1}^n&		{x_2}^n&		{x_3}^n&		\cdots&		{x_n}^n\\
+    \end{matrix} \right|
+\end{equation*}
+
+\textbf{Solution:} extract $x_i$ from each column and it becomes the original.
+
+\begin{equation*}
+    \left| \begin{matrix}
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        {x_1}^2&		{x_2}^2&		{x_3}^2&		\cdots&		{x_n}^2\\
+        {x_1}^3&		{x_2}^3&		{x_3}^3&		\cdots&		{x_n}^3\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+        {x_1}^n&		{x_2}^n&		{x_3}^n&		\cdots&		{x_n}^n\\
+    \end{matrix} \right|=x_1x_2\cdots x_n\prod_{2\leqslant j<i\leqslant n}{\left( x_i-x_j \right)}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Type 3: Vandermonde Determinant and Variations}
+Variation 2: Other row lost.
+\begin{equation*}
+    \left| \begin{matrix}
+        1&		1&		1&		1\\
+        a^2&		b^2&		c^2&		d^2\\
+        a^3&		b^3&		c^3&		d^3\\
+        a^4&		b^4&		c^4&		d^4\\
+    \end{matrix} \right|
+\end{equation*}
+
+\textbf{Solution:} construct complete Vandermonde and compare coefficient.
+
+\vspace{3pt}
+Construct complete Vandermonde matrix $A$:
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        1&		1&		1&		1&		{\color[RGB]{240, 0, 0} 1}\\
+        {\color[RGB]{240, 0, 0} a}&		{\color[RGB]{240, 0, 0} b}&		{\color[RGB]{240, 0, 0} c}&		{\color[RGB]{240, 0, 0} d}&		{\color[RGB]{240, 0, 0} x}\\
+        a^2&		b^2&		c^2&		d^2&		{\color[RGB]{240, 0, 0} x^2}\\
+        a^3&		b^3&		c^3&		d^3&		{\color[RGB]{240, 0, 0} x^3}\\
+        a^4&		b^4&		c^4&		d^4&		{\color[RGB]{240, 0, 0} x^4}\\
+    \end{matrix} \right|
+\end{equation*}
+
+Now, we want to find the minor $M_{25}$ of matrix $A$.
+\end{frame}
+
+\begin{frame}{Type 3: Vandermonde Determinant and Variations}
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        1&		1&		1&		1&		{\color[RGB]{240, 0, 0} 1}\\
+        {\color[RGB]{240, 0, 0} a}&		{\color[RGB]{240, 0, 0} b}&		{\color[RGB]{240, 0, 0} c}&		{\color[RGB]{240, 0, 0} d}&		{\color[RGB]{240, 0, 0} x}\\
+        a^2&		b^2&		c^2&		d^2&		{\color[RGB]{240, 0, 0} x^2}\\
+        a^3&		b^3&		c^3&		d^3&		{\color[RGB]{240, 0, 0} x^3}\\
+        a^4&		b^4&		c^4&		d^4&		{\color[RGB]{240, 0, 0} x^4}\\
+    \end{matrix} \right|
+\end{equation*}
+
+Define constant $S=\left( d-c \right) \left( d-b \right) \left( d-a \right) \left( c-b \right) \left( c-a \right) \left( b-a \right)$.
+
+\vspace{3pt}
+Calculate the Vandermonde determinant and cofactor expansion by column $n$:
+\vspace{-5pt}
+\begin{equation*}
+    |A|=S\left( x-d \right) \left( x-c \right) \left( x-b \right) \left( x-a \right) =C_{15}+C_{25}x+C_{35}x^2+C_{45}x^3+C_{55}x^4
+\end{equation*}
+
+Compare the coefficient of $x$: $C_{25}=\left( -abc-abd-acd-bcd \right) S$.
+
+\vspace{3pt}
+So, the original determinant is $M_{25}=-C_{25}=\left( abc+abd+acd+bcd \right) S$.
+\end{frame}
+
+\begin{frame}{Type 4: Repeated (Similar Terms) Matrix}
+Find the determinant:
+\begin{equation*}
+    A=\left| \begin{matrix}
+        1+a_1&		1&		1&		1		\\
+        1&		1+a_2&		1&		1		\\
+        1&		1&		1+a_3&		1		\\
+        1&		1&		1&		1+a_4		\\
+    \end{matrix} \right|
+\end{equation*}
+
+\textbf{Solution:} add a row or column to eliminate repeated terms.
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        1&		0&		0&		0&		0\\
+        1&		1+a_1&		1&		1&		1\\
+        1&		1&		1+a_2&		1&		1\\
+        1&		1&		1&		1+a_3&		1\\
+        1&		1&		1&		1&		1+a_4\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        1&		-1&		-1&		-1&		-1\\
+        1&		a_1&		&		&		\\
+        1&		&		a_2&		&		\\
+        1&		&		&		a_3&		\\
+        1&		&		&		&		a_4\\
+    \end{matrix} \right|
+\end{equation*}
+
+Back to Type 2. The answer is $\left( 1+\frac{1}{a_1}+\frac{1}{a_2}+\frac{1}{a_3}+\frac{1}{a_4} \right) a_1a_2a_3a_4$.
+\end{frame}
+
+\begin{frame}{Type 4: Repeated (Similar Terms) Matrix}
+Find the determinant:
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        1+a_1&		a_1&		a_1&		a_1		\\
+        a_2&		1+a_2&		a_2&		a_2		\\
+        a_3&		a_3&		1+a_3&		a_3		\\
+        a_4&		a_4&		a_4&		1+a_4		\\
+    \end{matrix} \right|
+\end{equation*}
+
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        1&		0&		0&		0&		0\\
+        a_1&		1+a_1&		a_1&		a_1&		a_1\\
+        a_2&		a_2&		1+a_2&		a_2&		a_2\\
+        a_3&		a_3&		a_3&		1+a_3&		a_3\\
+        a_4&		a_4&		a_4&		a_4&		1+a_4\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        1&		-1&		-1&		-1&		-1\\
+        a_1&		1&		&		&		\\
+        a_2&		&		1&		&		\\
+        a_3&		&		&		1&		\\
+        a_4&		&		&		&		1\\
+    \end{matrix} \right|
+\end{equation*}
+
+Back to Type 2. The answer is $a_1+a_2+a_3+a_4+1$.
+\end{frame}
+
+\begin{frame}{Type 4: Repeated (Similar Terms) Matrix}
+Find the determinant:
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        a_1&		b&		b&		\cdots&		b\\
+        b&		a_2&		b&		\cdots&		b\\
+        b&		b&		a_3&		\cdots&		b\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+        b&		b&		b&		\cdots&		a_n\\
+    \end{matrix} \right|
+\end{equation*}
+
+\begin{equation*}
+    \left| \begin{matrix}
+        1&		0&		0&		0&		\cdots&		0\\
+        b&		a_1&		b&		b&		\cdots&		b\\
+        b&		b&		a_2&		b&		\cdots&		b\\
+        b&		b&		b&		a_3&		\cdots&		b\\
+        \vdots&		\vdots&		\vdots&		\vdots&		\ddots&		\vdots\\
+        b&		b&		b&		b&		\cdots&		a_n\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        1&		-1&		-1&		-1&		\cdots&		-1\\
+        b&		a_1-b&		&		&		&		\\
+        b&		&		a_2-b&		&		&		\\
+        b&		&		&		a_3-b&		&		\\
+        \vdots&		&		&		&		\ddots&		\\
+        b&		&		&		&		&		a_n-b\\
+    \end{matrix} \right|
+\end{equation*}
+
+Back to Type 2. The answer is $\left[ 1+b\sum_{i=1}^n{\frac{1}{a_i-b}} \right] \left( a_1-b \right) \left( a_2-b \right) \cdots \left( a_n-b \right)$.
+\end{frame}
+
+\begin{frame}{Type 4: Repeated (Similar Terms) Matrix}
+Find the determinant:
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        a+x_1&		a+x_2&		a+x_3\\
+        a^2+{x_1}^2&		a^2+{x_2}^2&		a^2+{x_3}^2\\
+        a^3+{x_1}^3&		a^3+{x_2}^3&		a^2+{x_3}^3\\
+    \end{matrix} \right|
+\end{equation*}
+
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        1&		0&		0&		0\\
+        a&		a+x_1&		a+x_2&		a+x_3\\
+        a^2&		a^2+{x_1}^2&		a^2+{x_2}^2&		a^2+{x_3}^2\\
+        a^3&		a^3+{x_1}^3&		a^3+{x_2}^3&		a^3+{x_3}^3\\
+    \end{matrix} \right|=\left| \begin{matrix}
+        1&		-1&		-1&		-1\\
+        a&		x_1&		x_2&		x_3\\
+        a^2&		{x_1}^2&		{x_2}^2&		{x_3}^2\\
+        a^3&		{x_1}^3&		{x_2}^3&		{x_3}^3\\
+    \end{matrix} \right|
+\end{equation*}
+\begin{equation*}
+    =-\left| \begin{matrix}
+        1&		1&		1&		1\\
+        a&		x_1&		x_2&		x_3\\
+        a^2&		{x_1}^2&		{x_2}^2&		{x_3}^2\\
+        a^3&		{x_1}^3&		{x_2}^3&		{x_3}^3\\
+    \end{matrix} \right|
+    +\left| \begin{matrix}
+        2&		0&		0&		0\\
+        a&		x_1&		x_2&		x_3\\
+        a^2&		{x_1}^2&		{x_2}^2&		{x_3}^2\\
+        a^3&		{x_1}^3&		{x_2}^3&		{x_3}^3\\
+    \end{matrix} \right|
+\end{equation*}
+Back to Type 3.
+\end{frame}
+
+\begin{frame}{Type 5: Circulant Matrix}
+Find the determinant:
+\begin{equation*}
+\det A=\left| \begin{matrix}
+	0&		b&		0&		a\\
+	a&		0&		b&		0\\
+	0&		a&		0&		b\\
+	b&		0&		a&		0\\
+\end{matrix} \right|
+\end{equation*}
+
+We can have cofactor expansion on column 1:
+\begin{equation*}
+    \det A=-a\left| \begin{matrix}
+        b&		0&		a\\
+        a&		0&		b\\
+        0&		a&		=\\
+    \end{matrix} \right|-b\left| \begin{matrix}
+        b&		0&		a\\
+        0&		b&		0\\
+        a&		0&		b\\
+    \end{matrix} \right|=\left( a^2-b^2 \right) \left| \begin{matrix}
+        b&		0&		a\\
+        0&		1&		0\\
+        a&		0&		b\\
+    \end{matrix} \right|=-\left( a^2-b^2 \right) ^2
+\end{equation*}
+
+This problem is solved, but it is not a general method for Type 5.
+
+\end{frame}
+
+\begin{frame}{Type 5: Circulant Matrix}
+Find the determinant:
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        x&		y&		z&		w\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|
+\end{equation*}
+
+\textbf{Solution:} factor extraction.
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        x&		y&		z&		w\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|=\left( x+y+z+w \right) \left| \begin{matrix}
+        1&		1&		1&		1\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|
+\end{equation*}
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        x&		y&		z&		w\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|=\left( x+y-z-w \right) \left| \begin{matrix}
+        1&		1&		-1&		-1\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Type 5: Circulant Matrix}
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        x&		y&		z&		w\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|=\left( x+z-y-w \right) \left| \begin{matrix}
+        1&		-1&		1&		-1\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|
+\end{equation*}
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        x&		y&		z&		w\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|=\left( x+w-y-z \right) \left| \begin{matrix}
+        1&		-1&		-1&		1\\
+        y&		x&		w&		z\\
+        z&		w&		x&		y\\
+        w&		z&		y&		x\\
+    \end{matrix} \right|
+\end{equation*}
+
+So, the determinant must satisfy
+\begin{equation*}
+    \det A=k\left( x+y+z+w \right) \left( x+y-z-w \right) \left( x+z-y+w \right) \left( x+w-y-z \right)
+\end{equation*}
+
+Check coefficient of $x^4$ (1):
+\begin{equation*}
+    \det A=\left( x+y+z+w \right) \left( x+y-z-w \right) \left( x+z-y+w \right) \left( x+w-y-z \right)
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Type 5: Circulant Matrix}
+Back to the first example:
+\begin{equation*}
+    \det A=\left| \begin{matrix}
+        0&		b&		0&		a\\
+        a&		0&		b&		0\\
+        0&		a&		0&		b\\
+        b&		0&		a&		0\\
+    \end{matrix} \right|
+    \end{equation*}
+
+    By factor extraction:
+    \begin{equation*}
+        \det A=k\left( a+b \right) \left( a-b \right) \left( a+b \right) \left( a-b \right)
+    \end{equation*}
+
+    Check coefficient of $a^4$ (-1):
+    \begin{equation*}
+        \det A=-\left( a+b \right) \left( a-b \right) \left( a+b \right) \left( a-b \right)=-\left( a^2-b^2 \right) ^2
+    \end{equation*}
+\end{frame}
+
+\end{document}

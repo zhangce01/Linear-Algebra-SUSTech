@@ -1,0 +1,125 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Row Exchanges; Inverses and Vector Spaces}
+
+\subtitle{Lecture 2}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.9.28] % (optional)
+{2021.9.28}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+
+\section{Row Exchanges and PA=LU Factorization}
+
+\begin{frame}{Singular Cases of Gauss Elimination}
+Recall that there are 2 singular cases when using the method of Gauss elimination, they can not be expressed as $A=LU$ factorization! But, the temporal failure can be fixed by row exchanges.
+
+\vspace{3pt}
+Do Gauss elimination (with the help of row exchanges) for the matrix below:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        3&		6&		1&		12\\
+        0&		4&		1&		2\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        0&		0&		-2&		6\\
+        0&		4&		1&		2\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        0&		4&		1&		2\\
+        0&		0&		-2&		6\\
+    \end{matrix} \right]
+\end{equation*}
+
+Write the elimination matrices:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        -3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+Review: Which rule for matrix multiplication can help you understand the row operation above?
+
+\end{frame}
+
+
+
+
+\end{document}

@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{A Brief Review of Last Lecture}{3}{0}{1}
+\beamer@sectionintoc {2}{Overview for the Next Half Semester}{17}{0}{2}
+\beamer@sectionintoc {3}{Orthonormal Vectors and Orthogonal Matrices}{19}{0}{3}
+\beamer@sectionintoc {4}{Gram-Schmidt and QR Decomposition}{23}{0}{4}
+\beamer@sectionintoc {5}{Introduction and Properties of Determinant}{30}{0}{5}
+\beamer@sectionintoc {6}{Properties of Determinants}{34}{0}{6}

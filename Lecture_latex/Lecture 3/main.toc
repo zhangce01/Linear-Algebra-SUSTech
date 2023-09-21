@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{A Brief Review of Last Lecture}{3}{0}{1}
+\beamer@sectionintoc {2}{Linear Independence}{12}{0}{2}
+\beamer@sectionintoc {3}{Spanning, Basis and Dimension}{16}{0}{3}
+\beamer@sectionintoc {4}{The Four Fundamental Subspaces}{21}{0}{4}
+\beamer@sectionintoc {5}{Linear Transformations}{30}{0}{5}

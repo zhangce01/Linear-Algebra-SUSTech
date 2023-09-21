@@ -1,0 +1,1212 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{RGB}{139,62,47}
+\definecolor{Logo2}{RGB}{205,91,69}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Final Exam Review}
+
+\subtitle{Lecture 13}
+
+\author[zhangc2019@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2022.12.27] % (optional)
+{2022.6.4}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{An Overview to Final Exam}
+\begin{frame}{We Have Learnt...}
+\textbf{Chapter 3, 4:}
+\begin{itemize}
+    \item 3.3 Projections and Least Squares
+    \item 3.4 Orthogonal Bases and Gram-Schmidt
+    \item 4.1 Introduction to Determinants
+    \item 4.2 Properties of Determinants
+    \item 4.3 Formulas of Determinants
+    \item 4.4 Applications of Determinants
+\end{itemize}
+
+\vspace{5pt}
+\textbf{A Summary:} Least squares is still important in the final exam. Section 3.4 is the first section in the second half semester and $QR$ decomposition is must-know! Chapter 4 is about determinant, which is not the most important, but you should be familiar with tri-diagonal determinants!
+\end{frame}
+
+\begin{frame}{We Have Learnt...}
+\textbf{Chapter 5:}
+\begin{itemize}
+    \item 5.1 Introduction to Eigenvalues and Eigenvectors
+    \item 5.2 Diagonalization of Matric
+    \item 5.5 Complex Matrix
+    \item 5.6 Similarity Transformation
+\end{itemize}
+
+\vspace{5pt}
+\textbf{A Summary:} Chapter 5 is the most important chapter in the final exam. You should try your best to review this chapter, all of the sections are important, they will take nearly 40 marks in midterm exam.
+\end{frame}
+
+\begin{frame}{We Have Learnt...}
+\textbf{Chapter 6:}
+\begin{itemize}
+    \item 6.1 Minima, Maxima, and Saddle Points
+    \item 6.2 Tests for Positive Definiteness
+    \item 6.3 Singular Value Decomposition
+\end{itemize}
+
+\vspace{5pt}
+\textbf{A Summary:} Section 6.1 is kind of useless, section 6.2 will have 20 marks in the exam, and SVD will definitely exist (5 marks as blank-filling or 15 marks as solving).
+
+\end{frame}
+
+\begin{frame}{Final Exam in Previous Years: 2019}
+Final exam in 2019 has 10 problems, with a total of 110 marks.
+\begin{enumerate}
+    \item (10 marks) True or False. (2'$\times 5$)
+    \item (15 marks) Fill the blanks. (3'$\times 5$)
+    \item (12 marks) Find determinants of tri-diagonal matrix.
+    \item (8 marks) Least-squares (line fitting).
+    \item (15 marks) Quadratic form and positive definiteness.
+    \item (10 marks) Four fundamental subspaces, properties of $A^TA$.
+    \item (8 marks) Proof about linear independence.
+    \item (12 marks) Eigenvalues of idempotent matrix.
+    \item (10 marks) Eigenvalues, polynomial expression, diagonalization.
+    \item (10 marks) Properties about $I+uu^T$.
+\end{enumerate}
+
+\vspace{3pt}
+Problem 3, 4, 5, 6, 8, 9, 10 are all fundamental problems, and they take up 77 marks!!!!
+\end{frame}
+
+\begin{frame}{Final Exam in Previous Years: 2020}
+Final exam in 2020 has 8 problems, with a total of 100 marks.
+\begin{enumerate}
+    \item (15 marks) Multiple Choices. (3'$\times 5$)
+    \item (25 marks) Fill the blanks. (5'$\times 5$)
+    \item (12 marks) Gram-Schmidt and $QR$ decomposition.
+    \item (10 marks) Find determinants of tri-diagonal matrix.
+    \item (12 marks) Eigenvalues, diagonalization.
+    \item (12 marks) Quadratic form and positive definiteness.
+    \item (8 marks) Singular values and SVD.
+    \item (6 marks) Eigenvalues of orthogonal matrix.
+\end{enumerate}
+
+\vspace{3pt}
+Again, Problem 3, 4, 5, 6, 7 are not that difficult, and they take up 52 marks!
+\end{frame}
+
+\section{Most Important: High-Frequency Problems}
+\begin{frame}{A Summary}
+    \textbf{High-Frequency Problems:}
+    \begin{enumerate}
+        \item Least-Squares
+        \item Orthogonal Bases and QR Decomposition
+        \item Determinant of Tri-Diagonal Matrix
+        \item Eigenvalues; Matrix Diagonalization
+        \item Quadratic Form and Positive Definiteness
+        \item Singular Value Decomposition
+    \end{enumerate}
+
+    They will all definitely appear on your final exam paper! Please review these problems with highest priority.
+\end{frame}
+\begin{frame}{Least-Squares}
+\begin{example}
+Let
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        -1&		1&		0\\
+        1&		-2&		1\\
+        1&		-1&		2\\
+        1&		-1&		-2\\
+    \end{matrix} \right] , b=\left[ \begin{array}{c}
+        2\\
+        -2\\
+        -1\\
+        3\\
+    \end{array} \right]
+\end{equation*}
+Find the least squares solution to $Ax=b$.
+\end{example}
+
+The system must be inconsistent or we cannot find the least squares solution, because we can find the exact solution!
+
+The method to find least squares solution is to solve
+\begin{equation*}
+    A^TA\hat{x}=A^Tb
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Least-Squares}
+Solve this system to get the least squares solution:
+\begin{equation*}
+    \left[ \begin{matrix}
+        -1&		1&		1&		1\\
+        1&		-2&		-1&		-1\\
+        0&		1&		2&		-2\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        -1&		1&		0&		{\color[RGB]{240, 0, 0} 2}\\
+        1&		-2&		1&		{\color[RGB]{240, 0, 0} -2}\\
+        1&		-1&		2&		{\color[RGB]{240, 0, 0} -1}\\
+        1&		-1&		-2&		{\color[RGB]{240, 0, 0} 3}\\
+    \end{matrix} \right]
+\end{equation*}
+
+Multiply that:
+\begin{equation*}
+    \left[ \begin{matrix}
+        4&		-5&		1&		{\color[RGB]{240, 0, 0} -2}\\
+        -5&		7&		-2&		{\color[RGB]{240, 0, 0} 4}\\
+        1&		-2&		9&		{\color[RGB]{240, 0, 0} -10}\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        4&		-5&		1&		{\color[RGB]{240, 0, 0} -2}\\
+        0&		3&		-3&		{\color[RGB]{240, 0, 0} 6}\\
+        0&		0&		32&		{\color[RGB]{240, 0, 0} -32}\\
+    \end{matrix} \right]
+\end{equation*}
+
+The least squares solution is
+\begin{equation*}
+    \hat{x}=\left[ \begin{array}{c}
+        1\\
+        1\\
+        -1\\
+    \end{array} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Least-Squares (Fitting)}
+\begin{example}
+    Suppose that a dataset consists of points $(-6, -1), (-2, 2), (1, 1), (7, 6)$ on the xy-plane. Find an equation for the line that best models the relation between the $x$ and $y$ coordinates of these sample values in the sense of least-squares.
+\end{example}
+The core problem is how you can transform the problem to a least-square problem! Remember: all the fitting problems are least-square problems, even if they are polynomial function.
+
+\end{frame}
+
+\begin{frame}{Least-Squares (Fitting)}
+Set the equation of the line as:
+    \begin{equation*}
+        y=kx+b
+    \end{equation*}
+Substituting the data points in:
+    \begin{equation*}
+        \left[ \begin{matrix}
+            -6&		1\\
+            -2&		1\\
+            1&		1\\
+            7&		1\\
+        \end{matrix} \right] \left[ \begin{array}{c}
+            k\\
+            b\\
+        \end{array} \right] =\left[ \begin{array}{c}
+            -1\\
+            2\\
+            1\\
+            6\\
+        \end{array} \right]
+    \end{equation*}
+Why this equation system is inconsistent? Write the $A^TAx=A^Tb$ form:
+    \begin{equation*}
+    \left[ \begin{matrix}
+        -6&		-2&		1&		7\\
+        1&		1&		1&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        -6&		1&		-1\\
+        -2&		1&		2\\
+        1&		1&		1\\
+        7&		1&		6\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        90&		0&		45\\
+        0&		4&		8\\
+    \end{matrix} \right]
+    \end{equation*}
+    \begin{equation*}
+        \hat{k}=1/2, \hat{b}=2
+    \end{equation*}
+    So the best fitting line is $\hat{y}=\frac{1}{2}x+2$. You'd better check your answer!
+\end{frame}
+
+\begin{frame}{Orthonormal Bases and QR Decomposition}
+\begin{example}
+    (Final Exam, Fall 2020, 12 marks)\newline
+    (a) Find an orthonormal basis for the column space of
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            1&		-2&		-1\\
+            2&		0&		1\\
+            2&		-4&		2\\
+            4&		0&		0\\
+        \end{matrix} \right]
+    \end{equation*}
+    (b) Write $A$ as $QR$, where $Q$ has orthonormal columns and $R$ is upper triangular.
+\end{example}
+$QR$ decomposition is must-know knowledge. Make sure you verify the orthogonality at every step and thus you will get it correct!
+\end{frame}
+
+\begin{frame}{Orthonormal Bases and QR Decomposition}
+Accept column 1:
+\begin{equation*}
+    a_1'=a_1=\left[ \begin{array}{c}
+        1\\
+        2\\
+        2\\
+        4\\
+    \end{array} \right]
+\end{equation*}
+For column 2:
+\begin{equation*}
+    a_2'=a_2-\frac{{a_2}^Ta_1'}{a_1'^Ta_1'}a_1'=\left[ \begin{array}{c}
+        -2\\
+        0\\
+        -4\\
+        0\\
+    \end{array} \right] -\frac{-10}{25}\left[ \begin{array}{c}
+        1\\
+        2\\
+        2\\
+        4\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        -8/5\\
+        4/5\\
+        -16/5\\
+        8/5\\
+    \end{array} \right] \rightarrow \left[ \begin{array}{c}
+        -2\\
+        1\\
+        -4\\
+        2\\
+    \end{array} \right]
+\end{equation*}
+For column 3:
+\begin{equation*}
+    a_3'=\left[ \begin{array}{c}
+        -1\\
+        1\\
+        2\\
+        0\\
+    \end{array} \right] -\frac{5}{25}\left[ \begin{array}{c}
+        1\\
+        2\\
+        2\\
+        4\\
+    \end{array} \right] -\frac{-5}{25}\left[ \begin{array}{c}
+        -2\\
+        1\\
+        -4\\
+        2\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        -8/5\\
+        4/5\\
+        4/5\\
+        -2/5\\
+    \end{array} \right] \rightarrow \left[ \begin{array}{c}
+        -4\\
+        2\\
+        2\\
+        -1\\
+    \end{array} \right]
+\end{equation*}
+
+\end{frame}
+\begin{frame}{Orthonormal Bases and QR Decomposition}
+Finally, normalize them:
+\begin{equation*}
+    Q=\left[ \begin{matrix}
+        \frac{1}{5}&		-\frac{2}{5}&		-\frac{4}{5}\\
+        \frac{2}{5}&		\frac{1}{5}&		\frac{2}{5}\\
+        \frac{2}{5}&		-\frac{4}{5}&		\frac{2}{5}\\
+        \frac{4}{5}&		\frac{2}{5}&		-\frac{1}{5}\\
+    \end{matrix} \right]
+\end{equation*}
+
+How to find $R$? What's the size of $R$. Does $R$ have some great properties?
+
+\vspace{3pt}
+$A=QR$, $R=Q^TA$ by $Q^TQ=I$. By Gram-Schmidt, $R$ is upper triangular.
+
+\begin{equation*}
+    R=\left[ \begin{matrix}
+        5&		-2&		1\\
+        0&		4&		-1\\
+        0&		0&		2\\
+    \end{matrix} \right]
+\end{equation*}
+
+You can check by column method of matrix multiplication since the matrix $R$ is definitely a upper triangular matrix.
+
+\end{frame}
+
+\begin{frame}{Determinant of Tri-Diagonal Matrix}
+\begin{example}
+    (Final Exam, Fall 2020, 10 marks) Consider the nth order determinant:
+\begin{equation*}
+D_n\left( x,y \right) =\left| \begin{matrix}
+	x+y&		xy&		&		&		&		\\
+	1&		x+y&		xy&		&		&		\\
+	&		1&		x+y&		xy&		&		\\
+	&		&		1&		\ddots&		\ddots&		\\
+	&		&		&		\ddots&		x+y&		xy\\
+	&		&		&		&		1&		x+y\\
+\end{matrix} \right|, n\geqslant 2
+\end{equation*}
+(a) Find a recurrence relation relating $D_n(x,y)$ to $D_{n-1}(x,y)$ and $D_{n-2}(x,y)$ for $n\geq 4$.\newline
+(b) Compute the determinant $D_n(x,y)$ for all $n\geq 2$.
+\end{example}
+You should be sensitive, cofactor expansion 2 times and you can get the recurrence relation!
+\end{frame}
+\begin{frame}{Determinant of Tri-Diagonal Matrix}
+Cofactor expansion on row 1, following by cofactor expansion on column 1:
+\begin{equation*}
+D_n\left( x,y \right) =\left( x+y \right) D_{n-1}-xy\left| \begin{matrix}
+	1&		xy&		&		&		\\
+	0&		x+y&		xy&		&		\\
+	0&		1&		x+y&		\ddots&		\\
+	0&		&		\ddots&		\ddots&		xy\\
+	0&		&		&		1&		x+y\\
+\end{matrix} \right|
+\end{equation*}
+\begin{equation*}
+    D_n\left( x,y \right) =\left( x+y \right) D_{n-1}-xyD_{n-2}
+\end{equation*}
+Check $D_1\left( x,y \right)=x+y$ and $D_2\left( x,y \right)=x^2+xy+y^2$.
+
+\vspace{3pt}
+By mathematical induction, $D_n\left( x,y \right)=x^n+x^{n-1}y+...+xy^{n-1}+y^n$.
+
+\vspace{3pt}
+Mathematical induction needs 2 parts:
+\begin{enumerate}
+    \item Case $n=1$ satisfies.
+    \item If case $n=i$ satisfies, then case $n=i+1$ also satisfies.
+\end{enumerate}
+
+Please indicate you are using mathematical induction at first.
+\end{frame}
+
+\begin{frame}{Eigenvalues; Matrix Diagonalization}
+\begin{example}
+    Decide whether the following matrix $A$ is diagonalizable or not.
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            5&		-1&		-1\\
+            3&		1&		-1\\
+            4&		-2&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{example}
+
+Calculating eigenvalues is important! I will show my methods here. You can take or still using your own as long as you can get it correct.
+\begin{equation*}
+    \det \left( A-\lambda I \right) =-\left( \lambda -2 \right) ^2\left( \lambda -3 \right)=0
+\end{equation*}
+For a $n$ degree polynomial, we can find $n$ roots.
+\begin{equation*}
+    \lambda _1=\lambda _2=2,\lambda _3=3
+\end{equation*}
+$2$ is a repeated eigenvalue, with algebraic multiplicity of $2$, so we need to check the geometric multiplicity.
+\end{frame}
+
+\begin{frame}{Eigenvalues; Matrix Diagonalization}
+    \begin{example}
+        Decide whether the following matrix $A$ is diagonalizable or not.
+        \begin{equation*}
+            A=\left[ \begin{matrix}
+                5&		-1&		-1\\
+                3&		1&		-1\\
+                4&		-2&		1\\
+            \end{matrix} \right]
+        \end{equation*}
+    \end{example}
+    \begin{equation*}
+    A-2I=
+    \left[ \begin{matrix}
+        3&		-1&		-1\\
+        3&		-1&		-1\\
+        4&		-2&		-1\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        3&		-1&		-1\\
+        0&		0&		0\\
+        0&		-\frac{2}{3}&		\frac{1}{3}\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        3&		-1&		-1\\
+        0&		-\frac{2}{3}&		\frac{1}{3}\\
+        0&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+1 free column, 1 independent eigenvector for eigenvector $2$. Geometric multiplicity: 1.
+
+\vspace{3pt}
+So, we have no enough number of independent eigenvectors. The matrix is not diagonalizable.
+\end{frame}
+
+\begin{frame}{Eigenvalues; Matrix Diagonalization}
+\begin{example}
+    Find an orthogonal diagonalizing matrix for the following matrix:
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+        2&		2&		-2\\
+        2&		5&		-4\\
+        -2&		-4&		5\\
+    \end{matrix} \right]
+    \end{equation*}
+\end{example}
+
+\begin{equation*}
+    \det \left( A-\lambda I \right) =\left( 1-\lambda \right) \left( 1-\lambda \right) \left( 10-\lambda \right) =0, \lambda _1=\lambda _2=1, \lambda _3=10
+\end{equation*}
+Here I give the eigenvalues here, in the exam, please make sure the sum of your eigenvalues equals to the trace!
+\end{frame}
+
+
+
+
+\begin{frame}{Eigenvalues; Matrix Diagonalization}
+    For $\lambda = 1$:
+    \begin{equation*}
+        \left[ \begin{matrix}
+        1&		2&		-2\\
+        2&		4&		-4\\
+        -2&		-4&		4\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		-2\\
+        0&		0&		0\\
+        0&		0&		0\\
+    \end{matrix} \right] , a_1=\left[ \begin{array}{c}
+        2\\
+        0\\
+        1\\
+    \end{array} \right] , a_2=\left[ \begin{array}{c}
+        0\\
+        1\\
+        1\\
+    \end{array} \right]
+    \end{equation*}
+    For $\lambda = 10$:
+    \begin{equation*}
+        \left[ \begin{matrix}
+        -8&		2&		-2\\
+        2&		-5&		-4\\
+        -2&		-4&		-5\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        -8&		2&		-2\\
+        0&		-9/2&		-9/2\\
+        0&		0&		0\\
+    \end{matrix} \right] , a_3=\left[ \begin{array}{c}
+        -1\\
+        -2\\
+        2\\
+    \end{array} \right]
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{Eigenvalues; Matrix Diagonalization}
+    Do Gram-Schmidt:
+    \begin{equation*}
+        a_2'=\left[ \begin{array}{c}
+        0\\
+        1\\
+        1\\
+    \end{array} \right] -\frac{1}{5}\left[ \begin{array}{c}
+        2\\
+        0\\
+        1\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        -2/5\\
+        1\\
+        4/5\\
+    \end{array} \right]\rightarrow \left[ \begin{array}{c}
+        -2\\
+        5\\
+        4\\
+    \end{array} \right]
+    \end{equation*}
+    So, the diagonalizing matrix is:
+    \begin{equation*}
+        Q=\left[ \begin{matrix}
+        \frac{2}{\sqrt{5}}&		-\frac{2}{\sqrt{45}}&		-\frac{1}{3}\\
+        0&		\frac{5}{\sqrt{45}}&		-\frac{2}{3}\\
+        \frac{1}{\sqrt{5}}&		\frac{4}{\sqrt{45}}&		\frac{2}{3}\\
+    \end{matrix} \right]
+    \end{equation*}
+    (Note that the first 2 columns can be exchanged because they have the same eigenvalues and the vector in every column can be reversed.)
+\end{frame}
+
+\begin{frame}{Eigenvalues; Matrix Diagonalization}
+    \begin{example}
+    Find a unitary diagonalizing matrix for the following matrix:
+\begin{equation*}
+    A=\left[ \begin{matrix}
+	0&		1-i\\
+	1+i&		1\\
+\end{matrix} \right]
+\end{equation*}
+    \end{example}
+
+Note that every Hermitian matrix can have unitary diagonalization matrix. Gram-Schmidt for complex matrix is so difficult, so in most of cases, we should get $n$ distinct eigenvalues. Final reminder: when you verify your answer, make sure you use $v^Hv$ to calculate inner product.
+
+\end{frame}
+
+\begin{frame}{Eigenvalues; Matrix Diagonalization}
+    \begin{equation*}
+        \det \left( A-\lambda I \right) =\left| \begin{matrix}
+        -\lambda&		1-i\\
+        1+i&		1-\lambda\\
+    \end{matrix} \right|=\lambda ^2-\lambda +2=0, \lambda _1=-1, \lambda _2=2
+    \end{equation*}
+    For eigenvalue $\lambda=-1$:
+    \begin{equation*}
+        \left[ \begin{matrix}
+        1&		1-i\\
+        1+i&		2\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		1-i\\
+        0&		0\\
+    \end{matrix} \right] , x_1=\left[ \begin{array}{c}
+        -1+i\\
+        1\\
+    \end{array} \right] , q_1=\left[ \begin{array}{c}
+        \frac{-1+i}{\sqrt{3}}\\
+        \frac{1}{\sqrt{3}}\\
+    \end{array} \right]
+    \end{equation*}
+    For eigenvalue $\lambda=2$:
+    \begin{equation*}
+        \left[ \begin{matrix}
+        -2&		1-i\\
+        1+i&		-1\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        -2&		1-i\\
+        0&		0\\
+    \end{matrix} \right] , x_2=\left[ \begin{array}{c}
+        \frac{1-i}{2}\\
+        1\\
+    \end{array} \right] , q_2=\left[ \begin{array}{c}
+        \frac{1-i}{2\sqrt{3/2}}\\
+        \frac{1}{\sqrt{3/2}}\\
+    \end{array} \right]=\left[ \begin{array}{c}
+        \frac{1-i}{\sqrt{6}}\\
+        \frac{2}{\sqrt{6}}\\
+    \end{array} \right]
+    \end{equation*}
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+        0&		1-i\\
+        1+i&		-1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        \frac{-1+i}{\sqrt{3}}&		\frac{1-i}{\sqrt{6}}\\
+        \frac{1}{\sqrt{3}}&		\frac{2}{\sqrt{6}}\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        -1&		0\\
+        0&		2\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        \frac{-1+i}{\sqrt{3}}&		\frac{1-i}{\sqrt{6}}\\
+        \frac{1}{\sqrt{3}}&		\frac{2}{\sqrt{6}}\\
+    \end{matrix} \right] ^H=U\varLambda U^H
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{Quadratic Form and Positive Definiteness}
+\begin{example}
+    Consider the quadratic form
+\begin{equation*}
+    f\left( x_1,x_2,x_3 \right) =-2{x_1}^2-4{x_2}^2-5{x_3}^2+4x_1x_3
+\end{equation*}
+(a) Find the matrix $A$ for the quadratic form $f\left( x_1,x_2,x_3 \right)$.\\
+(b) Decide for or against the positive definiteness of $A$.\\
+(c) Find an orthogonal matrix $Q$ to change the variable $y=Qx$ such that the quadratic form can be converted into diagonal form. Write the final standard quadratic form down.\\
+(d) (by myself) Find an upper triangular matrix $U$ to change the variable $y=Ux$ such that the quadratic form can be converted into diagonal form. Write the final standard quadratic form down.
+\end{example}
+
+For the problems about quadratic form, always remember $LDL^T$ and $Q\varLambda Q^T$ are your weapons. Hope I can use this single problem to help you review whole section 6.2.
+\end{frame}
+
+\begin{frame}{Quadratic Form and Positive Definiteness}
+    (a) \begin{equation*}
+        A=\left[ \begin{matrix}
+        -2&		0&		2\\
+        0&		-4&		0\\
+        2&		0&		-5\\
+    \end{matrix} \right]
+    \end{equation*}
+    (b) Giving 3 negative pivots, the matrix is negative definite.
+
+    (c)
+\begin{equation*}
+    \det \left( A-\lambda I \right) =\left[ \begin{matrix}
+	-2-\lambda&		0&		2\\
+	0&		-4-\lambda&		0\\
+	2&		0&		-5-\lambda\\
+\end{matrix} \right] =-\lambda ^3-11\lambda ^2-34\lambda -24
+\end{equation*}
+\begin{equation*}
+    \det \left( A-\lambda I \right)=-\left( \lambda +6 \right) \left( \lambda +4 \right) \left( \lambda +1 \right)
+\end{equation*}
+For eigenvalue $\lambda = -1$:
+\begin{equation*}
+    \left[ \begin{matrix}
+	-1&		0&		2\\
+	0&		-3&		0\\
+	2&		0&		-4\\
+\end{matrix} \right] \Rightarrow a_1=\left[ \begin{array}{c}
+	2\\
+	0\\
+	1\\
+\end{array} \right] \Rightarrow q_1=\left[ \begin{array}{c}
+	2/\sqrt{5}\\
+	0\\
+	1/\sqrt{5}\\
+\end{array} \right]
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Quadratic Form and Positive Definiteness}
+    For eigenvalue $\lambda = -4$:
+\begin{equation*}
+\left[ \begin{matrix}
+	2&		0&		2\\
+	0&		0&		0\\
+	2&		0&		-1\\
+\end{matrix} \right] \Rightarrow a_2=\left[ \begin{array}{c}
+	0\\
+	1\\
+	0\\
+\end{array} \right] \Rightarrow q_2=\left[ \begin{array}{c}
+	0\\
+	1\\
+	0\\
+\end{array} \right]
+\end{equation*}
+For eigenvalue $\lambda = -6$:
+\begin{equation*}
+    \left[ \begin{matrix}
+	4&		0&		2\\
+	0&		2&		0\\
+	2&		0&		1\\
+\end{matrix} \right] \Rightarrow a_3=\left[ \begin{array}{c}
+	1\\
+	0\\
+	-2\\
+\end{array} \right] \Rightarrow q_3=\left[ \begin{array}{c}
+	1/\sqrt{5}\\
+	0\\
+	-2/\sqrt{5}\\
+\end{array} \right]
+\end{equation*}
+\begin{equation*}
+    A=\left[ \begin{matrix}
+	2/\sqrt{5}&		0&		1/\sqrt{5}\\
+	0&		1&		0\\
+	1/\sqrt{5}&		0&		-2/\sqrt{5}\\
+\end{matrix} \right] \left[ \begin{matrix}
+	-1&		0&		0\\
+	0&		-4&		0\\
+	0&		0&		-6\\
+\end{matrix} \right] \left[ \begin{matrix}
+	2/\sqrt{5}&		0&		1/\sqrt{5}\\
+	0&		1&		0\\
+	1/\sqrt{5}&		0&		-2/\sqrt{5}\\
+\end{matrix} \right]
+\end{equation*}
+\begin{equation*}
+    f\left( x_1,x_2,x_3 \right) =-\left( \frac{2}{\sqrt{5}}x_1+\frac{1}{\sqrt{5}}x_3 \right) ^2-4{x_2}^2-6\left( \frac{1}{\sqrt{5}}x_1-\frac{2}{\sqrt{5}}x_3 \right) ^2
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Quadratic Form and Positive Definiteness}
+(d) Find $LDL^T$ factorization for matrix $A$:
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        1&		0&		0\\
+        0&		1&		0\\
+        -1&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        -2&		0&		0\\
+        0&		-4&		0\\
+        0&		0&		-3\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		0&		-1\\
+        0&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right]
+\end{equation*}
+\begin{equation*}
+    f\left( x_1,x_2,x_3 \right) =-2\left( x_1-x_3 \right) ^2-4{x_2}^2-3{x_3}^2
+\end{equation*}
+
+The required $U$:
+\begin{equation*}
+    U=L^T=\left[ \begin{matrix}
+        1&		0&		-1\\
+        0&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+The required $Q$ in (c):
+\begin{equation*}
+    Q=\left[ \begin{matrix}
+        2/\sqrt{5}&		0&		1/\sqrt{5}\\
+        0&		1&		0\\
+        1/\sqrt{5}&		0&		-2/\sqrt{5}\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Singular Value Decomposition}
+\begin{example}
+    (2020 Fall Final Exam, 8 marks) Let $A=\left[ \begin{matrix}
+        1&		1\\
+        1&		1\\
+        1&		-1\\
+    \end{matrix} \right]$.\\
+    (a) Find all the singular values of $A$.\\
+    (b) Find the singular value decomposition of $A$, in other words. find 2 orthogonal matrices $U$ and $V$ (of suitable size) such that $A=U\varSigma V^T$.
+\end{example}
+
+$U$ is the orthogonal eigenvector matrix of $AA^T$, $V$ is the orthogonal eigenvector matrix of $A^TA$.
+
+\vspace{3pt}
+Process of SVD:
+\begin{enumerate}
+    \item Find the eigenvalues and eigenvectors (orthonormal) $A^TA$ to get $V$.
+    \item By $Av_i=\sigma_iu_i$, find $u_1$ to $u_r$.
+    \item Find an orthonormal basis for $N(A^T)$ for the rest column vectors in $U$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Singular Value Decomposition}
+\begin{equation*}
+    A^TA=\left[ \begin{matrix}
+        1&		1&		1\\
+        1&		1&		-1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		1\\
+        1&		1\\
+        1&		-1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        3&		1\\
+        1&		3\\
+    \end{matrix} \right]
+\end{equation*}
+Eigenvalues for $A^TA$: $2$, $4$, thus singular value: $\sqrt{2}, 2$.
+
+\vspace{3pt}
+You should at least get this answer correctly. And try to follow me to complete the SVD process step by step.
+
+\vspace{3pt}
+We can also get the "diagonal" non-square matrix $\varSigma$, which is as same size with $A$, with singular values on the "diagonal":
+\begin{equation*}
+\varSigma =
+    \left[ \begin{matrix}
+        \sqrt{2}&		0\\
+        0&		2\\
+        0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+\end{frame}
+\begin{frame}{Singular Value Decomposition}
+    For $A^TA$, $\lambda =2$:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		1\\
+        1&		1\\
+    \end{matrix} \right] \rightarrow a_1=\left[ \begin{array}{c}
+        1\\
+        -1\\
+    \end{array} \right] \rightarrow q_1=\left[ \begin{array}{c}
+        \frac{1}{\sqrt{2}}\\
+        -\frac{1}{\sqrt{2}}\\
+    \end{array} \right]
+\end{equation*}
+For $A^TA$, $\lambda =4$:
+\begin{equation*}
+    \left[ \begin{matrix}
+        -1&		1\\
+        1&		-1\\
+    \end{matrix} \right] \rightarrow a_1=\left[ \begin{array}{c}
+        1\\
+        1\\
+    \end{array} \right] \rightarrow q_1=\left[ \begin{array}{c}
+        \frac{1}{\sqrt{2}}\\
+        \frac{1}{\sqrt{2}}\\
+    \end{array} \right]
+\end{equation*}
+The orthogonal eigenvector matrix of $A^TA$ is:
+\begin{equation*}
+    V=\left[ \begin{matrix}
+        \frac{1}{\sqrt{2}}&		\frac{1}{\sqrt{2}}\\
+        -\frac{1}{\sqrt{2}}&		\frac{1}{\sqrt{2}}\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Singular Value Decomposition}
+    Find the corresponding column vectors in $U$:
+\begin{equation*}
+    Av_1=\left[ \begin{matrix}
+        1&		1\\
+        1&		1\\
+        1&		-1\\
+    \end{matrix} \right] \left[ \begin{array}{c}
+        \frac{1}{\sqrt{2}}\\
+        -\frac{1}{\sqrt{2}}\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        0\\
+        0\\
+        \sqrt{2}\\
+    \end{array} \right] \rightarrow u_1=\frac{1}{\sigma _1}Av_1=\left[ \begin{array}{c}
+        0\\
+        0\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+\begin{equation*}
+    Av_2=\left[ \begin{matrix}
+        1&		1\\
+        1&		1\\
+        1&		-1\\
+    \end{matrix} \right] \left[ \begin{array}{c}
+        \frac{1}{\sqrt{2}}\\
+        \frac{1}{\sqrt{2}}\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        \sqrt{2}\\
+        \sqrt{2}\\
+        0\\
+    \end{array} \right] \rightarrow u_2=\frac{1}{\sigma _2}Av_2=\left[ \begin{array}{c}
+        \frac{1}{\sqrt{2}}\\
+        \frac{1}{\sqrt{2}}\\
+        0\\
+    \end{array} \right]
+\end{equation*}
+
+Finally, add the left nullspace basis $N(A^T)$ in (make it orthonormal).
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		1&		1\\
+        1&		1&		-1\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		1&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right], u_3=\left[ \begin{array}{c}
+        \frac{1}{\sqrt{2}}\\
+        -\frac{1}{\sqrt{2}}\\
+        0\\
+    \end{array} \right]
+\end{equation*}
+
+Write them together and verify your answer. This solution is only for reference, exchange columns for all matrices or reverse the direction of any column vector is still correct.
+\end{frame}
+
+\section{Other Useful Knowledge for the Final Exam}
+\begin{frame}{Relations Between $A, B, A+B, AB, A^T, A^{-1}$}
+We have learnt some of the relations in midterm review, how are these matrices related in Chapter 4, 5, 6?
+
+\vspace{3pt}
+In Chapter 4:
+\begin{itemize}
+    \item $\det(A+B) \ne \det(A)+\det(B)$, $\det(AB) = \det(A) \det(B)$.
+    \item $\det(A^{-1}) = 1/ \det(A)$, $\det(A^T) = \det(A)$.
+    \item $\det(I_m-AB) = \det(I_n-BA)$, A is $m \times n$, B is $n \times m$.
+\end{itemize}
+
+In Chapter 5:
+\begin{itemize}
+    \item $A$ and $A^T$ share the same eigenvalues, not same eigenvectors.
+    \item $A$ has eigenvalue $\lambda$, then $A^{-1}$ has eigenvalue $1/\lambda$, same eigenvectors.
+    \item $A$ has eigenvalue $\lambda$, then $f(A)$ has eigenvalue $f(\lambda)$, same eigenvectors.
+    \item tr($A+B$) = tr($A$)+tr($B$), tr($AB$) = tr($BA$).
+    \item $A$ and $B$ are diagonalizable, $AB$ is diagonalizable when $AB=BA$.
+    \item Eigenvalues of $A+B$ $\ne$ eigenvalues of $A$ $+$ eigenvalues of $B$.
+    \item If $A\sim B$, then $A^T\sim B^T$, $A^{-1}\sim B^{-1}$, $A+A^{-1}\sim B+B^{-1}$, $A^{k}\sim B^{k}$, $A+I\sim B+I$ but $A+A^T$ is not similar to $ B+B^T$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Relations Between $A, B, A+B, AB, A^T, A^{-1}$}
+
+In Chapter 6:
+\begin{itemize}
+    \item If $A$ and $B$ are positive definite, then $A+B$ is positive definite.
+    \item If $A$ and $B$ are positive definite, $AB$ is not positive definite (unless $AB=BA$).
+    \item If $A$ is positive definite, then $A^{-1}$ is positive definite.
+    \item If $A$ is positive semidefinite, then $A+kI(k>0)$ is positive definite.
+\end{itemize}
+
+\vspace{5pt}
+Be confident when meeting those problems in the exam, you have learnt all of them. No proof is given here, try to understand instead of memorize the conclusion.
+
+\end{frame}
+
+% \begin{frame}{Linear Transformation and Basis Transformation}
+% Linear transformation is in section 2.6, while basis transformation is in section 5.6, so final exam might cover them!
+
+% \vspace{3pt}
+% I will use some problems to help you review:
+
+% \vspace{3pt}
+% \emph{Problem 1.} Suppose a linear transformation transforms $\left[ \begin{array}{c}
+%         1\\
+%         0\\
+%     \end{array} \right]$ to $\left[ \begin{array}{c}
+%         2\\
+%         1\\
+%     \end{array} \right]$, $\left[ \begin{array}{c}
+%         0\\
+%         1\\
+%     \end{array} \right]$ to $\left[ \begin{array}{c}
+%         1\\
+%         2\\
+%     \end{array} \right]$, find the representation matrix $A$.
+
+% Obviously, $A=\left[ \begin{matrix}
+% 	2&		1\\
+% 	1&		2\\
+% \end{matrix} \right]$, recall the geometric interpretation in section 2.6.
+
+% \vspace{3pt}
+% \emph{Problem 1*.} Suppose matrix $A$ represents a linear transformation, $A\alpha_1=2\alpha_1+\alpha_2$, $A\alpha_2=\alpha_1+2\alpha_2$, find matrix $A$.
+
+% \vspace{3pt}
+% They are asking the same question, if you can't understand, make $\alpha_1=\hat{i}, \alpha_2=\hat{j}$.
+% \end{frame}
+
+% \begin{frame}{Linear Transformation and Basis Transformation}
+% \emph{Problem 2.} Suppose a basis transformation change basis $\left[ \begin{array}{c}
+%         1\\
+%         0\\
+%     \end{array} \right]$ to $\left[ \begin{array}{c}
+%         2\\
+%         1\\
+%     \end{array} \right]$, $\left[ \begin{array}{c}
+%         0\\
+%         1\\
+%     \end{array} \right]$ to $\left[ \begin{array}{c}
+%         1\\
+%         2\\
+%     \end{array} \right]$, find the representation matrix $B$.
+
+%     \vspace{3pt}
+% Still remember the transition matrix? $x=By$.
+% \begin{equation*}
+%     \left[ \begin{array}{c}
+%         1\\
+%         0\\
+%     \end{array} \right] =B\left[ \begin{array}{c}
+%         2\\
+%         1\\
+%     \end{array} \right] ,\left[ \begin{array}{c}
+%         0\\
+%         1\\
+%     \end{array} \right] =B\left[ \begin{array}{c}
+%         1\\
+%         2\\
+%     \end{array} \right] \rightarrow \left[ \begin{matrix}
+%         1&		0\\
+%         0&		1\\
+%     \end{matrix} \right] =B\left[ \begin{matrix}
+%         2&		1\\
+%         1&		2\\
+%     \end{matrix} \right]
+% \end{equation*}
+% So, $B=\left[ \begin{matrix}
+%     2&		1\\
+%     1&		2\\
+% \end{matrix} \right]^{-1}$, which is the inverse of $A$ in the previous slide.
+
+% \vspace{3pt}
+% Actually, the inverse comes naturally, think that we adopt linear transformation $A$ firstly, then we do the basis transformation $B$, that will result in no change in coordinates of vectors! Therefore we can get:
+% \begin{equation*}
+%     BA=AB=I
+% \end{equation*}
+% \end{frame}
+
+% \begin{frame}{Linear Transformation and Basis Transformation}
+% \emph{Problem 2*.} Let $\xi _1, \xi _2, \xi _3$ be a basis of $\mathbb{R}^3$, and let $\eta _1=\xi _1$, $\eta _2=\xi _1+\xi _2$, $\eta _3=\xi _3-\xi _1$. Then what is the matrix representing identity map in the basis $\eta _1, \eta _2, \eta _3$?
+
+% \vspace{3pt}
+% You may feel uneasy when seeing this problem... But, if it is a linear transformation problem that transforms $\xi$ to $\eta$, can you write that matrix?
+
+% \begin{equation*}
+%     A=\left[ \begin{matrix}
+%         1&		1&		-1\\
+%         0&		1&		0\\
+%         0&		0&		1\\
+%     \end{matrix} \right]
+% \end{equation*}
+
+% So the basis transformation should be the inverse:
+% \begin{equation*}
+%     A^{-1}=\left[ \begin{matrix}
+%         1&		1&		-1\\
+%         0&		1&		0\\
+%         0&		0&		1\\
+%     \end{matrix} \right]^{-1}
+% \end{equation*}
+% \end{frame}
+
+
+\begin{frame}{Eigenvalues of Common Matrices}
+For common matrices, here I summarize the eigenvalues of them.
+\begin{itemize}
+    \item For Hermitian matrices $A^H=A$, the eigenvalues are all real.
+    \item For skew-Hermitian matrices $A^H=-A$, the eigenvalues are all imaginary.
+    \item For unitary matrices $U^HU=I$, the eigenvalues should satisfy $|\lambda|=1$.
+    \item For rank-1 matrices $A=uv^T$, the eigenvalues are 0 with geometric multiplicity of $n-1$, and $u^Tv$ with geometric multiplicity of 1. Mostly diagonalizable unless $u^Tv=0$ (orthogonal).
+    \item For Hermitian matrices $A^HA, AA^H$, the eigenvalues are all real and satisfy $\lambda \geq 0$.
+    \item For projection matrices $P=A(A^TA)^{-1}A^T$, the eigenvalues are 0 with geometric multiplicity of $n-r$, and 1 with geometric multiplicity of $r$.
+    \item For idempotent matrices $A^2=A$, the eigenvalues are 0 with geometric multiplicity of $n-r$, and 1 with geometric multiplicity of $r$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Properties of Idempotent Matrix}
+For idempotent matrices $A^2=A$, the eigenvalues are 0 with geometric multiplicity of $n-r$, and 1 with geometric multiplicity of $r$.
+
+\vspace{3pt}
+Idempotent matrix is diagonalizable, it has $n$ independent eigenvectors and its rank equals its trace.
+
+\vspace{5pt}
+
+\textbf{Proof:}
+\begin{equation*}
+    A\left( A-I \right) =0
+\end{equation*}
+
+\begin{itemize}
+    \item If $AB=0$, $rank(A)+rank(B)\leq n$.
+    \item $rank(A)+rank(B)\geq  rank(A+B)$.
+\end{itemize}
+
+\begin{equation*}
+    n=r\left( I \right) \leqslant r\left( A \right) +r\left( A-I \right) \leqslant n
+\end{equation*}
+
+The sum of geometric multiplicity is $n$, giving $n$ independent eigenvectors, which makes $A$ diagonalizable. $A$ can only have eigenvalues 0 and 1, with geometric multiplicity $n-r$, $r$.
+\end{frame}
+
+\begin{frame}{Geometry with Positive Definiteness}
+    You are familiar with 2-dimensional cases:
+\begin{enumerate}
+    \item For positive definite quadratic form $f(x,y)$, $f(x,y)=1$ produces an ellipse.
+    \item For indefinite quadratic form $f(x,y)$, $f(x,y)=1$ produces a hyperbola.
+\end{enumerate}
+
+Make sure you can understand the 2-D cases, or you may feel uneasy with 3-D cases.
+
+\vspace{3pt}
+3-dimensional cases:
+\begin{enumerate}
+    \item For positive definite quadratic form $f(x,y,z)$, $f(x,y,z)=1$ produces an ellipsoid.
+    \item For indefinite quadratic form $f(x,y,z)$ that has 2 positive eigenvalues and 1 negative eigenvalues, $f(x,y,z)=1$ produces a hyperboloid of one sheet.
+    \item For indefinite quadratic form $f(x,y,z)$ that has 1 positive eigenvalues and 2 negative eigenvalues, $f(x,y,z)=1$ produces a hyperboloid of two sheets.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{A Brief Proof for $\det(I_m-AB)=\det(I_n-BA)$}
+Recall the rank relations we learnt in Lecture 6 Midterm Review. Proof about determinants can also use similar method to solve. Row and column operations (without exchanging them) will not change the determinants.
+
+\vspace{3pt}
+And we have the following formula:
+
+\begin{equation*}
+    \det \left[ \begin{matrix}
+        A&		C\\
+        0&		B\\
+    \end{matrix} \right] =\det A\cdot \det B
+\end{equation*}
+
+That is by Big Formula! Then we do row exchanges in 2 ways:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        I_m&		A\\
+        B&		I_n\\
+    \end{matrix} \right] \xrightarrow{c2=c2-Ac1}\left[ \begin{matrix}
+        I_m&		0\\
+        B&		I_n-BA\\
+    \end{matrix} \right]
+\end{equation*}
+\begin{equation*}
+    \left[ \begin{matrix}
+        I_m&		A\\
+        B&		I_n\\
+    \end{matrix} \right] \xrightarrow{r1=r1-Ar2}\left[ \begin{matrix}
+        I_m-AB&		0\\
+        B&		I_n\\
+    \end{matrix} \right]
+\end{equation*}
+
+All these matrices have the same determinants. Then we can get:
+\begin{equation*}
+    \det \left( I_m \right) \det \left( I_n-BA \right) =\det \left( I_n \right) \det \left( I_m-AB \right)
+\end{equation*}
+\end{frame}
+
+\begin{frame}{All Finished}
+    \begin{LARGE}
+
+    \begin{center}
+        Hope you can all do well in the final exam!
+    \end{center}
+\end{LARGE}
+
+\vspace{30pt}
+If you have any questions, please feel free to ask me or discuss in the QQ group. We will have query class at Week 17, good luck!
+
+\end{frame}
+
+\end{document}

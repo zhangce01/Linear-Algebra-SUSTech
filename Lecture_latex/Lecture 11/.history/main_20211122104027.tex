@@ -1,0 +1,203 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Computing Techniques of Determinants}
+
+\subtitle{Lecture 9}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.11.23] % (optional)
+{2021.11.23}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{A Brief Review of Last Lecture}
+\begin{frame}{Last Lecture, We Discuss\dots}
+Four parts in last lecture:
+    \begin{enumerate}
+        \item Overview to Next Half Semester\\
+        deteminant; eigenvalues and eigenvectors; positive definiteness
+        \item Orthonormal Vectors and Orthogonal Matrices\\
+        orthonormal vectors, orthogonal matrices, convenience of orthogonal matrices
+        \item Gram-Schmidt and QR Decomposition\\
+        analysis of 2-D case, 3-D case, and deduction of QR decomposition
+        \item Introduction and Properties of Determinant\\
+        geometrical view and part of the properties and computation of determinant
+    \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Gram-Schmidt}
+\textbf{Algorithm Summary:}
+
+\vspace{3pt}
+Gram's Part:
+\begin{itemize}
+    \item Accept $\mathbf{a}$ to the orthogonal vector set.
+    \begin{equation*}
+        \mathbf{A}=\mathbf{a}
+    \end{equation*}
+    \item Subtract $\mathbf{A}$ component from $\mathbf{b}$ and add to the orthogonal vector set.
+    \begin{equation*}
+        \mathbf{B}=\mathbf{b}-\frac{\mathbf{b}^T\mathbf{A}}{\mathbf{A}^T\mathbf{A}}\mathbf{A}
+    \end{equation*}
+\end{itemize}
+
+Schmidt's Part:
+\begin{itemize}
+    \item Normalize the vectors in orthogonal vector set.
+    \begin{equation*}
+        \mathbf{A}=\frac{\mathbf{A}}{||\mathbf{A}||}, \mathbf{B}=\frac{\mathbf{B}}{||\mathbf{B}||}
+    \end{equation*}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{QR Decomposition}
+Experts in Linear Algebra will not stop here, they will go ahead to find the connection between $Q$ and $A$. That is the same with $LU$ decomposition, we find the matrix $L$ after we know how to find $U$. Now, we are going to find the connection $R$.
+
+\begin{equation*}
+    A=QR=\left( QQ^T \right) A\Rightarrow R=Q^TA
+\end{equation*}
+\begin{equation*}
+    \left[ \begin{matrix}
+        |&		|&		|\\
+        a&		b&		c\\
+        |&		|&		|\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        |&		|&		|\\
+        q_1&		q_2&		q_3\\
+        |&		|&		|\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        {q_1}^Ta&		{q_1}^Tb&		{q_1}^Tc\\
+        {q_2}^Ta&		{q_2}^Tb&		{q_2}^Tc\\
+        {q_3}^Ta&		{q_3}^Tb&		{q_3}^Tc\\
+    \end{matrix} \right]
+\end{equation*}
+
+In the Gram-Schmidt process, we can guarantee that ${q_2}^Ta=0$, why?
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        |&		|&		|\\
+        a&		b&		c\\
+        |&		|&		|\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        |&		|&		|\\
+        q_1&		q_2&		q_3\\
+        |&		|&		|\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        {q_1}^Ta&		{q_1}^Tb&		{q_1}^Tc\\
+        0&		{q_2}^Tb&		{q_2}^Tc\\
+        0&		0&		{q_3}^Tc\\
+    \end{matrix} \right]
+\end{equation*}
+
+$R$ is upper triangular! QR decomposition complete. A little bit complex...
+\end{frame}
+
+\begin{frame}{Properties of Determinant}
+Now, let's consider the following properties for determinants geometrically.
+\begin{itemize}
+    \item $\left| \begin{matrix}
+        1&		0\\
+        0&		1\\
+    \end{matrix} \right|=1, \left| \begin{matrix}
+        0&		1\\
+        1&		0\\
+    \end{matrix} \right|=-1$
+    \item $\left| \begin{matrix}
+        ta&		b\\
+        tc&		d\\
+    \end{matrix} \right|=t\left| \begin{matrix}
+        a&		b\\
+        c&		d\\
+    \end{matrix} \right|$
+    \item Linearly dependent columns make the determinant 0
+    \item $\det U=\left| \begin{matrix}
+        d_1&		\ast&		\ast&		\cdots&		\ast\\
+        0&		d_2&		\ast&		\cdots&		\ast\\
+        0&		0&		d_3&		\cdots&		\ast\\
+        \vdots&		\vdots&		\vdots&		\ddots&		\ast\\
+        0&		0&		0&		0&		d_n\\
+    \end{matrix} \right|=d_1d_2d_3\cdots d_n$
+    \item $\det AB=\left( \det A \right) \left( \det B \right)$
+\end{itemize}
+
+We know all of them without any kinds of computations!
+\end{frame}
+
+
+
+
+
+
+
+
+
+\section{Orthonormal Vectors and Orthogonal Matrices}
+
+
+
+\end{document}

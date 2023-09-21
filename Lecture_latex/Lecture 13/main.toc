@@ -1,0 +1,3 @@
+\beamer@sectionintoc {1}{An Overview to Final Exam}{3}{0}{1}
+\beamer@sectionintoc {2}{Most Important: High-Frequency Problems}{9}{0}{2}
+\beamer@sectionintoc {3}{Other Useful Knowledge for the Final Exam}{35}{0}{3}

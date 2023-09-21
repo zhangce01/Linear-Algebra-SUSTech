@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{Orthogonal Vectors and Subspaces}{3}{0}{1}
+\beamer@sectionintoc {2}{Projections onto Lines}{7}{0}{2}
+\beamer@sectionintoc {3}{Least Squares}{10}{0}{3}
+\beamer@sectionintoc {4}{Interesting Applications of Linear Algebra}{16}{0}{4}

@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{A Brief Review of Last Lecture}{3}{0}{1}
+\beamer@sectionintoc {2}{Properties of Determinants}{8}{0}{2}
+\beamer@sectionintoc {3}{Computations of Determinants}{11}{0}{3}
+\beamer@sectionintoc {4}{Applications of Determinants}{16}{0}{4}
+\beamer@sectionintoc {5}{Topic: Techniques for Computing Determinants}{19}{0}{5}

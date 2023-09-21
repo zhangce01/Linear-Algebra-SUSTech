@@ -1,0 +1,763 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Row Exchanges; Inverses and Vector Spaces}
+
+\subtitle{Lecture 2}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.9.28] % (optional)
+{2021.9.28}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{A Brief Review of Last Lecture}
+\begin{frame}{Last Lecture, We Discuss\dots}
+Five parts in last lecture:
+    \begin{enumerate}
+        \item Introduction to the Whole Course
+        \item The Geometry of Linear Equations\\
+        row picture \& column picture
+        \item Gaussian Elimination and Back-Substitution\\
+        nonsingular \& singular cases
+        \item Matrix Multiplication\\
+        row-col, row, column, col-row \& block method
+        \item $LU$ Factorization\\
+        elimination matrices \& process of $LU$ factorization
+    \end{enumerate}
+
+Which one is the most impressive to you?
+\end{frame}
+
+\begin{frame}{Matrix Multiplication}
+\begin{examples}
+Compute the matrix multiplication.
+    \begin{equation*}
+        \left[ \begin{matrix}
+            3&		-1&       1\\
+            1&		 0&       1\\
+            0&		 1&       2\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		 0&       1\\
+            1&		-1&      -1\\
+            1&		 2&       1\\
+        \end{matrix} \right] =\left[ \begin{matrix}
+            3&		 3&       5\\
+            2&		 2&       2\\
+            3&		 3&       1\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{examples}
+
+\begin{enumerate}
+    \item The regular (row-col) way. (Row of A) multiply (Column of B).
+    \item The row way. Linear combination of (Row of B).
+    \item The column way. Linear combination of (Column of A).
+    \item The col-row way. (Column of A) multiply (Row of B).
+\end{enumerate}
+
+There is also an additional method: block method.
+
+\vspace{3pt}
+Method 2 \& 3 are my favourite, and they are also important in this lecture. Let's have a brief review.
+\end{frame}
+
+
+\section{Row Exchanges and PA=LU Factorization}
+
+\begin{frame}{Singular Cases for Gauss Elimination}
+Recall that there are 2 singular cases when using the method of Gauss elimination, they can not be expressed as $A=LU$ factorization! But, the temporal failure can be fixed by row exchanges.
+
+\vspace{3pt}
+Do Gauss elimination (with the help of row exchanges) for the matrix below:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        3&		6&		1&		12\\
+        0&		4&		1&		2\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        0&		0&		-2&		6\\
+        0&		4&		1&		2\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        0&		4&		1&		2\\
+        0&		0&		-2&		6\\
+    \end{matrix} \right]
+\end{equation*}
+
+Write the elimination matrices:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        -3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+Review: Which rule for matrix multiplication can help you understand the row operation above?
+
+\end{frame}
+
+\begin{frame}{Row Exchanges in Permutation Matrix}
+Step 2 is to exchange Row 2 and Row 3, still using the row method for matrix multiplication, which matrix can express the process of row exchanges?
+
+\begin{equation*}
+    A\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+This matrix is to exchange the rows, so we call it permutation matrix $P$.
+
+\begin{equation*}
+    P\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Row Exchanges in Permutation Matrix}
+The permutation matrix $P$:
+
+\begin{equation*}
+    P=\left[ \begin{matrix}
+        1&		0&		0\\
+        0&		0&		1\\
+        0&		1&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{itemize}
+    \item For "1" at position $(1,1)$: (Row 1) $\rightarrow$ (Row 1).
+    \item For "1" at position $(2,3)$: (Row 3) $\rightarrow$ (Row 2).
+    \item For "1" at position $(3,2)$: (Row 2) $\rightarrow$ (Row 3).
+\end{itemize}
+
+One of the properties of permutation matrix $P$ is that it can only have one "1" in each row and column. Why?
+
+\vspace{3pt}
+After row exchanges, no rows before will disappear and no rows after will be all empty.
+\end{frame}
+
+\begin{frame}{Why $P^T=P^{-1}$?}
+Why $P^T=P^{-1}$? A direct explanation:
+\vspace{3pt}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{equation*}
+    P=\left[ \begin{matrix}
+        0&		1&		0&		0\\
+        0&		0&		1&		0\\
+        0&		0&		0&		1\\
+        1&		0&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{itemize}
+    \item 1 at $(1,2)$: (Row 2) $\rightarrow$ (Row 1).
+    \item 1 at $(2,3)$: (Row 3) $\rightarrow$ (Row 2).
+    \item 1 at $(3,4)$: (Row 4) $\rightarrow$ (Row 3).
+    \item 1 at $(4,1)$: (Row 1) $\rightarrow$ (Row 4).
+\end{itemize}
+
+\column{0.5\textwidth}
+\begin{equation*}
+    P^T=\left[ \begin{matrix}
+        0&		0&		0&		1\\
+        1&		0&		0&		0\\
+        0&		1&		0&		0\\
+        0&		0&		1&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{itemize}
+    \item 1 at $(2,1)$: (Row 1) $\rightarrow$ (Row 2).
+    \item 1 at $(3,2)$: (Row 2) $\rightarrow$ (Row 3).
+    \item 1 at $(4,3)$: (Row 3) $\rightarrow$ (Row 4).
+    \item 1 at $(1,4)$: (Row 4) $\rightarrow$ (Row 1).
+\end{itemize}
+\end{columns}
+
+\vspace{7pt}
+Exchange A and B then exchange B and A will result in exchange nothing.
+
+\vspace{3pt}
+Start to feel the beauty of multipling matrices by row?
+\end{frame}
+
+
+\begin{frame}{Expressing Row Exchanges using $PA=LU$}
+The process of Gauss elimination and row exchanges can be expressed as:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		0&		1\\
+        0&		1&		0\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		0&		0\\
+        -3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    PE_{21}A=U
+\end{equation*}
+
+Can we do row exchanges at the beginning?
+\begin{equation*}
+    EPA=U
+\end{equation*}
+
+Then, left multiply $E^{-1}$ on both sides:
+\begin{equation*}
+    PA=LU
+\end{equation*}
+\end{frame}
+
+\begin{frame}{$PA=LU$ Factorization}
+\begin{example}
+    Do $PA=LU$ factorization for matrix $A$:
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            1&		2&		1\\
+            3&		6&		1\\
+            0&		4&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{example}
+\textbf{Solution:}
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] \xrightarrow[l_{21}=3]{r2-3r1}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right] \xrightarrow{r2\leftrightarrow r3}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+Restart the process and do row exchanges firstly.
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] \xrightarrow{r2\leftrightarrow r3}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        3&		6&		1\\
+    \end{matrix} \right] \xrightarrow[l_{31}=3]{r3-3r1}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{$PA=LU$ Factorization}
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		0&		1\\
+        0&		1&		0\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		0&		0\\
+        0&		1&		0\\
+        3&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    PA=LU
+\end{equation*}
+
+Remember to verify the answer! Do 2 multiplications and check if they are the same.
+
+Suppose we do not do row exchanges at first, what will happen\dots
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		0&		1\\
+        0&		1&		0\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		0&		0\\
+        3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right] ???
+\end{equation*}
+
+So, if you find a matrix need to have row operations, please restart and do them first. That is the only way to avoid mistakes!
+\end{frame}
+
+\section{Inverse of Matrix}
+\begin{frame}{Definition of Inverse}
+\begin{theorem}
+An $n \times n$ matrix $A$ is said to be invertible if there is an $n \times n$ matrix $B$ such that
+\begin{equation*}
+    AB=BA=I
+\end{equation*}
+In this case, $B$ is called an \alert{inverse} of $A$.
+\end{theorem}
+
+Have you ever thought about the non-square cases? Can non-square matrices have inverse?
+
+No, matrix size determines that! But...
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1\\
+        0&		2&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		-1\\
+        0&		-1\\
+        0&		3\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		0\\
+        0&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+Well, non-square matrices may have left inverses and right inverses.
+\end{frame}
+
+\begin{frame}{Existence of Inverse}
+A very important problem is: does a particular matrix have an inverse?
+
+\vspace{3pt}
+I say that the matrix $A$ below cannot have an inverse:
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        1&		2\\
+        3&		6\\
+    \end{matrix} \right]
+\end{equation*}
+Who can give me a reason to let me believe that?
+
+If you have learnt something about determinant, you can find that
+\begin{equation*}
+    \left| \begin{matrix}
+        1&		2\\
+        3&		6\\
+    \end{matrix} \right|=6-6=0
+\end{equation*}
+
+The determinant is 0 so that the matrix is not invertible.
+
+\vspace{3pt}
+Can we use the knowledge in Chapter 1 to explain it?
+\end{frame}
+
+\begin{frame}{Existence of Inverse}
+According to definition, if it has an inverse, there exist a matrix $B$ to let $AB=I$, thus, $B$ is the inverse of $A$.
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2\\
+        3&		6\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        x&		\cdot\\
+        y&		\cdot\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		0\\
+        0&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+Recall the column method of matrix multiplication:
+\begin{equation*}
+    x\left[ \begin{array}{c}
+        1\\
+        3\\
+    \end{array} \right] +y\left[ \begin{array}{c}
+        2\\
+        6\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        1\\
+        0\\
+    \end{array} \right]
+\end{equation*}
+
+It may lead you to think about column picture.
+
+\vspace{3pt}
+Is it possible? Linear combinations of the 2 column vectors are still on the straight line!
+
+\vspace{3pt}
+Therefore, the inverse cannot exist for this matrix $A$.
+\end{frame}
+
+\begin{frame}{Existence of Inverse}
+I have to say I prefer to use another interpretation to explain that.
+
+\begin{theorem}
+Suppose there is a nonzero vector $\mathbf{x}$ such that $A\mathbf{x}=0$, then $A$ cannot have an inverse.
+\end{theorem}
+
+Maybe you all know that before, but why?
+
+For this matrix $A$, find a nonzero solution for $A\mathbf{x}=0$:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2\\
+        3&		6\\
+    \end{matrix} \right] \left[ \begin{array}{c}
+        2\\
+        -1\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        0\\
+        0\\
+    \end{array} \right]
+\end{equation*}
+
+Suppose there is an inverse to make $A^{-1}A=I$, multiply $A^{-1}$ on both sides:
+\begin{equation*}
+    A\mathbf{x}=0\rightarrow A^{-1}A\mathbf{x}=A^{-1}0\rightarrow \mathbf{x}=0
+\end{equation*}
+
+Well, but there is a nonzero solution (2,-1) for matrix $A$! So matrix $A$ cannot have an inverse.
+\end{frame}
+
+\begin{frame}{Calculation of Inverse}
+Another important problem: how to find the inverse $A^{-1}$ for invertible matrix $A$?
+
+\vspace{3pt}
+Gauss-Jordan method, right? But how does it come?
+
+\vspace{3pt}
+You may think up with this method:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2\\
+        3&		7\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        a&		c\\
+        b&		d\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		0\\
+        0&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+To find the inverse, we only need to find the 4 unknowns $a,b,c,d$.
+
+\vspace{3pt}
+Use the column method of matrix multiplication to think, actually we only need to find the solutions for the following 2 linear equation systems:
+
+\vspace{6pt}
+\begin{columns}
+    \column{0.5\textwidth}
+    \begin{equation*}
+        \left[ \begin{matrix}
+            1&		2\\
+            3&		7\\
+        \end{matrix} \right] \left[ \begin{array}{c}
+            a\\
+            b\\
+        \end{array} \right] =\left[ \begin{array}{c}
+            1\\
+            0\\
+        \end{array} \right]
+    \end{equation*}
+
+    \column{0.5\textwidth}
+    \begin{equation*}
+        \left[ \begin{matrix}
+            1&		2\\
+            3&		7\\
+        \end{matrix} \right] \left[ \begin{array}{c}
+            c\\
+            d\\
+        \end{array} \right] =\left[ \begin{array}{c}
+            0\\
+            1\\
+        \end{array} \right]
+    \end{equation*}
+\end{columns}
+
+\vspace{6pt}
+Then, the problem returns to Gauss elimination!
+\end{frame}
+
+\begin{frame}{Calculation of Inverse}
+Let's solve one of the systems together.
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2\\
+        3&		7\\
+    \end{matrix} \right] \left[ \begin{array}{c}
+        a\\
+        b\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        1\\
+        0\\
+    \end{array} \right]
+\end{equation*}
+
+Augmented matrix:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		7&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+Solve this equation system by Gauss elimination:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		7&		0\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1\\
+        0&		1&		-3\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		0&		\mathbf{7}\\
+        0&		1&		\mathbf{-3}\\
+    \end{matrix} \right]
+\end{equation*}
+
+The solution is $\left[ \begin{array}{c}
+	a\\
+	b\\
+\end{array} \right] =\left[ \begin{array}{c}
+	7\\
+	-3\\
+\end{array} \right] $ as the last column displays.
+
+\vspace{3pt}
+Then we calculate another equation system\dots
+
+
+\end{frame}
+
+\begin{frame}{Calculation of Inverse}
+At this time, Jordan appears, he said to Gauss: "Why not solve 2 equations at once?"
+
+\vspace{3pt}
+The total augmented matrix is:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1&		0\\
+        3&		7&		0&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+Then, if we eliminate the coefficient to $I$, the solution of 2 equation systems (inverse of $A$) will appear in the last 2 columns!
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1&		0\\
+        3&		7&		0&		1\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1&		0\\
+        0&		1&		-3&		1\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		0&		7&		-2\\
+        0&		1&		-3&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+So, we can finally get that
+\begin{equation*}
+    A^{-1}=\left[ \begin{matrix}
+        7&		-2\\
+        -3&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+That is the Gauss-Jordan method, and I believe you can have a better understanding on it now.
+\end{frame}
+
+\begin{frame}{Additional: Block Method to Find the Inverse}
+\begin{example}
+    Find the inverse of this matrix, given that $A,B,C$ are all invertible matrices. Please express the result in matrix form.
+    \begin{equation*}
+        P=\left[ \begin{matrix}
+            A&		0\\
+            B&		C\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{example}
+
+\textbf{Solution:}
+
+Core idea: Treat all block matrices as a single entry.
+\begin{equation*}
+    \left[ \begin{matrix}
+        A&		0&		I&		0\\
+        B&		C&		0&		I\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        A&		0&		I&		0\\
+        0&		C&		-BA^{-1}&		I\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        I&		0&		A^{-1}&		0\\
+        0&		I&		-C^{-1}BA^{-1}&		C^{-1}\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    P^{-1}=\left[ \begin{matrix}
+        A^{-1}&		0\\
+        -C^{-1}BA^{-1}&		C^{-1}\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\section{Vector Spaces and Subspaces}
+\begin{frame}{Vector Spaces}
+Once the vector in a space can have addition and scalar multiplication, and the result is still in this space, then the space can be called vector spaces.
+
+Some standard vector spaces:
+\begin{itemize}
+    \item $\mathbb{R}^1$: x axis. 1 dimensional.
+    \item $\mathbb{R}^2$: x-y plane. 2 dimensional.
+    \item $\mathbb{R}^3$: x-y-z space. 3 dimensional.
+\end{itemize}
+
+\begin{example}
+    Are these sets below vector spaces? Explain it.
+    \begin{enumerate}
+        \item $\mathbb{R}^3$ space without the origin.
+        \item $\mathbb{R}^2$ plane without the third quadrant.
+        \item $\mathbb{R}^{2021}$ space.
+        \item $\mathbb{C}^2$ space.
+    \end{enumerate}
+\end{example}
+\end{frame}
+
+\begin{frame}{Subspaces}
+\begin{definition}
+    If $S$ in a nonempty subset of a vector space $V$, and $S$ satisfies the conditions: linear combinations stay in the subspace.
+    \begin{itemize}
+        \item $c\mathbf{u}\in S$ whenever $\mathbf{u}\in S$ for any scalar c
+        \item $\mathbf{u} + \mathbf{v}\in S$ whenever $\mathbf{u}\in S$ and $\mathbf{v}\in S$
+    \end{itemize}
+    Then $S$ is said to be a subspace of $V$.
+\end{definition}
+
+To say it in human language, if a space $S$ is a closed under linear combinations and it is in a vector space $V$, then $S$ is a subspace of $V$.
+
+\vspace{3pt}
+Remember that the origin should exist in every subspace or vector space!
+
+\vspace{3pt}
+It is an abstract concept but no need to worry about that. You will understand it later.
+\end{frame}
+
+
+\end{document}

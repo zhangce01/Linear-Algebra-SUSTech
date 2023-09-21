@@ -1,0 +1,8 @@
+\beamer@sectionintoc {1}{Introduction to the Whole Course}{3}{0}{1}
+\beamer@sectionintoc {2}{The Geometry of Linear Equations}{11}{0}{2}
+\beamer@sectionintoc {3}{Gaussian Elimination and Back-Substitution}{15}{0}{3}
+\beamer@sectionintoc {4}{Matrix Multiplication}{23}{0}{4}
+\beamer@sectionintoc {5}{LU Factorization}{26}{0}{5}
+\beamer@sectionintoc {6}{Row Exchanges and PA=LU Factorization}{32}{0}{6}
+\beamer@sectionintoc {7}{Inverse of Matrix}{40}{0}{7}
+\beamer@sectionintoc {8}{Vector Spaces and Subspaces}{49}{0}{8}

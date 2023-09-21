@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{A Brief Review of Last Lecture}{3}{0}{1}
+\beamer@sectionintoc {2}{Topic: Techniques for Computing Determinants - Continued}{11}{0}{2}
+\beamer@sectionintoc {3}{Eigenvalues and Eigenvectors}{27}{0}{3}
+\beamer@sectionintoc {4}{Diagonalization of Matrix}{35}{0}{4}
+\beamer@sectionintoc {5}{Important Applications of Eigenvalues and Eigenvectors}{42}{0}{5}

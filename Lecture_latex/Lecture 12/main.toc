@@ -1,0 +1,3 @@
+\beamer@sectionintoc {1}{A Brief Review of Last Lecture}{3}{0}{1}
+\beamer@sectionintoc {2}{Positive Definiteness}{9}{0}{2}
+\beamer@sectionintoc {3}{Singular Value Decomposition}{23}{0}{3}

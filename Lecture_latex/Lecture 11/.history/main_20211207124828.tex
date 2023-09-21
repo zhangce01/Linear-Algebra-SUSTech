@@ -1,0 +1,643 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Matrix Diagonalization; Complex Matrix}
+
+\subtitle{Lecture 11}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.12.7] % (optional)
+{2021.12.7}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{A Brief Review of Last Lecture}
+\begin{frame}{Last Lecture, We Discuss\dots}
+Three parts in last lecture:
+    \begin{enumerate}
+        \item Computing Techniques of Determinants\\
+        review for type 1-5; new: type 6
+        \item Eigenvalues and Eigenvectors\\
+        difinition; meaning of "eigen"; geometrical interpretation; calculation; two formulas: trace and determinant
+        \item Diagonalization of Matrix\\
+        deduction; example; a deeper view; special: symmetric matrix
+        \item Important Applications of Eigenvalues and Eigenvectors\\
+        Google: PageRank algorithm; principle component analysis(PCA)
+    \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Type 6: In-Order Matrix}
+    Compute the nth order determinant:
+    \begin{equation*}
+        \det A=\left| \begin{matrix}
+        1+{x_1}^2&		x_1x_2&		\cdots&		x_1x_n\\
+        x_2x_1&		1+{x_2}^2&		\cdots&		x_2x_n\\
+        \vdots&		\vdots&		\ddots&		\vdots\\
+        x_nx_1&		x_nx_2&		\cdots&		1+{x_n}^2\\
+    \end{matrix} \right|
+    \end{equation*}
+
+    \begin{equation*}
+        \det A=\det \left( I+\left[ \begin{array}{c}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n\\
+        \end{array} \right] \left[ \begin{matrix}
+            x_1&		x_2&		\cdots&		x_n\\
+        \end{matrix} \right] \right)
+    \end{equation*}
+
+Hint: Using eigenvalue formula for determinants:
+\begin{equation*}
+\lambda _1\lambda _2\cdots \lambda _n=\det A
+\end{equation*}
+Eigenvalues are $1, 1+u^Tu$. Multiply all of them, $\det A=1+\sum_{i = 1}^{n} x_i^2 $.
+\end{frame}
+
+\begin{frame}{Understanding Eigenvalues in Geometry}
+    Find the eigenvalues and eigenvectors for these matrix.
+
+    \begin{enumerate}
+        \item $\left[ \begin{matrix}
+            1&		0\\
+            0&		1\\
+        \end{matrix} \right]$, the identity matrix (how many eigenvectors?)
+        \item $\left[ \begin{matrix}
+            1&		1\\
+            0&		1\\
+        \end{matrix} \right]$, "shear" matrix
+        \item $\left[ \begin{matrix}
+            1&		0\\
+            0&		0\\
+        \end{matrix} \right]$, projection (onto $x$ axis) matrix
+        \item $\left[ \begin{matrix}
+            0&		0\\
+            0&		0\\
+        \end{matrix} \right]$, zero matrix
+        \item A challenging one: $A=uu^T$, a rank 1 matrix\\
+        Hint: you may start with projection (onto $u$) matrix
+    \end{enumerate}
+    \end{frame}
+
+\begin{frame}{Two Formulas: Trace and Determinant}
+$\det(A-\lambda I)$ is a polynomial of $\lambda$. For an $n\times n$ matrix, $\det(A-\lambda I)$ is a $n$ degree equation with only 1 unknown.
+
+\vspace{3pt}
+Suppose $n=2$:
+\begin{equation*}
+    \left| \begin{matrix}
+        x_{11}-\lambda&		x_{12}\\
+        x_{21}&		x_{22}-\lambda\\
+    \end{matrix} \right|=\lambda ^2-\left( x_{11}+x_{22} \right) \lambda +\left( x_{11}x_{22}-x_{12}x_{21} \right)
+\end{equation*}
+
+Adopt Vieta's Theorem:
+\begin{equation*}
+    \lambda _1+\lambda _2=x_{11}+x_{22},\:\: \lambda _1\lambda _2=x_{11}x_{22}-x_{12}x_{21}
+\end{equation*}
+
+\vspace{3pt}
+Pure algebra: higher-order Vieta's Theorem gives us:
+
+\begin{equation*}
+    \lambda _1+\lambda _2+\cdots +\lambda _n=trace\left( A \right) ,\:\: \lambda _1\lambda _2\cdots \lambda _n=\det A
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Diagonalization of Matrix}
+You have found all the eigenvectors and eigenvalues of a matrix, but\dots
+
+\vspace{3pt}
+Experts in Linear Algebra will not stop here, please find matrix expression.
+
+\vspace{3pt}
+\textbf{Condition: $n\times n$ matrix $A$ has $n$ linearly independent eigenvectors.} Then we write the $n$ linearly independent eigenvectors in the columns of a matrix $P$ (We have done this many times in this course...). Magical matrix multiplication gives us:
+\begin{equation*}
+    AP=P\varLambda
+\end{equation*}
+\begin{equation*}
+    A\left[ \begin{matrix}
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        \lambda _1&		&		&		&		\\
+        &		\lambda _2&		&		&		\\
+        &		&		\lambda _3&		&		\\
+        &		&		&		\cdot&		\\
+        &		&		&		&		\lambda _n\\
+    \end{matrix} \right]
+\end{equation*}
+
+If you use column method of matrix multiplication, that matrix equation is easy to verify.
+\begin{equation*}
+    A=P\varLambda P^{-1}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Matrix Diagonalization: A Deeper View}
+    \begin{equation*}
+        \left[ \begin{matrix}
+            2&		1\\
+            1&		2\\
+        \end{matrix} \right] =\left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		0\\
+            0&		3\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] ^{-1}
+    \end{equation*}
+
+Suppose we have a input coordinates $(2,0)$ in standard basis, how can we find the output?
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{PNP-1.jpg}
+\end{figure}
+
+Essence: change basis and simplify the linear transformation matrix.
+\end{frame}
+
+\begin{frame}{Important Geometrical Interpretation}
+    \begin{equation*}
+        A=P\varLambda P^{-1}
+    \end{equation*}
+\begin{enumerate}
+    \item $P$ is a "change of basis" matrix.
+    \item $A$ and $\Lambda $ are the same linear transformation using different basis.
+    \item Diagonalization: change to eigenvector basis, make linear transformation $A$ a simple stretching transformation $\Lambda$.
+\end{enumerate}
+
+If you can understand all of these, chapter 5 is simple combination of previous knowledge. Remember, always keep geometrical interpretation in head (just as we do when learning Gram-Schmidt process and vector spanning), instead of memorizing the formula.
+\end{frame}
+
+\section{Matrix Diagonalization}
+\begin{frame}{Core Problems of Matrix Diagonalization}
+    \begin{equation*}
+        A=P\varLambda P^{-1}
+    \end{equation*}
+\textbf{Problems:}
+\begin{enumerate}
+    \item How to tell whether a matrix is diagonlizable or not?
+    \item How to find a diagonalization matrix $P$?
+\end{enumerate}
+
+\textbf{Answers:}\\
+\vspace{3pt}
+For problem 1, we know that a matrix is diagonlizable if and only if it has $n$ linearly independent eigenvectors.
+
+\vspace{3pt}
+For problem 2, we need to find all the eigenvalues and eigenvectors. The eigenvalues will go into $\varLambda$ and eigenvectors will go into $P$.
+
+\vspace{5pt}
+If a matrix is diagonlizable, we can easily find the diagonalization matrix! But the question is, we cannot tell if a matrix has $n$ linearly independent eigenvectors (i.e. if it is diagonlizable).
+\end{frame}
+
+\begin{frame}{Another Simplified Criteria}
+If a $n\times n$ matrix has $n$ distinct eigenvalues, then it must be diagonlizable.
+
+\vspace{3pt}
+Why? I will not give you the proof, but I want you to understand. I will show from 2 sides:
+
+\begin{enumerate}
+    \item For each eigenvalue, there must be at least 1 eigenvector (authentic to say: 1-dimensional).
+    \item For the same eigenvector (all vectors that in the 1-dimensional line), it cannot correspond to 2 eigenvalues.\\
+    (Hint: Recall the knowledge in linear transformation, can a single input results in multiple outputs?)\\
+    Geometric: One direction cannot have 2 stretching coefficient!
+\end{enumerate}
+
+Notice that it is not necessary for a diagonalization matrix to have $n$ distinct eigenvalues.
+
+\vspace{3pt}
+More challenging: Eigenvectors that correspond to dintinct eigenvalues are linearly independent. (Hint: Can a k-dimensional space has $k+1$ stretching coefficients?)
+
+\end{frame}
+
+\begin{frame}{Algebraic Multiplicity and Geometric Multiplicity}
+Can we find a general method to determine whether a matrix is diagonlizable or not? The method is very simple, find all the eigenvectors and count if there are $n$ independent eigenvectors.
+
+\begin{example}
+    Decide whether the following matrix $A$ is diagonlizable or not.
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            5&		-1&		-1\\
+            3&		1&		-1\\
+            4&		-2&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{example}
+\begin{equation*}
+    \det \left( A-\lambda I \right) =-\left( \lambda -2 \right) ^2\left( \lambda -3 \right)=0
+\end{equation*}
+For a $n$ degree polynomial, we can find $n$ roots.
+\begin{equation*}
+    \lambda _1=\lambda _2=2,\lambda _3=3
+\end{equation*}
+We call that $2$ is a repeated eigenvalue, with algebraic multiplicity of $2$.
+\end{frame}
+
+\begin{frame}{Algebraic Multiplicity and Geometric Multiplicity}
+\begin{equation*}
+    \lambda _1=\lambda _2=2,\lambda _3=3
+\end{equation*}
+For those repeated eigenvalues, we need to check whether it has sufficient independent eigenvectors (for those not repeated ones, we can skip because it must have 1 independent eigenvector). Back to chapter 2, Find the nullspace dimension of $A-\lambda I$!
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        3&		-1&		-1\\
+        3&		-1&		-1\\
+        4&		-2&		-1\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        3&		-1&		-1\\
+        0&		0&		0\\
+        0&		-\frac{2}{3}&		\frac{1}{3}\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        3&		-1&		-1\\
+        0&		-\frac{2}{3}&		\frac{1}{3}\\
+        0&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+1 free column, 1 independent eigenvector for eigenvector $2$. Geometric multiplicity: 1.
+\vspace{3pt}
+
+The independent eigenvectors are not sufficient, so the matrix is not diagonlizable. (We say that the eigenvalue 2 is a "liar", it claims that it has the multiplicity of 2 but we can only find 1 independent eigenvector.)
+\end{frame}
+
+\begin{frame}{Algebraic Multiplicity and Geometric Multiplicity}
+A theorem that I don't want to prove:
+\begin{center}
+    Geometric Multiplicity $\leq $ Algebraic Multiplicity
+\end{center}
+
+\textbf{A Summary - Liar's Game:}
+\begin{enumerate}
+    \item All the eigenvalues are smart, they will only claim they have higher or equal multiplicity (algebraic multiplicity) than it actually has.
+    \item Your mission is to catch the liar. You investigate the possble liars (repeated eigenvalues) by calculating the nullspace dimension of $\det (A-\lambda I)$. If you find that the eigenvalues don't have the same number of independent eigenvectors as it claimed, it is a liar. Once you catch 1 liar, the matrix is not diagonlizable any more.
+\end{enumerate}
+
+Well, that is only an analogy... That's quite similar, right?
+\end{frame}
+
+\begin{frame}{Algebraic Multiplicity and Geometric Multiplicity}
+Now, let's consider matrix $A=I+uu^T$ once again. Geometric imagination: projection onto lines plus identity!
+
+\vspace{3pt}
+Firstly, we have known that $A$ has 2 dinstinct eigenvalues: $1$ and $1+u^Tu$. An important question: multiplicity of those eigenvalues?
+
+\vspace{3pt}
+Consider eigenvalue $1$. How about find its geometric multiplicity first? $A-\lambda I=uu^T$, find its nullspace dimension (or you can also judge from the number of free columns). Then the algebraic multiplicity must be greater or equal than it. Now. can you figure out all the multiplicity?
+
+\vspace{3pt}
+Matrix $A=I+uu^T$ has
+\begin{center}
+    repeated eigenvalue $1$ with algebraic and geometric multiplicity of $n-1$\\ eigenvalue $1+u^Tu$ with algebraic and geometric multiplicity of $1$
+\end{center}
+
+You can get from that: $\det A=1+u^Tu, trace(A)=n+u^Tu$.
+
+\end{frame}
+
+\section{Complex Matrix}
+\begin{frame}{Introduction}
+We are going to extend linear algebra to complex region. We have learnt all the knowledge in this chapter, the only thing we do is extend the previous knowledge to adapt the complex case.
+
+\vspace{3pt}
+To extend, what is the major difference between real and complex region?
+
+\vspace{3pt}
+Consider the vector length firstly:
+\begin{equation*}
+    v_1=\left[ \begin{array}{c}
+        3\\
+        4\\
+    \end{array} \right] , v_2=\left[ \begin{array}{c}
+        3i\\
+        4\\
+    \end{array} \right]
+\end{equation*}
+Calculate with formula $||v||^2=v^Tv$:
+\begin{equation*}
+    {v_1}^Tv_1=3^2+4^2=25, {v_2}^Tv_2=\left( 3i \right) ^2+4^2=7
+\end{equation*}
+
+Well, they should both be 25... The length of $v_1$ and $v_2$ are both 5.
+\end{frame}
+
+\begin{frame}{New Operation: Hermitian}
+
+\begin{equation*}
+    v_1=\left[ \begin{array}{c}
+        3\\
+        4\\
+    \end{array} \right] , v_2=\left[ \begin{array}{c}
+        3i\\
+        4\\
+    \end{array} \right]
+\end{equation*}
+
+We should calculate by formula  $||v||^2=\bar{v}^Tv$ now:
+\begin{equation*}
+    {\bar{v_1}}^Tv_1=3^2+4^2=25, {\bar{v_2}}^Tv_2=\left( 3i \right) \left( -3i \right)+4^2=25
+\end{equation*}
+
+The length of $v_1$ and $v_2$ are both 5, that's correct.
+
+\vspace{3pt}
+To simplify the notation, we have the new Hermitian operation:
+\begin{equation*}
+    v^H={\bar{v}}^T
+\end{equation*}
+
+That is the conjugate transpose. This operation will act as transpose in complex region.
+Remember for the real matrix, there is no difference between Hermitian and transpose.
+\end{frame}
+
+\begin{frame}{Inner Products}
+For the real region, the inner product is defined as $u^Tv$, so naturally in complex region, the inner product is defined as $u^Hv$.
+
+\vspace{3pt}
+Notice: we know that $x^Ty=y^Tx$ in real region, which means the order of vectors are not important. But in the complex region, it is important.
+See the following example:
+\begin{equation*}
+    \left[ \begin{array}{c}
+        1\\
+        0\\
+    \end{array} \right] ^H\left[ \begin{array}{c}
+        1-i\\
+        1+i\\
+    \end{array} \right] =1-i, \left[ \begin{array}{c}
+        1-i\\
+        1+i\\
+    \end{array} \right] ^H\left[ \begin{array}{c}
+        1\\
+        0\\
+    \end{array} \right] =1+i
+\end{equation*}
+In the complex region, the order of vectors will influence the final inner products.
+\begin{itemize}
+    \item In real region, $x^Ty=y^Tx$.
+    \item In complex region, $x^Hy=\overline{y^Hx}$.
+\end{itemize}
+For orthogonal vectors $x, y$, they satisfy $x^Hy=0$.
+\end{frame}
+
+\begin{frame}{Hermitian Matrix}
+For real matrix, a matrix is symmetric if $A^T=A$, so for the complex matrix, a matrix is Hermitian if $A^H=A$.
+
+\vspace{3pt}
+The following matrix is a Hermitian matrix:
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        2&		3-i\\
+        3+i&		5\\
+    \end{matrix} \right]
+\end{equation*}
+
+Recall that for real symmetric matrix, the eigenvectors corresponding to different eigenvalues are orthogonal. This property remains true for the Hermitian matrix.
+
+\vspace{3pt}
+Another property: Every eigenvalue of a Hermitian matrix is real. This property is definitely true for real symmetric matrix because it is a special case of Hermitian!
+\end{frame}
+
+\begin{frame}{Unitary Matrix}
+For real matrix, a matrix is orthogonal if $A^TA=AA^T=I$, so for the complex matrix, a matrix is unitary if $A^HA=AA^H=I$. Unitary has orthonormal column vectors.
+
+\vspace{5pt}
+\textbf{Properties:}
+\begin{itemize}
+    \item Inner products and lengths are preserved by $U$.
+    \begin{equation*}
+        \left( Ux \right) ^H\left( Uy \right) =x^Hy, \left\| Ux \right\| =\left\| x \right\|
+    \end{equation*}
+    \item Every eigenvector of $U$ has absolute value $|\lambda| = 1$.
+    \item Eigenvectors corresponding to different eigenvalues are orthogonal.
+\end{itemize}
+
+\vspace{3pt}
+For example, consider $2\times 2$ rotation matrix, it will have orthogonal eigenvectors. Also true for permutation matrix, which is a orthogonal matrix and of course unitary.
+
+\end{frame}
+
+\begin{frame}{Unitary Diagonalization for Hermitian Matrix}
+For Hermitian matrix (real symmetric included), it must have a unitary (orthogonal included) matrix to diagonlize. $\Lambda$ is still real diagonal matrix just the same as the case in real region.
+\begin{equation*}
+    A=U\Lambda U^H
+\end{equation*}
+
+An important problem type is to find a unitary matrix to diagonlize a given Hermitian matrix, and in the following slides, I will guide you through this problem.
+
+\vspace{3pt}
+Gram-Schmidt is necessary here because the eigenvectors corresponding to repeated eigenvalues will not be orthogonal in most of the time, don't forget Gram-Schmidt!
+
+\end{frame}
+
+\begin{frame}{Gram-Schmidt}
+\begin{example}
+Do Gram-Schmidt orthogonalization for the vectors
+\begin{equation*}
+    \left[ \begin{array}{c}
+        1\\
+        1\\
+        0\\
+    \end{array} \right] , \left[ \begin{array}{c}
+        1\\
+        0\\
+        1\\
+    \end{array} \right] , \left[ \begin{array}{c}
+        0\\
+        1\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+\end{example}
+\textbf{Solution:}
+Accept $\mathbf{a}$ to the orthogonal vector set:
+\begin{equation*}
+    a_1'=a_1=\left[ \begin{array}{c}
+        0\\
+        1\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+
+Subtract $a_1'$ component from $a_2$ and add to the orthogonal vector set.
+\begin{equation*}
+    a_2'=a_2-\frac{a_2^Ta_1'}{a_1'^Ta_1'}a_1'=\left[ \begin{array}{c}
+        0\\
+        1\\
+        1\\
+    \end{array} \right] -\frac{1}{2}\left[ \begin{array}{c}
+        1\\
+        1\\
+        0\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        1/2\\
+        -1/2\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Gram-Schmidt}
+Subtract $a_1'$ and $a_2'$ component from $a_3$ and add to the orthogonal vector set.
+\begin{equation*}
+    a_3'=a_3-\frac{a_3^Ta_1'}{a_1'^Ta_1'}a_1'-\frac{a_3^Ta_2'}{a_2'^Ta_2'}a_2'
+\end{equation*}
+\begin{equation*}
+    =\left[ \begin{array}{c}
+        0\\
+        1\\
+        1\\
+    \end{array} \right] -\frac{1}{2}\left[ \begin{array}{c}
+        1\\
+        1\\
+        0\\
+    \end{array} \right] -\frac{1/2}{3/2}\left[ \begin{array}{c}
+        1/2\\
+        - 1/2\\
+        1\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        -2/3\\
+        2/3\\
+        2/3\\
+    \end{array} \right]
+\end{equation*}
+
+Finally, normalization:
+\begin{equation*}
+    q_1=\frac{1}{\sqrt{2}}\left[ \begin{array}{c}
+        1\\
+        1\\
+        0\\
+    \end{array} \right] , q_2=\frac{1}{\sqrt{6}}\left[ \begin{array}{c}
+        1\\
+        -1\\
+        2\\
+    \end{array} \right] , q_3=\frac{1}{\sqrt{3}}\left[ \begin{array}{c}
+        -1\\
+        1\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Example 1: Real Symmetric Matrix}
+\begin{example}
+    Find a orthogonal matrix $P$ to diagonlize the following matrix $A$.
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            1&		-2&		2\\
+            -2&		4&		-4\\
+            2&		-4&		4\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{example}
+\begin{equation*}
+    \det \left( A-\lambda I \right) =\det \left[ \begin{matrix}
+        1-\lambda&		-2&		2\\
+        -2&		4-\lambda&		-4\\
+        2&		-4&		4-\lambda\\
+    \end{matrix} \right] =0
+\end{equation*}
+\begin{equation*}
+    \lambda_1=\lambda_2=0, \lambda_3=9
+\end{equation*}
+For eigenvalue $\lambda=2$:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		-2&		2\\
+        -2&		4&		-4\\
+        2&		-4&		4\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		-2&		2\\
+        0&		0&		0\\
+        0&		-0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Example 2: Hermitian Matrix}
+    
+\end{frame}
+
+
+
+
+
+\end{document}

@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{A Brief Review of Last Lecture}{3}{0}{1}
+\beamer@sectionintoc {2}{Similarity Transformation}{9}{0}{2}
+\beamer@sectionintoc {3}{Eigenvalues of Common Matrices}{20}{0}{3}
+\beamer@sectionintoc {4}{Topic: Exercise Problems for Chapter 5}{22}{0}{4}

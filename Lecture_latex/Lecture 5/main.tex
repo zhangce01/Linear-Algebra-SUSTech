@@ -1,0 +1,1293 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{RGB}{139,62,47}
+\definecolor{Logo2}{RGB}{205,91,69}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Midterm Review}
+
+\subtitle{Lecture 5}
+
+\author[zhangce2019@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2022.11.1] % (optional)
+{2022.11.1}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{An Overview to Midterm}
+\begin{frame}{We Have Learnt...}
+\textbf{Chapter 1:}
+\begin{itemize}
+    \item 1.1 Introduction
+    \item 1.2 The Geometry of Linear Equation
+    \item 1.3 Gaussian Elimination
+    \item 1.4 Matrix Notation and Matrix Multiplication
+    \item 1.5 Triangular Factors and Row Exchanges
+    \item 1.6 Inverses
+\end{itemize}
+
+\vspace{5pt}
+\textbf{A Summary:} Section 1.3 and 1.4 are fundamentals of this subject, 1.5 and 1.6 are the important sections, and they will take nearly 30 marks in your midterm exam.
+\end{frame}
+
+\begin{frame}{We Have Learnt...}
+\textbf{Chapter 2:}
+\begin{itemize}
+    \item 2.1 Vector Spaces and Subspaces
+    \item 2.2 Solving Ax=0 and Ax=b
+    \item 2.3 Linear Independence, Basis, Dimension
+    \item 2.4 The Four Fundamental Subspaces
+    \item 2.6 Linear Transformations
+\end{itemize}
+
+\vspace{5pt}
+\textbf{A Summary:} Chapter 2 is the most important chapter in linear algebra, and it is also the most important chapter in your exam (even final exam). Section 2.1 and 2.3 are the basics, you should try your best to review section 2.2, 2.4 and 2.6, they will take nearly 50 marks in midterm exam.
+\end{frame}
+
+\begin{frame}{We Have Learnt...}
+\textbf{Chapter 3:}
+\begin{itemize}
+    \item 3.1 Orthogonal Vectors and Subspaces
+    \item 3.2 Cosines and Projection onto Lines
+    \item 3.3 Projections and Least Squares
+\end{itemize}
+
+\vspace{5pt}
+\textbf{A Summary:} You are encouraged to understand the concept of orthogonal complement and least-square algorithm. Important section: 3.3. It will take approximately 10 marks in your exam.
+
+\end{frame}
+
+\begin{frame}{Midterm in Previous Years: 2019}
+Midterm in 2019 has 7 problems, with a total of 100 marks.
+\begin{enumerate}
+    \item (12 marks) True or False. (2'$\times 6$)
+    \item (15 marks) Fill the blanks. (3'$\times 5$)
+    \item (24 marks) $Ax=0$, $Ax=b$ and the dimensions, bases of four fundamental subspaces.
+    \item (14 marks) $LDL^T$ factorization and find the inverse of given matrix.
+    \item (15 marks) Least squares and split vector into 2 orthogonal subspaces.
+    \item (10 marks) Linear Transformations. (Transposing)
+    \item (10 marks) Proof about linear independence and subspaces.
+\end{enumerate}
+
+\vspace{3pt}
+Problem 3, 4, 5 are not that difficult, and they take up 53 marks!
+\end{frame}
+
+\begin{frame}{Midterm in Previous Years: 2020}
+Midterm in 2020 has 8 problems, with a total of 110 marks.
+\begin{enumerate}
+    \item (15 marks) Multiple Choices. (3'$\times 5$)
+    \item (25 marks) Fill the blanks. (5'$\times 5$)
+    \item (10 marks) $LU$ factorization.
+    \item (16 marks) Dimensions, bases of four fundamental subspaces.
+    \item (10 marks) Linear Transformations. (given basis)
+    \item (6 marks) Proof or counter example.
+    \item (10 marks) Linear Transformations. (natural basis)
+    \item (12 marks) Proof about linear independence.
+\end{enumerate}
+
+\vspace{3pt}
+Again, Problem 3, 4, 5 are not that difficult, and they take up 36 marks!
+\end{frame}
+
+\section{Most Important: High-Frequency Problems}
+\begin{frame}{$LU, LDU, LDL^T$ Factorization}
+This type of problems come from section 1.5.
+
+\vspace{3pt}
+I give 2 examples here, make sure you can solve it accurately and independently!
+
+\vspace{5pt}
+Find the $LU$ factorization of the matrix $A=\left[ \begin{matrix}
+	3&		1&		1\\
+	1&		3&		1\\
+	1&		1&		3\\
+\end{matrix} \right]$.
+
+\vspace{3pt}
+Find the $LDL^T$ factorization of the matrix $A=\left[ \begin{matrix}
+	3&		1&		1\\
+	1&		3&		1\\
+	1&		1&		3\\
+\end{matrix} \right]$.
+
+\vspace{5pt}
+Recall elimination matrix $E$ and how it can make the lower triangular matrix $L$.
+\end{frame}
+
+\begin{frame}{$LU, LDU, LDL^T$ Factorization: Regular Method}
+Firstly, do Gaussian elimination:
+\begin{equation*}
+    \left[ \begin{matrix}
+        3&		1&		1\\
+        1&		3&		1\\
+        1&		1&		3\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        3&		1&		1\\
+        0&		8/3&		2/3\\
+        1&		1&		3\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        3&		1&		1\\
+        0&		8/3&		2/3\\
+        0&		2/3&		8/3\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        3&		1&		1\\
+        0&		8/3&		2/3\\
+        0&		0&		5/2\\
+    \end{matrix} \right]
+\end{equation*}
+
+Then, write the elimination matrices for each step:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		1&		0\\
+        0&		-1/4&		1\\
+    \end{matrix} \right]\left[ \begin{matrix}
+        1&		0&		0\\
+        0&		1&		0\\
+        -1/3&		0&		1\\
+    \end{matrix} \right]\left[ \begin{matrix}
+        1&		0&		0\\
+        -1/3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        3&		1&		1\\
+        1&		3&		1\\
+        1&		1&		3\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        3&		1&		1\\
+        0&		\frac{8}{3}&		\frac{2}{3}\\
+        0&		0&		\frac{5}{2}\\
+    \end{matrix} \right]
+\end{equation*}
+\begin{equation*}
+    E_{32}E_{31}E_{21}A=U
+\end{equation*}
+
+And we want to find the lower triangular $L$, which can be represented by
+\begin{equation*}
+    L={E_{21}}^{-1}{E_{31}}^{-1}{E_{32}}^{-1}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{$LU, LDU, LDL^T$ Factorization: Regular Method}
+Substitute our elimination matrices in:
+\begin{equation*}
+    L=\left[ \begin{matrix}
+        1&		0&		0\\
+        1/3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		1&		0\\
+        1/3&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		1&		0\\
+        0&		1/4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		0&		0\\
+        1/3&		1&		0\\
+        1/3&		1/4&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+The Final Answer:
+\begin{equation*}
+    \left[ \begin{matrix}
+        3&		1&		1\\
+        1&		3&		1\\
+        1&		1&		3\\
+    \end{matrix} \right]=\left[ \begin{matrix}
+        1&		0&		0\\
+        1/3&		1&		0\\
+        1/3&		1/4&		1\\
+    \end{matrix} \right]\left[ \begin{matrix}
+        3&		1&		1\\
+        0&		8/3&		2/3\\
+        0&		0&		5/2\\
+    \end{matrix} \right]
+\end{equation*}
+
+For $LDL^T$ factorization, we extract the pivots out:
+\begin{equation*}
+    \left[ \begin{matrix}
+        3&		1&		1\\
+        1&		3&		1\\
+        1&		1&		3\\
+    \end{matrix} \right]=\left[ \begin{matrix}
+        1&		0&		0\\
+        1/3&		1&		0\\
+        1/3&		1/4&		1\\
+    \end{matrix} \right]\left[ \begin{matrix}
+        3&		0&		0\\
+        0&		8/3&		0\\
+        0&		0&		5/2\\
+    \end{matrix} \right]\left[ \begin{matrix}
+        1&		1/3&		1/3\\
+        0&		1&		1/4\\
+        0&		0&		1\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{$LU, LDU, LDL^T$ Factorization: Advanced Method}
+Do Gaussian elimination and write the entries of $L$ simultaneously:
+\begin{equation*}
+    \left[ \begin{matrix}
+        3&		1&		1\\
+        1&		3&		1\\
+        1&		1&		3\\
+    \end{matrix} \right] \xrightarrow{l_{21}=1/3}\left[ \begin{matrix}
+        3&		1&		1\\
+        0&		\frac{8}{3}&		\frac{2}{3}\\
+        1&		1&		3\\
+    \end{matrix} \right] \xrightarrow{l_{31}=1/3}\left[ \begin{matrix}
+        3&		1&		1\\
+        0&		\frac{8}{3}&		\frac{2}{3}\\
+        0&		\frac{2}{3}&		\frac{8}{3}\\
+    \end{matrix} \right] \xrightarrow{l_{32}=1/4}\left[ \begin{matrix}
+        3&		1&		1\\
+        0&		\frac{8}{3}&		\frac{2}{3}\\
+        0&		0&		\frac{5}{2}\\
+    \end{matrix} \right]
+\end{equation*}
+
+The logic is here: subtract how many times of other row from this row, we write that value in the corresponding position of $L$.
+
+\vspace{3pt}
+The Final Answer:
+\begin{equation*}
+    \left[ \begin{matrix}
+        3&		1&		1\\
+        1&		3&		1\\
+        1&		1&		3\\
+    \end{matrix} \right]=\left[ \begin{matrix}
+        1&		0&		0\\
+        1/3&		1&		0\\
+        1/3&		1/4&		1\\
+    \end{matrix} \right]\left[ \begin{matrix}
+        3&		1&		1\\
+        0&		8/3&		2/3\\
+        0&		0&		5/2\\
+    \end{matrix} \right]
+\end{equation*}
+
+Verification!!! Calculating a matrix multiplication is not difficult!
+\end{frame}
+
+\begin{frame}{Find the Inverse of Given Matrix}
+This type of problems come from section 1.6.
+
+\vspace{3pt}
+The method we used here is Gauss-Jordan method, it goes like:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        A&		I\\
+    \end{matrix} \right] \xrightarrow{series\,\,of\,\,row\,\,operations}\left[ \begin{matrix}
+        I&		A^{-1}\\
+    \end{matrix} \right]
+\end{equation*}
+
+Consider the following matrix $A$:
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        1&		2&		2\\
+        1&		3&		4\\
+        1&		3&		5\\
+    \end{matrix} \right]
+\end{equation*}
+
+Try to find the inverse of $A$.
+
+\end{frame}
+
+\begin{frame}{Find the Inverse of Given Matrix}
+    Adopt Gauss-Jordan method.
+    \begin{equation*}
+        \left[ \begin{matrix}
+            1&		2&		2&		1&		0&		0\\
+            1&		3&		4&		0&		1&		0\\
+            1&		3&		5&		0&		0&		1\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		2&		2&		1&		0&		0\\
+            0&		1&		2&		-1&		1&		0\\
+            0&		1&		3&		-1&		0&		1\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		2&		2&		1&		0&		0\\
+            0&		1&		2&		-1&		1&		0\\
+            0&		0&		1&		0&		-1&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+    \begin{equation*}
+        \rightarrow \left[ \begin{matrix}
+            1&		2&		0&		1&		2&		-2\\
+            0&		1&		0&		-1&		3&		-2\\
+            0&		0&		1&		0&		-1&		1\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		0&		0&		3&		-4&		2\\
+            0&		1&		0&		-1&		3&		-2\\
+            0&		0&		1&		0&		-1&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+    \begin{equation*}
+        A^{-1}=\left[ \begin{matrix}
+            3&		-4&		2\\
+            -1&		3&		-2\\
+            0&		-1&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+Again, verification!!! Can they multiply to identity matrix?
+
+\vspace{3pt}
+Finding the inverse is computational expensive, you can do any row operations to simplify your calculation. (Row 1) = (Row 1)$\times 3$ + (Row 2)$\times 2$ is also acceptable.
+\end{frame}
+
+\begin{frame}{Additional: Block Method to Find the Inverse}
+\begin{example}
+    Find the inverse of this matrix, given that $A,B,C$ are all invertible matrices. Please express the result in matrix form.
+    \begin{equation*}
+        L=\left[ \begin{matrix}
+            A&		0\\
+            B&		C\\
+        \end{matrix} \right],\:
+        M=\left[ \begin{matrix}
+            0&		A\\
+            B&		0\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{example}
+
+\textbf{Solution:}
+
+Core idea: Treat all block matrices as a single entry.
+\begin{equation*}
+    \left[ \begin{matrix}
+        A&		0&		I&		0\\
+        B&		C&		0&		I\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        A&		0&		I&		0\\
+        0&		C&		-BA^{-1}&		I\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        I&		0&		A^{-1}&		0\\
+        0&		I&		-C^{-1}BA^{-1}&		C^{-1}\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    L^{-1}=\left[ \begin{matrix}
+        A^{-1}&		0\\
+        -C^{-1}BA^{-1}&		C^{-1}\\
+    \end{matrix} \right]
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Solving Ax=0 \& Ax=b}
+This type of problems come from section 2.2.
+\begin{example}
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        1&		3&		3&		3\\
+        2&		6&		8&		10\\
+        3&		9&		11&		13\\
+    \end{matrix} \right]
+\end{equation*}
+
+Find the complete solution to $Ax=0$.
+\end{example}
+
+The solutions have how many components?
+
+\vspace{3pt}
+Without simplification, why this system must have solutions?
+
+\vspace{3pt}
+If I tell you the rank of the matrix is 2, what is the dimension of $N(A)$?
+\end{frame}
+
+\begin{frame}{Solving Ax=0 \& Ax=b}
+Do Gauss elimination to simplify the matrix to echelon form $U$.
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            1&		3&		3&		3\\
+            2&		6&		8&		10\\
+            3&		9&		11&		13\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		3&		3&		3\\
+            0&		0&		2&		4\\
+            0&		0&		2&		4\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		3&		3&		3\\
+            0&		0&		2&		4\\
+            0&		0&		0&		0\\
+        \end{matrix} \right] =U
+    \end{equation*}
+To solve the system, that is to find the nullspace vectors, you can choose one method from this two.
+\begin{itemize}
+    \item Back-Substitution
+    \item Nullspace Matrix
+\end{itemize}
+
+Any method is welcome, as long as you can make your answer correct.
+\end{frame}
+
+\begin{frame}{Solving Ax=0: Back-Substitution}
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            1&		3&		3&		3\\
+            2&		6&		8&		10\\
+            3&		9&		11&		13\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		3&		3&		3\\
+            0&		0&		2&		4\\
+            0&		0&		2&		4\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		3&		3&		3\\
+            0&		0&		2&		4\\
+            0&		0&		0&		0\\
+        \end{matrix} \right] =U
+    \end{equation*}
+To solve the system, that is to find the nullspace vectors, you can choose one method from this two.
+\begin{equation*}
+    \begin{cases}
+        x_1+3x_2+3x_3+3x_4=0\\
+        \qquad\qquad\ \ \:           2x_3+4x_4=0\\
+        \qquad\qquad\qquad\qquad\:\:                     0=0\\
+    \end{cases}
+\end{equation*}
+
+The pivot variables are $x_1\&x_3$, the free variables are $x_2\&x_4$. Use the free variables to represent the pivot variables:
+\begin{equation*}
+    \begin{cases}
+        x_1=-3x_2+3x_4\\
+        x_3=-2x_4\\
+    \end{cases}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Solving Ax=0: Back-Substitution}
+\begin{equation*}
+    \begin{cases}
+        x_1=-3x_2+3x_4\\
+        x_3=-2x_4\\
+    \end{cases}
+\end{equation*}
+Write them in a single column solution $x$:
+\begin{equation*}
+    x=\left[ \begin{array}{c}
+        x_1\\
+        x_2\\
+        x_3\\
+        x_4\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        -3x_2+3x_4\\
+        x_2\\
+        -2x_4\\
+        x_4\\
+    \end{array} \right] =x_2\left[ \begin{array}{c}
+        -3\\
+        1\\
+        0\\
+        0\\
+    \end{array} \right] +x_4\left[ \begin{array}{c}
+        3\\
+        0\\
+        -2\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+That is the complete solution to $Ax=0$, we can conclude the nullspace of $A$ is 2-dimensional, which is the same with the number of free columns, $n-r$.
+\end{frame}
+
+\begin{frame}{Solving Ax=0: Nullspace Matrix}
+\begin{equation*}
+    U=\left[ \begin{matrix}
+        1&		3&		3&		3\\
+        0&		0&		2&		4\\
+        0&		0&		0&		0\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		3&		0&		-3\\
+        0&		0&		2&		4\\
+        0&		0&		0&		0\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		3&		0&		-3\\
+        0&		0&		1&		2\\
+        0&		0&		0&		0\\
+    \end{matrix} \right] =R
+\end{equation*}
+
+We only do row operations, $Ax=0\Leftrightarrow Ux=0\Leftrightarrow Rx=0$.
+
+\vspace{3pt}
+What we have done:
+\begin{itemize}
+    \item Eliminate entries on the top of pivots.
+    \item Make the pivots all 1.
+\end{itemize}
+
+Then we get the RREF (row reduced echelon form) matrix $R$.
+
+\end{frame}
+
+\begin{frame}{Solving Ax=0: Nullspace Matrix}
+    We define nullspace matrix $N$ contains all particular solutions in columns.
+\begin{equation*}
+    Rx=0\Leftrightarrow RN=0
+\end{equation*}
+\begin{equation*}
+    \left[ \begin{matrix}
+        {\color[RGB]{240, 0, 0} 1}&	{\color[RGB]{0, 128, 255} 3}	&	{\color[RGB]{240, 0, 0} 0}	&		{\color[RGB]{0, 128, 255} -3}\\
+        {\color[RGB]{240, 0, 0} 0}&	{\color[RGB]{0, 128, 255} 0}	&	{\color[RGB]{240, 0, 0} 1}	&		{\color[RGB]{0, 128, 255} 2}\\
+        0&		0&		0&		0\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        {\color[RGB]{0, 128, 255} -3}&		{\color[RGB]{0, 128, 255} 3}\\
+        {\color[RGB]{240, 0, 0} 1}&		{\color[RGB]{240, 0, 0} 0}\\
+        {\color[RGB]{0, 128, 255} 0}&		{\color[RGB]{0, 128, 255} -2}\\
+        {\color[RGB]{240, 0, 0} 0}&		{\color[RGB]{240, 0, 0} 1}\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        0&		0\\
+        0&		0\\
+        0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+\begin{equation*}
+    \left[ \begin{matrix}
+        {\color[RGB]{240, 0, 0} I}&		{\color[RGB]{0, 128, 255} F}\\
+        0&		0\\
+    \end{matrix} \right] \left[ \begin{array}{c}
+        {\color[RGB]{0, 128, 255} -F}\\
+        {\color[RGB]{240, 0, 0} I}\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        0\\
+        0\\
+    \end{array} \right]
+\end{equation*}
+
+The solution is the linear combination of the columns of nullspace matrix $N$. The columns of nullspace matrix are called special solutions, which makes one free variable 1, the others 0.
+\end{frame}
+
+\begin{frame}{Solving Ax=0 \& Ax=b}
+\begin{example}
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        1&		3&		3&		3\\
+        2&		6&		8&		10\\
+        3&		9&		11&		13\\
+    \end{matrix} \right]
+\end{equation*}
+
+Find the complete solution to $Ax=\left[ \begin{array}{c}
+	1\\
+	6\\
+	7\\
+\end{array} \right]$.
+\end{example}
+
+If you do Gauss elimination, you will get this simplified augmented matrix:
+\begin{columns}
+\column{0.5\textwidth}
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		3&		3&		3&		{\color[RGB]{240, 0, 0} 1}\\
+        0&		0&		2&		4&		{\color[RGB]{240, 0, 0} 4}\\
+        0&		0&		0&		0&		{\color[RGB]{240, 0, 0} 0}\\
+    \end{matrix} \right]
+\end{equation*}
+
+\column{0.5\textwidth}
+\vspace{-8pt}
+\begin{equation*}
+    \begin{cases}
+        x_1+3x_2+3x_3+3x_4=1\\
+        \qquad\qquad\ \:\:2x_3+4x_4=4\\
+        \qquad\qquad\qquad\qquad\:\:0=0\\
+    \end{cases}
+\end{equation*}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Solving Ax=b: Zero Free Variables or Observation}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		3&		3&		3&		{\color[RGB]{240, 0, 0} 1}\\
+        0&		0&		2&		4&		{\color[RGB]{240, 0, 0} 4}\\
+        0&		0&		0&		0&		{\color[RGB]{240, 0, 0} 0}\\
+    \end{matrix} \right]
+\end{equation*}
+
+\column{0.5\textwidth}
+\vspace{-8pt}
+\begin{equation*}
+    \begin{cases}
+        x_1+3x_2+3x_3+3x_4=1\\
+        \qquad\qquad\ \:\:2x_3+4x_4=4\\
+        \qquad\qquad\qquad\qquad\:\:0=0\\
+    \end{cases}
+\end{equation*}
+\end{columns}
+The first method is: Set all free variables 0.
+\begin{equation*}
+    \begin{cases}
+        x_1+3x_3=1\\
+        2x_3=4\\
+    \end{cases}
+\end{equation*}
+
+So, a particular solution is $x_{particular}=\left[ \begin{matrix}
+	-5&		0&		2&		0\\
+\end{matrix} \right] ^T$.
+
+\vspace{7pt}
+The second method is: Observation.
+
+\vspace{3pt}
+Suppose the right-hand side is (Col 3), then a particular solution is $x_{particular}=\left[ \begin{matrix}
+	0&		0&		1&		0\\
+\end{matrix} \right] ^T$.
+
+\vspace{5pt}
+The final complete solution is $x_{complete}=x_{particular}+x_{nullspace}$.
+\end{frame}
+
+\begin{frame}{Dimension and Basis of the 4 Fundamental Subspaces}
+\begin{example}
+Consider matrix $A$:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		3&		4&		2\\
+        2&		7&		9&		4\\
+        0&		1&		1&		0\\
+    \end{matrix} \right]
+\end{equation*}
+Find the dimension and a basis for $C(A), N(A), C(A^T), N(A^T)$.
+\end{example}
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		3&		4&		2\\
+        2&		7&		9&		4\\
+        0&		1&		1&		0\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		3&		4&		2\\
+        0&		1&		1&		0\\
+        0&		1&		1&		0\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		3&		4&		2\\
+        0&		1&		1&		0\\
+        0&		0&		0&		0\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		0&		1&		2\\
+        0&		1&		1&		0\\
+        0&		0&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+The dimensions are 2, 2, 2, 1.
+\end{frame}
+
+\begin{frame}{Dimension and Basis of the 4 Fundamental Subspaces}
+\begin{itemize}
+    \item One basis of $C(A)$: Pivot columns before elimination.
+    \item One basis of $C(A^T)$: Nonzero rows of $U$ (or $R$).
+    \item One basis of $N(A)$: Special solutions to $Ax=0$.
+    \item One basis of $N(A^T)$: Special solutions to $A^Tx=0$.
+\end{itemize}
+    \begin{equation*}
+        C\left( A \right) :\left[ \begin{array}{c}
+            1\\
+            2\\
+            0\\
+        \end{array} \right] ,\left[ \begin{array}{c}
+            3\\
+            7\\
+            1\\
+        \end{array} \right] \,\, N\left( A \right) :\left[ \begin{array}{c}
+            -1\\
+            -1\\
+            1\\
+            0\\
+        \end{array} \right] ,\left[ \begin{array}{c}
+            -2\\
+            0\\
+            0\\
+            1\\
+        \end{array} \right] \,\,C\left( A^T \right) :\left[ \begin{array}{c}
+            1\\
+            0\\
+            1\\
+            2\\
+        \end{array} \right] ,\left[ \begin{array}{c}
+            0\\
+            1\\
+            1\\
+            0\\
+        \end{array} \right]
+    \end{equation*}
+
+Here we also provide 2 methods for basis of $N(A^T)$.
+\begin{itemize}
+    \item Find the solutions of $A^Tx=0$.
+    \item Trace the row operations which lead to zero rows.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dimension and Basis of the 4 Fundamental Subspaces}
+Firstly, we need to transpose the matrix, and find the RREF form.
+    \begin{equation*}
+        A^T=\left[ \begin{matrix}
+            1&		2&		0\\
+            3&		7&		1\\
+            4&		9&		1\\
+            2&		4&		0\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		2&		0\\
+            0&		1&		1\\
+            0&		1&		1\\
+            0&		0&		0\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		2&		0\\
+            0&		1&		1\\
+            0&		0&		0\\
+            0&		0&		0\\
+        \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+            1&		0&		-2\\
+            0&		1&		1\\
+            0&		0&		0\\
+            0&		0&		0\\
+        \end{matrix} \right] =R
+    \end{equation*}
+For $A^Tx=0$, the special solution is $\left[ \begin{matrix}
+	2&		-1&		1\\
+\end{matrix} \right] ^T$ (no matter you use which method). That is the basis of $N(A^T)$.
+\end{frame}
+
+\begin{frame}{Dimension and Basis of the 4 Fundamental Subspaces}
+We look for which combination of rows makes the zero rows. The method is: trace the operations of rows, represent it by matrix $E$.
+
+\vspace{3pt}
+Which matrix $E$ makes $EA=R$?
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        A&		I\\
+    \end{matrix} \right] \xrightarrow[E]{row\,\,operations}\left[ \begin{matrix}
+        R&		E\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		3&		4&		2&		1&		0&		0\\
+        2&		7&		9&		4&		0&		1&		0\\
+        0&		1&		1&		0&		0&		0&		1\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		3&		4&		2&		1&		0&		0\\
+        0&		1&		1&		0&		-2&		1&		0\\
+        0&		0&		0&		0&		2&		-1&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        -2&		1&		0\\
+        2&		-1&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		3&		4&		2\\
+        2&		7&		9&		4\\
+        0&		1&		1&		0\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		3&		4&		2\\
+        0&		1&		1&		0\\
+        0&		0&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+A basis: $\left[ \begin{matrix}
+	2&		-1&		1\\
+\end{matrix} \right] ^T$. This combination of rows lead to zero row.
+\end{frame}
+
+\begin{frame}{Linear Transformation: Given Basis}
+\begin{example}
+Let $L$: $\mathbb{R}^2\rightarrow \mathbb{R}^3$ be the linear transformation defined by
+\begin{equation*}
+    L\left( \mathbf{x} \right) =\left[ \begin{array}{c}
+        x_2\\
+        x_1+x_2\\
+        x_1-x_2\\
+    \end{array} \right]
+\end{equation*}
+Find the matrix representations of $L$ with respect to the ordered bases $\left\{ \mathbf{u}_{\mathbf{1}},\mathbf{u}_{\mathbf{2}} \right\}$ and $\left\{ \mathbf{b}_{\mathbf{1}},\mathbf{b}_{\mathbf{2}},\mathbf{b}_{\mathbf{3}} \right\}$, where
+\begin{equation*}
+    \mathbf{u}_{\mathbf{1}}=\left[ \begin{array}{c}
+        1\\
+        2\\
+    \end{array} \right] , \mathbf{u}_2=\left[ \begin{array}{c}
+        3\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+\vspace{-2pt}
+and
+\vspace{-2pt}
+\begin{equation*}
+    \mathbf{b}_{\mathbf{1}}=\left[ \begin{array}{c}
+        1\\
+        0\\
+        0\\
+    \end{array} \right] , \mathbf{b}_2=\left[ \begin{array}{c}
+        1\\
+        1\\
+        0\\
+    \end{array} \right], \mathbf{b}_3=\left[ \begin{array}{c}
+        1\\
+        1\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+\end{example}
+\end{frame}
+
+\begin{frame}{Linear Transformation: Given Basis}
+\textbf{Solution:}\newline
+Input coordinates $\left[ \begin{array}{c}
+    1\\
+    0\\
+\end{array} \right]$, which is $\left[ \begin{array}{c}
+    1\\
+    2\\
+\end{array} \right]$ in natural basis.
+
+The output in natural basis will be
+\begin{equation*}
+    L\left( \left[ \begin{array}{c}
+        1\\
+        2\\
+    \end{array} \right] \right) =\left[ \begin{array}{c}
+        2\\
+        1+2\\
+        1-2\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        2\\
+        3\\
+        -1\\
+    \end{array} \right]
+\end{equation*}
+Transform to the coordinates under new basis $\mathbf{b}$.
+\begin{equation*}
+    \left[ \begin{array}{c}
+        2\\
+        3\\
+        -1\\
+    \end{array} \right] =a_{11}\left[ \begin{array}{c}
+        1\\
+        0\\
+        0\\
+    \end{array} \right] +a_{21}\left[ \begin{array}{c}
+        1\\
+        1\\
+        0\\
+    \end{array} \right] +a_{31}\left[ \begin{array}{c}
+        1\\
+        1\\
+        1\\
+    \end{array} \right]
+\end{equation*}
+Output coordinates $\left[ \begin{array}{c}
+    -1\\
+    4\\
+    -1\\
+\end{array} \right]$, which is $\left[ \begin{array}{c}
+    2\\
+    3\\
+    -1\\
+\end{array} \right]$ in natural basis.
+\end{frame}
+
+
+
+\begin{frame}{Linear Transformation: Given Basis}
+\textbf{Solution:}\newline
+Input coordinates $\left[ \begin{array}{c}
+    0\\
+    1\\
+\end{array} \right]$, which is $\left[ \begin{array}{c}
+    3\\
+    1\\
+\end{array} \right]$ in natural basis.
+
+The output in natural basis will be
+\begin{equation*}
+    L\left( \left[ \begin{array}{c}
+        3\\
+        1\\
+    \end{array} \right] \right) =\left[ \begin{array}{c}
+        1\\
+        3+1\\
+        3-1\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        1\\
+        4\\
+        2\\
+    \end{array} \right]
+\end{equation*}
+
+Output coordinates $\left[ \begin{array}{c}
+    -3\\
+    2\\
+    2\\
+\end{array} \right]$, which is $\left[ \begin{array}{c}
+    1\\
+    4\\
+    2\\
+\end{array} \right]$ in natural basis.
+
+The transformation matrix:
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        -1&		-3\\
+        4&		2\\
+        -1&		2\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Least-Squares}
+\begin{example}
+Let
+\begin{equation*}
+    A=\left[ \begin{matrix}
+        -1&		1&		0\\
+        1&		-2&		1\\
+        1&		-1&		2\\
+        1&		-1&		-2\\
+    \end{matrix} \right] , b=\left[ \begin{array}{c}
+        2\\
+        -2\\
+        -1\\
+        3\\
+    \end{array} \right]
+\end{equation*}
+Find the least squares solution to $Ax=b$.
+\end{example}
+
+The system must be inconsistent or we cannot find the least squares solution, because we can find the exact solution!
+
+The method to find least squares solution is to solve
+\begin{equation*}
+    A^TA\hat{x}=A^Tb
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Least-Squares}
+Solve this system to get the least squares solution:
+\begin{equation*}
+    \left[ \begin{matrix}
+        -1&		1&		1&		1\\
+        1&		-2&		-1&		-1\\
+        0&		1&		2&		-2\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        -1&		1&		0&		{\color[RGB]{240, 0, 0} 2}\\
+        1&		-2&		1&		{\color[RGB]{240, 0, 0} -2}\\
+        1&		-1&		2&		{\color[RGB]{240, 0, 0} -1}\\
+        1&		-1&		-2&		{\color[RGB]{240, 0, 0} 3}\\
+    \end{matrix} \right]
+\end{equation*}
+
+Multiply that:
+\begin{equation*}
+    \left[ \begin{matrix}
+        4&		-5&		1&		{\color[RGB]{240, 0, 0} -2}\\
+        -5&		7&		-2&		{\color[RGB]{240, 0, 0} 4}\\
+        1&		-2&		9&		{\color[RGB]{240, 0, 0} -10}\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        4&		-5&		1&		{\color[RGB]{240, 0, 0} -2}\\
+        0&		3&		-3&		{\color[RGB]{240, 0, 0} 6}\\
+        0&		0&		32&		{\color[RGB]{240, 0, 0} -32}\\
+    \end{matrix} \right]
+\end{equation*}
+
+The least squares solution is
+\begin{equation*}
+    \hat{x}=\left[ \begin{array}{c}
+        1\\
+        1\\
+        -1\\
+    \end{array} \right]
+\end{equation*}
+\end{frame}
+
+\section{Other Useful Knowledge in Exam}
+\begin{frame}{The Properties of $A,B$ and $AB,BA,A+B$}
+Here gives a summary:
+\begin{itemize}
+    \item If matrix $A,B$ are diagonal, matrix $AB,BA,A+B$ are diagonal.
+    \item If matrix $A,B$ are triangular, matrix $AB,BA,A+B$ are triangular.
+    \item If matrix $A,B$ are invertible, matrix $AB,BA$ are invertible, matrix $A+B$ \alert{not always} invertible.
+    \item If matrix $A,B$ are symmetric, matrix $AB,BA$ \alert{not always} symmetric, matrix $A+B$ is symmetric.
+    \item $(AB)^T=B^TA^T$, $(A+B)^T=A^T+B^T$
+    \item $(AB)^{-1}=B^{-1}A^{-1}$, $(A+B)^{-1}\ne A^{-1}+B^{-1}$
+
+    \item rank($AB$) $\leqslant $ rank($A$) or rank($B$)
+    \item rank($A+B$) $\leqslant $ rank($A$) + rank($B$)
+\end{itemize}
+
+Important: $AB$ is the linear combinations of columns of $A$, and also the linear combinations of rows of $B$.
+\end{frame}
+
+\begin{frame}{$m, n, r$ and Related Situations for $Ax=0\: \& \:Ax=b$}
+\begin{itemize}
+    \item $Ax=0$ has only zero solution if columns of $A$ are linearly independent, $n=r$. That will lead to no free columns and 0-dimensional nullspace.
+    \item $Ax=0$ has infinitely many solutions if columns of $A$ are linearly dependent, $n>r$. That will lead to $k$ free columns and $k$-dimensional nullspace, a basis of nullspace will have $k$ vectors.
+    \item $Ax=b$ is solvable if and only if $b$ is in the column space of $A$. If $m=r$, any $b$ in $\mathbb{R}^m$ will give $Ax=b$ solutions; if $m>r$, we cannot guarantee any $b$ gives a solution.
+    \item If $Ax=b$ is solvable, the number of solutions depends on $Ax=0$. It has exactly one solution if $n=r$ ($Ax=0$ has only zero solution), while it has infinitely many solutions if $n>r$ ($Ax=0$ has infinitely many solutions).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{$Ax=0$, Orthogonality with Linear Independence}
+Vectors $v_1, v_2, ...$ are independent if no combination of them gives zero vector (except the zero combination $c_i=0$).
+\vspace{-8pt}
+\begin{equation*}
+    c_1v_1+c_2v_2+...\ne0
+\end{equation*}
+
+If we write the vectors in columns of $A$:
+\begin{itemize}
+    \item They are independent if and only if the nullspace has only the zero vector, no free columns appear and $n=r$.
+    \item They are dependent if and only if the nullspace has not only the zero vector, has free columns appear and $n>r$.
+\end{itemize}
+
+Another important statement in Chapter 3: orthogonal vector set (every 2 vectors are orthogonal) are linearly independent.
+\end{frame}
+
+\begin{frame}{Relations of Four Fundamental Subspaces}
+Always keep the 4 fundamental subspaces in mind!
+\begin{itemize}
+    \item Row space is the orthogonal complement of nullspace, column space is the orthogonal complement of left nullspace.
+    \item If $C(A)$ is the same with $C(A^T)$, then  $N(A)$ is the same with $N(A^T)$.
+    \item Dimension: $dim(C(A))=dim(C(A^T))=r$, $dim(N(A))=n-r$, $dim(N(A^T))=m-r$.
+    \item If $AB=0$, then $C(B)\in N(A)$, $C(A^T)\in N(B^T)$. $C(A^T)$ is orthogonal to $C(B)$, that means every vector in $C(A^T)$ is orthogonal to every vector in $C(B)$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Properties of Linear Transformations}
+\begin{itemize}
+    \item T(0)=0.
+    \item Ax is in the column space of $A$.
+    \item Rank of A is the dimension of the output space $C(A)$.
+    \item Some special linear transformations: rotation, reflection, projection.
+\end{itemize}
+\end{frame}
+
+\section{Proof: Rank Relations}
+\begin{frame}{Proof of Rank Inequalities}
+The Basics: $rank(AB) \leqslant min\{rank(A),rank(B)\}$.
+
+\vspace{5pt}
+1. $rank(PAQ)=rank(A)$ if $P,Q$ are invertible.
+
+\vspace{5pt}
+\textbf{Proof:}
+\begin{equation*}
+    rank(PAQ)\leqslant rank(A)
+\end{equation*}
+\begin{equation*}
+    rank(A)=rank(P^{-1}PAQQ^{-1}) \leqslant rank(PAQ)
+\end{equation*}
+\begin{equation*}
+    rank(PAQ)=rank(A)
+\end{equation*}
+
+It shows: Invertible (elementary) row and column operations will not change the rank.
+
+\vspace{3pt}
+So, we can prove a series of rank inequalities by constructing matrix and do invertible row and column operations.
+\end{frame}
+
+\begin{frame}{Proof of Rank Inequalities}
+2. $rank(A+B)\leqslant rank(A)+rank(B)$.
+
+\vspace{5pt}
+\textbf{Proof:}
+\begin{equation*}
+    rank\left( A \right) +rank\left( B \right) =r\left( \left[ \begin{matrix}
+        A&		0\\
+        0&		B\\
+    \end{matrix} \right] \right)
+\end{equation*}
+\begin{equation*}
+    =r\left( \left[ \begin{matrix}
+        A&		A\\
+        0&		B\\
+    \end{matrix} \right] \right) =r\left( \left[ \begin{matrix}
+        A&		A\\
+        A&		A+B\\
+    \end{matrix} \right] \right) \geqslant rank\left( A+B \right)
+\end{equation*}
+
+3. $r\left( \left[ \begin{matrix}
+	A&		0\\
+	0&		B\\
+\end{matrix} \right] \right) \leqslant r\left( \left[ \begin{matrix}
+	A&		0\\
+	C&		B\\
+\end{matrix} \right] \right)$.
+
+\vspace{5pt}
+\textbf{Proof:}
+
+\vspace{3pt}
+Rank equals number of pivots. Matrix $C$ can provide additional pivots.
+\end{frame}
+
+\begin{frame}{Proof of Rank Inequalities}
+4. $rank(A)+rank(B)\leqslant rank(AB)+n$.
+
+\vspace{5pt}
+\textbf{Proof:}
+\begin{equation*}
+    rank\left( AB \right) +n=r\left( \left[ \begin{matrix}
+        I_{n\times n}&		0\\
+        0&		AB\\
+    \end{matrix} \right] \right)
+\end{equation*}
+\begin{equation*}
+    =r\left( \left[ \begin{matrix}
+        I_{n\times n}&		0\\
+        A&		AB\\
+    \end{matrix} \right] \right) =r\left( \left[ \begin{matrix}
+        I_{n\times n}&		-B\\
+        A&		0\\
+    \end{matrix} \right] \right) \geqslant rank\left( A \right) +rank\left( B \right)
+\end{equation*}
+
+\vspace{3pt}
+5. $rank(AB)+rank(BC)-rank(B)\leqslant rank(ABC)$.
+
+\vspace{5pt}
+\textbf{Proof:}
+\begin{equation*}
+    rank\left( ABC \right) +rank\left( B \right) =r\left( \left[ \begin{matrix}
+        ABC&		0\\
+        0&		B\\
+    \end{matrix} \right] \right)
+\end{equation*}
+\begin{equation*}
+    r\left( \left[ \begin{matrix}
+        ABC&		0\\
+        0&		B\\
+    \end{matrix} \right] \right) =r\left( \left[ \begin{matrix}
+        ABC&		0\\
+        BC&		B\\
+    \end{matrix} \right] \right) =r\left( \left[ \begin{matrix}
+        0&		-AB\\
+        BC&		B\\
+    \end{matrix} \right] \right)
+\end{equation*}
+\begin{equation*}
+    =r\left( \left[ \begin{matrix}
+        BC&		B\\
+        0&		-AB\\
+    \end{matrix} \right] \right) \geqslant rank\left( AB \right) +rank\left( BC \right)
+\end{equation*}
+\end{frame}
+
+\begin{frame}{A Conclusion: $rank(A^TA)=rank(A)$}
+\textbf{Proof:}
+
+Firstly, we prove $A^TAx=0\rightarrow Ax=0$.
+
+\vspace{3pt}
+Suppose $x$ is in the nullspace of $A^TA$:
+\begin{equation*}
+    A^TAx=0
+\end{equation*}
+Multiply $x^T$ on both sides:
+\begin{equation*}
+    x^TA^TAx=0\rightarrow \left( Ax \right) ^TAx=0\rightarrow \left\| Ax \right\| =0\rightarrow Ax=0
+\end{equation*}
+
+Secondly, we prove $Ax=0\rightarrow A^TAx=0$.
+
+\vspace{3pt}
+If $Ax=0$, $A^TAx=0$ must hold because no matrix can bring zero vector out of the origin.
+
+\vspace{3pt}
+So, $N(A^TA)=N(A)$, so does the row space (orthogonal complement) and rank $R(A^TA)=R(A), rank(A^TA)=rank(A)$.
+\end{frame}
+
+\begin{frame}{Good Luck!}
+    \begin{LARGE}
+        \begin{center}
+            Hope you all can do well in the midterm exam!!!
+        \end{center}
+
+    \end{LARGE}
+\end{frame}
+
+\end{document}

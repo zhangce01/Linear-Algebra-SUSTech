@@ -1,0 +1,339 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Row Exchanges; Inverses and Vector Spaces}
+
+\subtitle{Lecture 2}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.9.28] % (optional)
+{2021.9.28}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+
+\section{Row Exchanges and PA=LU Factorization}
+
+\begin{frame}{Singular Cases for Gauss Elimination}
+Recall that there are 2 singular cases when using the method of Gauss elimination, they can not be expressed as $A=LU$ factorization! But, the temporal failure can be fixed by row exchanges.
+
+\vspace{3pt}
+Do Gauss elimination (with the help of row exchanges) for the matrix below:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        3&		6&		1&		12\\
+        0&		4&		1&		2\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        0&		0&		-2&		6\\
+        0&		4&		1&		2\\
+    \end{matrix} \right] \rightarrow \left[ \begin{matrix}
+        1&		2&		1&		2\\
+        0&		4&		1&		2\\
+        0&		0&		-2&		6\\
+    \end{matrix} \right]
+\end{equation*}
+
+Write the elimination matrices:
+
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        -3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right]
+\end{equation*}
+
+Review: Which rule for matrix multiplication can help you understand the row operation above?
+
+\end{frame}
+
+\begin{frame}{Row Exchanges in Permutation Matrix}
+Step 2 is to exchange Row 2 and Row 3, still using the row method for matrix multiplication, which matrix can express the process of row exchanges?
+
+\begin{equation*}
+    A\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+This matrix is to exchange the rows, so we call it permutation matrix $P$.
+
+\begin{equation*}
+    P\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Row Exchanges in Permutation Matrix}
+The permutation matrix $P$:
+
+\begin{equation*}
+    P=\left[ \begin{matrix}
+        1&		0&		0\\
+        0&		0&		1\\
+        0&		1&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{itemize}
+    \item For "1" at position $(1,1)$: (Row 1) $\rightarrow$ (Row 1).
+    \item For "1" at position $(2,3)$: (Row 3) $\rightarrow$ (Row 2).
+    \item For "1" at position $(3,2)$: (Row 2) $\rightarrow$ (Row 3).
+\end{itemize}
+
+One of the properties of permutation matrix $P$ is that it can only have one "1" in each row and column. Why?
+
+\vspace{3pt}
+After row exchanges, no rows before will disappear and no rows after will be all empty.
+\end{frame}
+
+\begin{frame}{Why $P^T=P^{-1}$?}
+Why $P^T=P^{-1}$? A direct explanation:
+\vspace{3pt}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{equation*}
+    P=\left[ \begin{matrix}
+        0&		1&		0&		0\\
+        0&		0&		1&		0\\
+        0&		0&		0&		1\\
+        1&		0&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{itemize}
+    \item 1 at $(1,2)$: (Row 2) $\rightarrow$ (Row 1).
+    \item 1 at $(2,3)$: (Row 3) $\rightarrow$ (Row 2).
+    \item 1 at $(3,4)$: (Row 4) $\rightarrow$ (Row 3).
+    \item 1 at $(4,1)$: (Row 1) $\rightarrow$ (Row 4).
+\end{itemize}
+
+\column{0.5\textwidth}
+\begin{equation*}
+    P^T=\left[ \begin{matrix}
+        0&		0&		0&		1\\
+        1&		0&		0&		0\\
+        0&		1&		0&		0\\
+        0&		0&		1&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{itemize}
+    \item 1 at $(2,1)$: (Row 1) $\rightarrow$ (Row 2).
+    \item 1 at $(3,2)$: (Row 2) $\rightarrow$ (Row 3).
+    \item 1 at $(4,3)$: (Row 3) $\rightarrow$ (Row 4).
+    \item 1 at $(1,4)$: (Row 4) $\rightarrow$ (Row 1).
+\end{itemize}
+\end{columns}
+
+\vspace{7pt}
+Exchange A and B then exchange B and A will result in exchange nothing.
+
+\vspace{3pt}
+Start to feel the beauty of multipling matrices by row?
+\end{frame}
+
+
+\begin{frame}{Expressing Row Exchanges using $PA=LU$}
+The process of Gauss elimination and row exchanges can be expressed as:
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		0&		1\\
+        0&		1&		0\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		0&		0\\
+        -3&		1&		0\\
+        0&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    PE_{21}A=U
+\end{equation*}
+
+Can we do row exchanges at the beginning?
+\begin{equation*}
+    EPA=U
+\end{equation*}
+
+Then, left multiply $E^{-1}$ on both sides:
+\begin{equation*}
+    PA=LU
+\end{equation*}
+\end{frame}
+
+\begin{frame}{$PA=LU$ Factorization}
+\begin{example}
+    Do $PA=LU$ factorization for matrix $A$:
+    \begin{equation*}
+        A=\left[ \begin{matrix}
+            1&		2&		1\\
+            3&		6&		1\\
+            0&		4&		1\\
+        \end{matrix} \right]
+    \end{equation*}
+\end{example}
+\textbf{Solution:}
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] \xrightarrow{r2-2r1}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		0&		-2\\
+        0&		4&		1\\
+    \end{matrix} \right] \xrightarrow{r2\leftrightarrow r3}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+Restart the process and do row exchanges firstly.
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] \xrightarrow{r2\leftrightarrow r3}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        3&		6&		1\\
+    \end{matrix} \right] \xrightarrow[l_{31}=3]{r3-3r1}\left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+\end{frame}
+
+\begin{frame}{$PA=LU$ Factorization}
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0&		0\\
+        0&		0&		1\\
+        0&		1&		0\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        3&		6&		1\\
+        0&		4&		1\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        1&		0&		0\\
+        0&		1&		0\\
+        3&		0&		1\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        1&		2&		1\\
+        0&		4&		1\\
+        0&		0&		-2\\
+    \end{matrix} \right]
+\end{equation*}
+
+\begin{equation*}
+    PA=LU
+\end{equation*}
+
+Remember to verify the answer! Do 2 multiplications and check if they are the same.
+
+Suppose we do not do row exchanges at first, what will happen\dots
+
+
+\end{frame}
+
+\end{document}

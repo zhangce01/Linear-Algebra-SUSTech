@@ -1,0 +1,621 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Eigenvalues and Eigenvectors}
+
+\subtitle{Lecture 11}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.12.7] % (optional)
+{2021.12.7}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{A Brief Review of Last Lecture}
+\begin{frame}{Last Lecture, We Discuss\dots}
+Four parts in last lecture:
+    \begin{enumerate}
+        \item Eigenvalues and Eigenvectors\\
+        difinition; "eigen"; geometrical interpretation; calculation; two formulas: trace and determinant
+        \item Diagonalization of Matrix\\
+        example; a deeper view; special: symmetric matrix
+        \item Important Applications of Eigenvalues and Eigenvectors\\
+        Google: PageRank algorithm; principle component analysis(PCA)
+    \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Type 6: In-Order Matrix}
+    Compute the nth order determinant:
+    \begin{equation*}
+        \det A=\left| \begin{matrix}
+        1+{x_1}^2&		x_1x_2&		\cdots&		x_1x_n\\
+        x_2x_1&		1+{x_2}^2&		\cdots&		x_2x_n\\
+        \vdots&		\vdots&		\ddots&		\vdots\\
+        x_nx_1&		x_nx_2&		\cdots&		1+{x_n}^2\\
+    \end{matrix} \right|
+    \end{equation*}
+
+    \begin{equation*}
+        \det A=\det \left( I+\left[ \begin{array}{c}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n\\
+        \end{array} \right] \left[ \begin{matrix}
+            x_1&		x_2&		\cdots&		x_n\\
+        \end{matrix} \right] \right)
+    \end{equation*}
+
+Hint: Using eigenvalue formula for determinants:
+\begin{equation*}
+\lambda _1\lambda _2\cdots \lambda _n=\det A
+\end{equation*}
+Eigenvalues are $1, 1+u^Tu$. Multiply all of them, $\det A=1+\sum_{i = 1}^{n} x_i^2 $.
+\end{frame}
+
+
+
+
+
+\section{Eigenvalues and Eigenvectors}
+\begin{frame}{Introduction}
+\textbf{Something to say at the beginning:}
+
+\vspace{3pt}
+Now, we come to a new world! After learning the boring determinant, here come the eigenvalues and eigenvectors. As far as I am concerned, the eigenvalues and eigenvectors dig out the hidden core of the whole system. The concept of eigenvalues and eigenvectors brings many brilliant applications to the world, especially in engineering subjects.
+
+\vspace{3pt}
+This chapter combines almost all the knowledge you learnt form chapter 1 - 4, so sometimes when you meet problems, you should consider whether you are familiar with the knowledge from the previous chapters. For example, determinants will appear everywhere, nullspace gives you the eigenvectors, and also, Gram-Schmidt will give you an orthogonal diagonalizing matrix.
+
+\vspace{3pt}
+Just as I repeated many times, always keep the geometric interpretations in mind, or you may be lost in the pure algebra formulas.
+
+
+\end{frame}
+
+\begin{frame}{Definition}
+    \begin{definition}
+        Let $A$ be a square matrix with degree $n$. If there exist a non-zero vector $x$ and a scalar $\lambda$ such that
+        \begin{equation*}
+            Ax=\lambda x
+        \end{equation*}
+        then $\lambda$ is called an eigenvalue of $A$, and $x$ is called an eigenvector, corresponding to the eigenvalue $\lambda$.
+    \end{definition}
+
+A very important question to ask: what is the meaning of "eigen"?
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{eigen.png}
+\end{figure}
+German mathematician Hilbert defined that, with the meaning of "self".
+\end{frame}
+
+\begin{frame}{Understanding Eigenvalues in Geometry}
+\begin{equation*}
+    A \mathbf{x}=\lambda \mathbf{x}
+\end{equation*}
+$A \mathbf{x}$: the vector $\mathbf{x}$ after linear transformation.
+
+$\lambda \mathbf{x}$: real multiples of $\mathbf{x}$, i.e. stretching of vector $\mathbf{x}$.
+
+
+The linear transformation for \textit{eigenvector} result in stretching the vector by \textit{eigenvalue} times.
+
+\begin{block}{Remark}
+    The zero vector can not be an eigenvector even though $A0=\lambda 0$, but $\lambda=0$ can be an eigenvalue.
+\end{block}
+
+Linear Transformation again... Why not try to analyze some of common linear transformations?
+\end{frame}
+
+\begin{frame}{Understanding Eigenvalues in Geometry}
+Find the eigenvalues and eigenvectors for these matrix.
+
+\begin{enumerate}
+    \item $\left[ \begin{matrix}
+        1&		0\\
+        0&		1\\
+    \end{matrix} \right]$, the identity matrix (how many eigenvectors?)
+    \item $\left[ \begin{matrix}
+        1&		1\\
+        0&		1\\
+    \end{matrix} \right]$, "shear" matrix
+    \item $\left[ \begin{matrix}
+        1&		0\\
+        0&		0\\
+    \end{matrix} \right]$, projection (onto $x$ axis) matrix
+    \item $\left[ \begin{matrix}
+        0&		0\\
+        0&		0\\
+    \end{matrix} \right]$, zero matrix
+    \item A challenging one: $A=uu^T$, a rank 1 matrix\\
+    Hint: you may start with projection (onto $u$) matrix
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Calculating Eigenvalues and Eigenvectors}
+A little bit change from the definition, or you can use linear transformation to understand: linear transformation $A$ for eigenvector $x$ is equivalent to a stretching linear transformation $\lambda I$.
+\begin{equation*}
+    A \mathbf{x}=\lambda I \,\mathbf{x}
+\end{equation*}
+
+The two linear transformations for vector $\mathbf{x}$ are equivalent, leading
+\begin{equation*}
+    \left(A-\lambda I \right) \mathbf{x}=0.
+\end{equation*}
+
+Therefore, vector $\mathbf{x}$ is in the nullspace of matrix $\left(A-\lambda I \right)$. To make this linear equation have nonzero solutions (i.e. to make the dimension of nullspace not zero), matrix $\left(A-\lambda I \right)$ should not be a full rank matrix. Expressed in determinant form:
+
+\begin{equation*}
+    \det \left( A-\lambda I \right) =0
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Calculating Eigenvalues and Eigenvectors}
+\begin{examples}
+Calculate the eigenvalues and eigenvectors of matrix A.
+\begin{equation*}
+    A=\left[ \begin{matrix}
+	4&		-5\\
+	2&		3\\
+\end{matrix} \right]
+\end{equation*}
+\end{examples}
+\textbf{Solution:}
+\begin{equation*}
+    \det \left( A-\lambda I \right) =\left| \begin{matrix}
+	4-\lambda&		-5\\
+	2&		-3-\lambda\\
+\end{matrix} \right|=\left( \lambda -2 \right) \left( \lambda +1 \right) =0
+\end{equation*}
+
+For eigenvalue $\lambda_1=2$,
+\begin{equation*}
+    \left( A-\lambda I \right) \mathbf{x}=\left[ \begin{matrix}
+	2&		-5\\
+	2&		-5\\
+\end{matrix} \right] \left[ \begin{array}{c}
+	x_1\\
+	x_2\\
+\end{array} \right] =\left[ \begin{array}{c}
+	0\\
+	0\\
+\end{array} \right] , \, \mathbf{x}=k\left[ \begin{array}{c}
+	5\\
+	2\\
+\end{array} \right]
+\end{equation*}
+
+Eigenvectors corresponding to $\lambda_1=2$ are of the form $\mathbf{x}=k\left[ \begin{array}{c}
+	5\\
+	2\\
+\end{array} \right],\,k\ne 0$
+
+The same process for another eigenvalue $\lambda_2=-1$
+\end{frame}
+
+\begin{frame}{Two Formulas: Trace and Determinant}
+$\det(A-\lambda I)$ is a polynomial of $\lambda$. For an $n\times n$ matrix, $\det(A-\lambda I)$ is a $n$ degree equation with only 1 unknown.
+
+\vspace{3pt}
+Suppose $n=2$:
+\begin{equation*}
+    \left| \begin{matrix}
+        x_{11}-\lambda&		x_{12}\\
+        x_{21}&		x_{22}-\lambda\\
+    \end{matrix} \right|=\lambda ^2-\left( x_{11}+x_{22} \right) \lambda +\left( x_{11}x_{22}-x_{12}x_{21} \right)
+\end{equation*}
+
+Adopt Vieta's Theorem:
+\begin{equation*}
+    \lambda _1+\lambda _2=x_{11}+x_{22},\:\: \lambda _1\lambda _2=x_{11}x_{22}-x_{12}x_{21}
+\end{equation*}
+
+\vspace{3pt}
+Pure algebra: higher-order Vieta's Theorem gives us:
+
+\begin{equation*}
+    \lambda _1+\lambda _2+\cdots +\lambda _n=trace\left( A \right) ,\:\: \lambda _1\lambda _2\cdots \lambda _n=\det A
+\end{equation*}
+\end{frame}
+
+\section{Diagonalization of Matrix}
+\begin{frame}{Diagonalization of Matrix}
+You have found all the eigenvectors and eigenvalues of a matrix, but\dots
+
+\vspace{3pt}
+Experts in Linear Algebra will not stop here, please find matrix expression.
+
+\vspace{3pt}
+\textbf{Condition: $n\times n$ matrix $A$ has $n$ linearly independent eigenvectors.} Then we write the $n$ linearly independent eigenvectors in the columns of a matrix $P$ (We have done this many times in this course...). Magical matrix multiplication gives us:
+\begin{equation*}
+    AP=P\varLambda
+\end{equation*}
+\begin{equation*}
+    A\left[ \begin{matrix}
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        \lambda _1&		&		&		&		\\
+        &		\lambda _2&		&		&		\\
+        &		&		\lambda _3&		&		\\
+        &		&		&		\cdot&		\\
+        &		&		&		&		\lambda _n\\
+    \end{matrix} \right]
+\end{equation*}
+
+If you use column method of matrix multiplication, that matrix equation is easy to verify.
+\begin{equation*}
+    A=P\varLambda P^{-1}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Example of Matrix Diagonalization}
+\begin{examples}
+Diagonalize matrix A.
+\begin{equation*}
+    A=\left[ \begin{matrix}
+	2&		1\\
+	1&		2\\
+\end{matrix} \right]
+\end{equation*}
+\end{examples}
+\textbf{Solution:}
+\begin{equation*}
+    \det \left( A-\lambda I \right) =\left| \begin{matrix}
+	2-\lambda&		1\\
+	1&		2-\lambda\\
+\end{matrix} \right|=\left( \lambda -1 \right) \left( \lambda -3 \right) =0
+\end{equation*}
+For eigenvalue $\lambda_1=1$,
+\begin{equation*}
+    \left( A-\lambda_1 I \right) \mathbf{x}_1=\left[ \begin{matrix}
+	1&		1\\
+	1&		1\\
+\end{matrix} \right] \left[ \begin{array}{c}
+	x_1\\
+	x_2\\
+\end{array} \right] =\left[ \begin{array}{c}
+	0\\
+	0\\
+\end{array} \right] , \, \mathbf{x}_1=\left[ \begin{array}{c}
+	1\\
+	-1\\
+\end{array} \right]
+\end{equation*}
+For eigenvalue $\lambda_2=3$,
+\begin{equation*}
+    \left( A-\lambda_2 I \right) \mathbf{x}_2=\left[ \begin{matrix}
+	-1&		1\\
+	1&		-1\\
+\end{matrix} \right] \left[ \begin{array}{c}
+	x_1\\
+	x_2\\
+\end{array} \right] =\left[ \begin{array}{c}
+	0\\
+	0\\
+\end{array} \right] , \, \mathbf{x}_2=\left[ \begin{array}{c}
+	1\\
+	1\\
+\end{array} \right]
+\end{equation*}
+
+
+
+\end{frame}
+
+\begin{frame}{Example of Matrix Diagonalization}
+    \begin{examples}
+        Diagonalize matrix A.
+        \begin{equation*}
+            A=\left[ \begin{matrix}
+            2&		1\\
+            1&		2\\
+        \end{matrix} \right]
+        \end{equation*}
+        \end{examples}
+
+The final result:
+    \begin{equation*}
+        \left[ \begin{matrix}
+            2&		1\\
+            1&		2\\
+        \end{matrix} \right] =\left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		0\\
+            0&		3\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] ^{-1}
+    \end{equation*}
+
+Notice that every column of $P$ can be multiplied by a constant, the inverse $P^{-1}$ will guarantee that this diagonalization is still correct.
+\end{frame}
+
+
+\begin{frame}{Matrix Diagonalization: A Deeper View}
+    \begin{equation*}
+        \left[ \begin{matrix}
+            2&		1\\
+            1&		2\\
+        \end{matrix} \right] =\left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		0\\
+            0&		3\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] ^{-1}
+    \end{equation*}
+
+Firstly, think about this linear transformation. Why is it so simple? (Think about do $n$ times the same linear transformation)
+\begin{equation*}
+    \left[ \begin{matrix}
+        1&		0\\
+        0&		3\\
+    \end{matrix} \right]
+\end{equation*}
+
+We have learnt in chapter 2.6, the matrix representation of linear transformation depends on your choice of basis. In the diagonalization process, the matrix $A$ and $\varLambda$ represent the same linear transformation! The only difference is, for $A$ we choose the standard basis, but for $\varLambda$ we choose the eigenvector basis.
+\end{frame}
+
+\begin{frame}{Matrix Diagonalization: A Deeper View}
+    \begin{equation*}
+        \left[ \begin{matrix}
+            2&		1\\
+            1&		2\\
+        \end{matrix} \right] =\left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		0\\
+            0&		3\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] ^{-1}
+    \end{equation*}
+
+Suppose we have a input coordinates $(2,0)$ in standard basis, how can we find the output?
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{PNP-1.jpg}
+\end{figure}
+
+Essence: change basis and simplify the linear transformation matrix.
+\end{frame}
+
+\begin{frame}{Special Case: Symmetric Matrix}
+Suppose the matrix we want to diagonalize is a (real) symmetric matrix:
+\begin{equation*}
+    A=A^T
+\end{equation*}
+\begin{equation*}
+    P\varLambda P^{-1}=\left( P\varLambda P^{-1} \right) ^T
+\end{equation*}
+\begin{equation*}
+    P\varLambda P^{-1}=\left( P^T \right) ^{-1}\varLambda ^TP^T
+\end{equation*}
+\begin{equation*}
+    P^TP\varLambda =\varLambda P^TP
+\end{equation*}
+
+We can find an orthogonal matrix $Q$ that satisfies $Q^TQ=I$ to diagonalize the matrix.
+\begin{equation*}
+    A=P\varLambda P^{-1}=Q\varLambda Q^{T}
+\end{equation*}
+
+In geometric perspective, you can find another rectangular coordinate system to simplify that linear transformation!
+\end{frame}
+
+\section{Important Applications of Eigenvalues and Eigenvectors}
+\begin{frame}{Google: PageRank Algorithm}
+When you want to find particular information on the search engine, why it can always put the most important web pages at first? How does the search engine work to find a rank among millions of related web pages? The answer: PageRank Algorithm proposed in 1998.
+
+\vspace{3pt}
+Google’s success derives in large part from its PageRank algorithm, which ranks the importance of web pages according to an eigenvector of a weighted link matrix.
+
+\vspace{3pt}
+Here we give a brief introduction (not complete, just for fun).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.42\textwidth]{pr.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Google: PageRank Algorithm}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.45\textwidth]{pr.png}
+    \end{figure}
+
+Here is the mathematical model for page ranking. We all know that the web pages always link many other web pages. Just take the simplified case as example, $A,B,C,D$ are all web pages, and the arrows indicate the link.
+
+\vspace{3pt}
+\textbf{Assumption:} When the user enter a web page, he will choose one from the links to query next. For example, if a user is currently in web page $A$, the user will choose one from $B,C,D$ to query next with equal probability.
+\end{frame}
+
+\begin{frame}{Google: PageRank Algorithm}
+Use matrix to represent the link relations:
+\begin{equation*}
+    S=\left[ \begin{matrix}
+        0&		1/2&		1&		0\\
+        1/3&		0&		0&		1/2\\
+        1/3&		0&		0&		1/2\\
+        1/3&		1/2&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+Define the population score: more users enter the webpage, higher score, also higher importance.
+
+\vspace{3pt}
+Initialize the population score with all $1/2$. First round:
+
+\begin{equation*}
+    Sx=\left[ \begin{matrix}
+        0&		1/2&		1&		0\\
+        1/3&		0&		0&		1/2\\
+        1/3&		0&		0&		1/2\\
+        1/3&		1/2&		0&		0\\
+    \end{matrix} \right] \left[ \begin{array}{c}
+        1/2\\
+        1/2\\
+        1/2\\
+        1/2\\
+    \end{array} \right] =\left[ \begin{array}{c}
+        0.75\\
+        0.42\\
+        0.42\\
+        0.42\\
+    \end{array} \right]
+\end{equation*}
+
+Keep going... The population score will become stable!
+
+\end{frame}
+
+\begin{frame}{Google: PageRank Algorithm}
+\begin{equation*}
+    S=\left[ \begin{matrix}
+        0&		1/2&		1&		0\\
+        1/3&		0&		0&		1/2\\
+        1/3&		0&		0&		1/2\\
+        1/3&		1/2&		0&		0\\
+    \end{matrix} \right]
+\end{equation*}
+
+After many rounds, the population score becomes stable.
+
+\begin{equation*}
+    x=\left[ \begin{array}{c}
+        0.67\\
+        0.44\\
+        0.44\\
+        0.44\\
+    \end{array} \right]
+\end{equation*}
+The result shows us web page $A$ is the most important, and web page $B,C,D$ are equally important.
+
+\vspace{3pt}
+So, how does it related to eigenvalues and eigenvectors? The answer is, \textbf{the final score is just the eigenvector of matrix $S$ with eigenvalue 1.}
+
+\end{frame}
+
+\begin{frame}{Principal Component Analysis (PCA)}
+Principal component analysis, or PCA, is a statistical procedure that allows you to summarize the information content in large data tables by means of a smaller set of “summary indices” that can be more easily visualized and analyzed. A method that can \textbf{reduce the dimension of data}.
+\begin{figure}
+    \includegraphics[width=\textwidth]{pca.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Principal Component Analysis (PCA)}
+That is the correlation coefficient matrix, which reflects the related extent of every 2 indicators. We have seen that matrix before, the correlation coefficient matrix is just $A^TA$. It is definitely a symmetric matrix, so we can find a orthogonal matrix $Q$ that makes
+\begin{equation*}
+    A^TA=Q\varLambda Q^{T}
+\end{equation*}
+
+That is the same as we change the basis to the eigenvector basis, which is also orthonormal as the standard basis. In this example, we find 6 independent combined indicators. We want to find a smaller subset of those indicators to store as much information as possible. The solution is: find the eigenvectors with bigger eigenvalues, delete the others.
+
+\end{frame}
+
+\begin{frame}{Principal Component Analysis (PCA)}
+\begin{figure}
+    \includegraphics[width=0.97\textwidth]{eig.png}
+\end{figure}
+
+The principal component is indicator $a1$, which is a composite indicator. The second component is indicator $a2$, with $x3, x5, x6$ positive, that is a indicator to decide a people is fat or thin... These components are hugely important in production of clothes.
+\end{frame}
+
+\begin{frame}{Principal Component Analysis (PCA)}
+Let's have a little but meaningful survey! And we will use PCA to dig out the hidden principal components.
+
+\vspace{3pt}
+Our survey is about: how to define excellence in university. After we do the PCA, we can get a general definition of excellence!
+
+\vspace{3pt}
+The rule: You have 50 points to allocate to 6 indicators, and you cannot allocate more than 10 points on 1 indicator. Make your decision carefully, your decision will make contributions to our final result!
+
+\vspace{3pt}
+The 6 indicators are: academic grade; academic attitude; relations with classmates; university-hold activities attendance; fruitful hobbies; optimism.
+\end{frame}
+
+
+
+\end{document}

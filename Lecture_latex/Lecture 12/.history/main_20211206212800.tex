@@ -1,0 +1,292 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\useinnertheme{circles}
+
+\definecolor{Logo1}{rgb}{0.208, 0.2865, 0.373}
+\definecolor{Logo2}{rgb}{0.000, 0.674, 0.863}
+
+\setbeamercolor*{palette primary}{bg=Logo1, fg=white}
+\setbeamercolor*{palette secondary}{bg=Logo2, fg=white}
+\setbeamercolor*{palette tertiary}{bg=white, fg=Logo1}
+\setbeamercolor*{palette quaternary}{bg=Logo1,fg=white}
+\setbeamercolor{structure}{fg=Logo1} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=Logo1} % TOC sections
+
+\usepackage{graphicx,animate}
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Linear Algebra] %optional
+{Matrix Diagonalization; Complex Matrix}
+
+\subtitle{Lecture 11}
+
+\author[11910803@mail.sustech.edu.cn] % (optional)
+{
+    Zhang Ce
+}
+
+\institute[] % (optional)
+{
+    Department of Electrical and Electronic Engineering\\
+    Southern University of Science and Technology
+}
+
+\date[2021.12.7] % (optional)
+{2021.12.7}
+
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+\begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+\section{A Brief Review of Last Lecture}
+\begin{frame}{Last Lecture, We Discuss\dots}
+Three parts in last lecture:
+    \begin{enumerate}
+        \item Computing Techniques of Determinants\\
+        review for type 1-5; new: type 6
+        \item Eigenvalues and Eigenvectors\\
+        difinition; meaning of "eigen"; geometrical interpretation; calculation; two formulas: trace and determinant
+        \item Diagonalization of Matrix\\
+        deduction; example; a deeper view; special: symmetric matrix
+        \item Important Applications of Eigenvalues and Eigenvectors\\
+        Google: PageRank algorithm; principle component analysis(PCA)
+    \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Type 6: In-Order Matrix}
+    Compute the nth order determinant:
+    \begin{equation*}
+        \det A=\left| \begin{matrix}
+        1+{x_1}^2&		x_1x_2&		\cdots&		x_1x_n\\
+        x_2x_1&		1+{x_2}^2&		\cdots&		x_2x_n\\
+        \vdots&		\vdots&		\ddots&		\vdots\\
+        x_nx_1&		x_nx_2&		\cdots&		1+{x_n}^2\\
+    \end{matrix} \right|
+    \end{equation*}
+
+    \begin{equation*}
+        \det A=\det \left( I+\left[ \begin{array}{c}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n\\
+        \end{array} \right] \left[ \begin{matrix}
+            x_1&		x_2&		\cdots&		x_n\\
+        \end{matrix} \right] \right)
+    \end{equation*}
+
+Hint: Using eigenvalue formula for determinants:
+\begin{equation*}
+\lambda _1\lambda _2\cdots \lambda _n=\det A
+\end{equation*}
+Eigenvalues are $1, 1+u^Tu$. Multiply all of them, $\det A=1+\sum_{i = 1}^{n} x_i^2 $.
+\end{frame}
+
+\begin{frame}{Understanding Eigenvalues in Geometry}
+    Find the eigenvalues and eigenvectors for these matrix.
+
+    \begin{enumerate}
+        \item $\left[ \begin{matrix}
+            1&		0\\
+            0&		1\\
+        \end{matrix} \right]$, the identity matrix (how many eigenvectors?)
+        \item $\left[ \begin{matrix}
+            1&		1\\
+            0&		1\\
+        \end{matrix} \right]$, "shear" matrix
+        \item $\left[ \begin{matrix}
+            1&		0\\
+            0&		0\\
+        \end{matrix} \right]$, projection (onto $x$ axis) matrix
+        \item $\left[ \begin{matrix}
+            0&		0\\
+            0&		0\\
+        \end{matrix} \right]$, zero matrix
+        \item A challenging one: $A=uu^T$, a rank 1 matrix\\
+        Hint: you may start with projection (onto $u$) matrix
+    \end{enumerate}
+    \end{frame}
+
+\begin{frame}{Two Formulas: Trace and Determinant}
+$\det(A-\lambda I)$ is a polynomial of $\lambda$. For an $n\times n$ matrix, $\det(A-\lambda I)$ is a $n$ degree equation with only 1 unknown.
+
+\vspace{3pt}
+Suppose $n=2$:
+\begin{equation*}
+    \left| \begin{matrix}
+        x_{11}-\lambda&		x_{12}\\
+        x_{21}&		x_{22}-\lambda\\
+    \end{matrix} \right|=\lambda ^2-\left( x_{11}+x_{22} \right) \lambda +\left( x_{11}x_{22}-x_{12}x_{21} \right)
+\end{equation*}
+
+Adopt Vieta's Theorem:
+\begin{equation*}
+    \lambda _1+\lambda _2=x_{11}+x_{22},\:\: \lambda _1\lambda _2=x_{11}x_{22}-x_{12}x_{21}
+\end{equation*}
+
+\vspace{3pt}
+Pure algebra: higher-order Vieta's Theorem gives us:
+
+\begin{equation*}
+    \lambda _1+\lambda _2+\cdots +\lambda _n=trace\left( A \right) ,\:\: \lambda _1\lambda _2\cdots \lambda _n=\det A
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Diagonalization of Matrix}
+You have found all the eigenvectors and eigenvalues of a matrix, but\dots
+
+\vspace{3pt}
+Experts in Linear Algebra will not stop here, please find matrix expression.
+
+\vspace{3pt}
+\textbf{Condition: $n\times n$ matrix $A$ has $n$ linearly independent eigenvectors.} Then we write the $n$ linearly independent eigenvectors in the columns of a matrix $P$ (We have done this many times in this course...). Magical matrix multiplication gives us:
+\begin{equation*}
+    AP=P\varLambda
+\end{equation*}
+\begin{equation*}
+    A\left[ \begin{matrix}
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+    \end{matrix} \right] =\left[ \begin{matrix}
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+        x_1&		x_2&		x_3&		\cdots&		x_n\\
+        |&		|&		|&		&		|\\
+        |&		|&		|&		&		|\\
+    \end{matrix} \right] \left[ \begin{matrix}
+        \lambda _1&		&		&		&		\\
+        &		\lambda _2&		&		&		\\
+        &		&		\lambda _3&		&		\\
+        &		&		&		\cdot&		\\
+        &		&		&		&		\lambda _n\\
+    \end{matrix} \right]
+\end{equation*}
+
+If you use column method of matrix multiplication, that matrix equation is easy to verify.
+\begin{equation*}
+    A=P\varLambda P^{-1}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Matrix Diagonalization: A Deeper View}
+    \begin{equation*}
+        \left[ \begin{matrix}
+            2&		1\\
+            1&		2\\
+        \end{matrix} \right] =\left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		0\\
+            0&		3\\
+        \end{matrix} \right] \left[ \begin{matrix}
+            1&		1\\
+            -1&		1\\
+        \end{matrix} \right] ^{-1}
+    \end{equation*}
+
+Suppose we have a input coordinates $(2,0)$ in standard basis, how can we find the output?
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{PNP-1.jpg}
+\end{figure}
+
+Essence: change basis and simplify the linear transformation matrix.
+\end{frame}
+
+\begin{frame}{Important Geometrical Interpretation}
+    \begin{equation*}
+        A=P\varLambda P^{-1}
+    \end{equation*}
+\begin{enumerate}
+    \item $P$ is a "change of basis" matrix.
+    \item $A$ and $\Lambda $ are the same linear transformation using different basis.
+    \item Diagonalization: change to eigenvector basis, make linear transformation $A$ a simple stretching transformation $\Lambda$.
+\end{enumerate}
+
+If you can understand all of these, chapter 5 is simple combination of previous knowledge. Remember, always keep geometrical interpretation in head (just as we do when learning Gram-Schmidt process and vector spanning), instead of memorizing the formula.
+\end{frame}
+
+\section{Matrix Diagonalization}
+\begin{frame}{Core Problems of Matrix Diagonalization}
+    \begin{equation*}
+        A=P\varLambda P^{-1}
+    \end{equation*}
+\textbf{Problems:}
+\begin{enumerate}
+    \item How to tell whether a matrix is diagonlizable or not?
+    \item How to find a diagonalization matrix $P$?
+\end{enumerate}
+
+\textbf{Answers:}\\
+\vspace{3pt}
+For problem 1, we know that a matrix is diagonlizable if and only if it has $n$ linearly independent eigenvectors.
+
+\vspace{3pt}
+For problem 2, we need to find all the eigenvalues and eigenvectors. The eigenvalues will go into $\varLambda$ and eigenvectors will go into $P$.
+
+\vspace{5pt}
+If a matrix is diagonlizable, we can easily find the diagonalization matrix! But the question is, we cannot tell if a matric has $n$ linearly independent eigenvectors (i.e. if it is diagonlizable).
+\end{frame}
+
+\begin{frame}{Another Simplified Criteria}
+If a $n\times n$ matrix has $n$ distinct eigenvalues, then it must be diagonlizable.
+
+\vspace{3pt}
+Why? I will not give you proof, but I want you to understand. I will show from 2 sides:
+
+\begin{enumerate}
+    \item For each eigenvalue, there must be at least 1 eigenvector (authentic to say: 1-dimensional).
+    \item For the same eigenvector (all vectors that in the 1-dimensional line), it cannot correspond to 2 eigenvalues.
+\end{enumerate}
+
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+\end{document}

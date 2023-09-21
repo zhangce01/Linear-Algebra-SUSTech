@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{An Overview to Midterm}{3}{0}{1}
+\beamer@sectionintoc {2}{Most Important: High-Frequency Problems}{9}{0}{2}
+\beamer@sectionintoc {3}{Other Useful Knowledge in Exam}{34}{0}{3}
+\beamer@sectionintoc {4}{Proof: Rank Relations}{40}{0}{4}
